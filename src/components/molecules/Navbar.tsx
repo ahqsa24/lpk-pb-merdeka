@@ -38,8 +38,8 @@ export const Navbar: React.FC<NavbarProps> = ({
   }, []);
 
   return (
-    <nav className={`fixed top-0 left-1/2 -translate-x-1/2 z-50 transition-all duration-300 ${isScrolled ? "backdrop-blur-md bg-red-600/80" : "bg-red-600"} text-white mt-4 rounded-full shadow-lg w-11/12 max-w-7xl`}>
-      <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
+    <nav className={`fixed top-0 left-1/2 -translate-x-1/2 z-50 transition-all duration-300 ${isScrolled ? "backdrop-blur-md bg-red-600/80" : "bg-red-600"} text-white shadow-lg w-full max-w-full`}>
+      <div className="max-w-8xl mx-auto flex items-center justify-between px-6 py-6">
         {/* Logo */}
         <div className="flex items-center gap-2">
           {logo ? logo : <span className="font-bold text-xl">LPK</span>}
@@ -53,7 +53,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               onClick={() => handleNavClick(item.id)}
               className={`text-sm transition-colors ${
                 activeNav === item.id
-                  ? "font-bold text-white border-b-2 border-white pb-2"
+                  ? "font-bold text-white border-b-2 border-white"
                   : "font-medium text-red-100 hover:text-white"
               }`}
             >
@@ -63,7 +63,10 @@ export const Navbar: React.FC<NavbarProps> = ({
         </div>
 
         {/* Login Button */}
-        <NavBarButton label="Daftar" variant="secondary" onClick={onLoginClick} />
+        <div className="flex items-center gap-2">
+          <NavBarButton label="Login" variant="secondary" onClick={onLoginClick} />
+          <NavBarButton label="Daftar" variant="secondary" onClick={onLoginClick} />
+        </div>
       </div>
     </nav>
   );

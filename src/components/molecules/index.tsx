@@ -4,3 +4,6 @@ export { AvatarWithName } from "./AvatarWithName";
 export { StatBox } from "./StatBox";
 export { TabsHeader } from "./TabsHeader";
 export { Navbar } from "./Navbar";
+export { LineHeading } from "./LineHeading"
+export { TextGroup } from "./TextGroup";
+export { CardWithAvatar } from "./CardWithAvatar";

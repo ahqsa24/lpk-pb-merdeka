@@ -5,10 +5,17 @@ import { AboutSection } from "./AboutSection";
 import { StatsGrid } from "./StatsGrid";
 import { LeaderboardTable } from "./LeaderboardTable";
 import { ProgramGrid } from "./ProgramGrid";
+import MasonaryGalery from "./MasonaryGalery"
 
 export const OrganismsShowcase = () => (
   <div className="w-full space-y-8">
     <Heading level={2} className="text-3xl font-bold">Organisms</Heading>
+
+    {/* Galery */}
+    <div className="border rounded-lg p-6 bg-slate-50">
+      <Heading level={3} className="text-xl mb-4">Galery</Heading>
+      <MasonaryGalery />
+    </div>
 
     {/* HeroSection */}
     <div className="border rounded-lg p-6 bg-slate-50">

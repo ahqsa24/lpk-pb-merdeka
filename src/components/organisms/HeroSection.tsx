@@ -6,7 +6,7 @@ import { TextBackground } from "../atoms/TextBackground";
 import Image from "next/image";
 
 export const HeroSection = () => (
-  <section className="w-full px-6 md:px-12 py-20 flex flex-col items-center justify-center relative overflow-hidden">
+  <section className="w-full flex flex-col items-center justify-center relative overflow-hidden">
     {/* Background decorative circles */}
     <div className="absolute top-10 right-10 w-80 h-80 bg-red-200 rounded-full opacity-20 blur-3xl"></div>
     <div className="absolute bottom-20 left-0 w-96 h-96 bg-red-300 rounded-full opacity-10 blur-3xl"></div>
@@ -32,7 +32,7 @@ export const HeroSection = () => (
       <Heading level={6} className="text-5xl md:text-7xl font-bold text-red-600 mb-4">
         LPK PB Merdeka
       </Heading>
-      <Paragraph className="text-xl text-gray-600 mb-6 leading-relaxed">
+      <Paragraph variant="black" className="text-xl mb-6 leading-relaxed">
         Lembaga pelatihan resmi di bidang perdagangan berjangka, mencetak tenaga profesional dengan keterampilan siap kerja dan daya saing global.
       </Paragraph>
       <TextBackground className="text-lg">Kompetensi Kuat, Masa Depan Hebat</TextBackground>

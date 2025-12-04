@@ -1,6 +1,7 @@
 import React from "react";
 import { HeroSection } from "../organisms/HeroSection";
 import { ProgramGrid } from "../organisms/ProgramGrid";
+import { StatsGrid } from "../organisms"
 
 type ProgramType = {
   id: number;
@@ -24,6 +25,7 @@ export const HomeTemplate = ({ programs }: HomeTemplateProps) => {
   <main className="bg-red-50 mx-auto min-h-screen w-full">
       <HeroSection />
       <ProgramGrid list={programItems} />
+      <StatsGrid />
   </main>
   )
 };

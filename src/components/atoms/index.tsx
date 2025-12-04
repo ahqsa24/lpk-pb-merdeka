@@ -8,4 +8,5 @@ export { Paragraph } from "./Paragraph";
 export { TabButton } from "./TabButton";
 export { NavLink } from "./NavLink";
 export { NavBarButton } from "./NavBarButton";
+export { Line } from "./Line";
 

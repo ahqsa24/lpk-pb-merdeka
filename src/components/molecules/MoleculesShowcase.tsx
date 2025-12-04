@@ -6,10 +6,46 @@ import { StatBox } from "./StatBox";
 import { TabsHeader } from "./TabsHeader";
 import { Heading } from "../atoms/Heading";
 import { Paragraph } from "../atoms/Paragraph";
+import { LineHeading } from "./LineHeading";
+import { TextGroup } from "./TextGroup";
+import { CardWithAvatar } from "./CardWithAvatar"
 
 export const MoleculesShowcase = () => (
   <div className="w-full space-y-8">
     <Heading level={2} className="text-3xl font-bold">Molecules</Heading>
+
+    {/* CardWithAvatar Section */}
+    <div className="border rounded-lg p-6 bg-slate-50">
+      <Heading level={3} className="text-xl mb-4">Card With Avatar</Heading>
+      <div className="flex gap-8 flex-wrap">
+        <CardWithAvatar 
+          src="/assets/Avatar.png"
+          title="Judul Card With Avatar" 
+          className="object-contain"
+          description="Ini adalah contoh CardWithAvatar component yang menampilkan avatar, judul, dan deskripsi."
+        />
+      </div>
+    </div>
+
+    {/* LineHeading Section */}
+    <div className="border rounded-lg p-6 bg-slate-50">
+      <Heading level={3} className="text-xl mb-4">Line Heading</Heading>
+      <div className="flex gap-8 flex-wrap">
+        <LineHeading title="Molekul dengan Garis" lineClassName="w-16 h-1 bg-red-600" />
+      </div>
+    </div>
+
+     {/* TextGroup Section */}
+    <div className="border rounded-lg p-6 bg-slate-50">
+      <Heading level={3} className="text-xl mb-4">Text Group</Heading>
+      <div className="flex gap-8 flex-wrap">
+        <TextGroup 
+            title="Sample Title"
+            heading="Sample Heading" 
+            text="This is a sample text for the text group component." />
+      </div>
+    </div>
+
 
     {/* AvatarWithName Section */}
     <div className="border rounded-lg p-6 bg-slate-50">

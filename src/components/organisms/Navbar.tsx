@@ -6,10 +6,10 @@ export const Navbar = () => {
   const navItems = [
     { id: "beranda", label: "Beranda" },
     { id: "tentang", label: "Tentang" },
-    { id: "testimoni", label: "Testimoni" },
+    { id: "silabus", label: "SIlabus" },
     { id: "galeri", label: "Galeri" },
-    { id: "silabus", label: "Silabus" },
-    { id: "kontak", label: "Kontak" },
+    { id: "pendaftaran", label: "Pendaftaran" },
+    { id: "bantuan", label: "Bantuan" },
   ];
 
   return (

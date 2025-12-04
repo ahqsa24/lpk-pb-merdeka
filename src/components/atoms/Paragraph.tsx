@@ -18,8 +18,8 @@ export const Paragraph: React.FC<ParagraphProps> = ({
   }[variant];
 
   return (
-    <p className={`${colorClass} text-justify ${className ?? ""}`}>
-      {children}
+    <p className={`${colorClass} ${className ?? ""}`}>
+      {children}  
     </p>
   );
 };
