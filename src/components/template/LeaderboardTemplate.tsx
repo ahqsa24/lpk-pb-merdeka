@@ -1,5 +1,5 @@
 import React from "react";
-import { LeaderboardTable } from "../organisms/LeaderboardTable";
+import { LeaderboardTable } from "../organisms";
 
 type LeaderboardData = {
   id: number;

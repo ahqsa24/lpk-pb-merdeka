@@ -1,6 +1,6 @@
 import React from "react";
-import { Label } from "../atoms/Label";
-import { Input } from "../atoms/Input";
+import { Label } from "../atoms";
+import { Input } from "../atoms";
 
 interface FormFieldProps {
   label: string;

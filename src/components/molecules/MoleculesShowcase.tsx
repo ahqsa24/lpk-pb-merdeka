@@ -114,50 +114,5 @@ export const MoleculesShowcase = () => (
       </div>
     </div>
 
-    {/* TabGroup Section 
-    <div className="border rounded-lg p-6 bg-slate-50">
-      <Heading level={3} className="text-xl mb-4">TabGroup</Heading>
-      <TabGroup
-        tabs={[
-          {
-            id: "leaderboard",
-            label: "Leaderboard",
-            content: (
-              <div className="space-y-4">
-                <Heading level={3}>Leaderboard Peserta</Heading>
-                <Paragraph>
-                  Daftar peserta dengan skor tertinggi dalam program pelatihan.
-                </Paragraph>
-                <div className="space-y-2">
-                  <p>🥇 Ahmad Rizki - 950 poin</p>
-                  <p>🥈 Siti Nurhaliza - 920 poin</p>
-                  <p>🥉 Budi Santoso - 890 poin</p>
-                </div>
-              </div>
-            ),
-          },
-          {
-            id: "testimoni",
-            label: "Testimoni",
-            content: (
-              <div className="space-y-4">
-                <Heading level={3}>Testimoni Peserta</Heading>
-                <Paragraph>
-                  Cerita sukses dari peserta yang telah menyelesaikan program
-                  pelatihan kami.
-                </Paragraph>
-                <div className="space-y-2">
-                  <p>
-                    Program ini sangat bermanfaat untuk meningkatkan skill saya!
-                  </p>
-                  <p>- Peserta Program Web Development</p>
-                </div>
-              </div>
-            ),
-          },
-        ]}
-      />
-    </div>
-    */}
   </div>
 );

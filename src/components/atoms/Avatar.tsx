@@ -14,6 +14,6 @@ export const Avatar: React.FC<AvatarProps> = ({ src, alt = "avatar", size = 48, 
         alt={alt}
         width={size}
         height={size}
-        className={`rounded-full object-cover  ${className}`}
+        className={`rounded-full object-cover border-2 border-neutral-200 ${className}`}
     />
 );

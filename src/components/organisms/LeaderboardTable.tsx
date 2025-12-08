@@ -13,11 +13,11 @@ interface LeaderboardProps {
   data: LeaderboardEntry[];
 }
 export const LeaderboardTable: React.FC<LeaderboardProps> = ({ data }) => (
-  <section className="p-8 bg-white rounded-2xl">
+  <section className="p-4 bg-white rounded-xl">
     <LineHeading title="Leaderboard"/>
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 py-16 gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 py-16 gap-3">
       {data.map(entry => (
-        <div key={entry.id} className="flex items-center justify-between p-4 border rounded-xl">
+        <div key={entry.id} className="flex items-center justify-between p-4 border-2 border-neutral-200 rounded-xl">
           <AvatarWithName src={entry.avatar} title={entry.title} description={entry.description} />
           <span className="font-bold text-red-600 text-lg">{entry.score}</span>
         </div>

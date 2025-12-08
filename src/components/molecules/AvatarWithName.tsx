@@ -1,6 +1,6 @@
 import React from "react";
-import { Avatar } from "../atoms/Avatar";
-import { Paragraph } from "../atoms/Paragraph";
+import { Avatar } from "../atoms";
+import { Paragraph } from "../atoms";
 
 interface AvatarWithNameProps {
   src: string;

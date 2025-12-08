@@ -1,8 +1,8 @@
 import React from "react";
-import { Heading } from "../atoms/Heading";
-import { Paragraph } from "../atoms/Paragraph";
-import { Button } from "../atoms/Button";
-import { TextBackground } from "../atoms/TextBackground";
+import { Heading } from "../atoms";
+import { Paragraph } from "../atoms";
+import { Button } from "../atoms";
+import { TextBackground } from "../atoms";
 import Image from "next/image";
 
 export const HeroSection = () => (
@@ -31,7 +31,7 @@ export const HeroSection = () => (
       <Paragraph variant="black" className="text-xl mb-6 leading-relaxed">
         Lembaga pelatihan resmi di bidang perdagangan berjangka, mencetak tenaga profesional dengan keterampilan siap kerja dan daya saing global.
       </Paragraph>
-      <TextBackground className="text-lg">Kompetensi Kuat, Masa Depan Hebat</TextBackground>
+      <TextBackground className="text-lg italic">Kompetensi Kuat, Masa Depan Hebat</TextBackground>
       <div className="flex py-8 gap-4 text-xl flex-wrap">
         <Button>Daftar Program</Button>
       </div>

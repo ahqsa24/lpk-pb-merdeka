@@ -15,7 +15,7 @@ export const TestimoniBox: React.FC<TestimoniProps> = ({
   title,
   description,
 }) => (
-  <div className="flex flex-col gap-3 max-w-2xl p-8 rounded-lg shadow-xl">
+  <div className="flex flex-col gap-3 max-w-2xl h-64 p-8  rounded-lg border-2 border-neutral-200">
     <FaQuoteLeft className="text-black text-3xl" />  {/* Quote Icon  */}
     <Paragraph className="italic text-justify text-gray-900">{comment}</Paragraph>
 

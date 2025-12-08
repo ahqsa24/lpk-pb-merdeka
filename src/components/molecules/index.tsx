@@ -1,8 +1,9 @@
-export { FormField } from "./FormField";
-export { CardWithImage } from "./CardWithImage";
 export { AvatarWithName } from "./AvatarWithName";
-export { StatBox } from "./StatBox";
-export { Navbar } from "./Navbar";
-export { LineHeading } from "./LineHeading"
-export { TextGroup } from "./TextGroup";
 export { CardWithAvatar } from "./CardWithAvatar";
+export { CardWithImage } from "./CardWithImage";
+export { FormField } from "./FormField";
+export { LineHeading } from "./LineHeading"
+export { Navbar } from "./Navbar";
+export { StatBox } from "./StatBox";
+export { TextGroup } from "./TextGroup";
+export { TimelineItem } from "./TimelineItem";

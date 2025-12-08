@@ -1,7 +1,7 @@
 import React from "react";
-import { Card } from "../atoms/Card";
-import { Heading } from "../atoms/Heading";
-import { Paragraph } from "../atoms/Paragraph";
+import { Card } from "../atoms";
+import { Heading } from "../atoms";
+import { Paragraph } from "../atoms";
 import Image from "next/image"
 
 interface CardWithImageProps {

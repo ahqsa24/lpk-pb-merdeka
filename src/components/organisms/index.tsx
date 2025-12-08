@@ -1,6 +1,9 @@
 export { HeroSection } from "./HeroSection";
-export { AboutSection } from "./AboutSection";
 export { StatsGrid } from "./StatsGrid";
 export { LeaderboardTable } from "./LeaderboardTable";
-export { ProgramGrid } from "./ProgramGrid";
-export { TestimoniSection } from "./TestimoniSection"
+export { TestimoniSection } from "./TestimoniSection";
+export { Footer } from "./Footer";
+export { StrukturSection } from "./StrukurSection";
+export { TentangSection } from "./TentangSection";
+export { TestimoniBox } from "./TestimoniBox";
+export { Navbar } from "./Navbar";

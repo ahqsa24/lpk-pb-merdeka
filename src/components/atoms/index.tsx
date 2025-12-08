@@ -1,11 +1,11 @@
+export { Avatar } from "./Avatar";
 export { Button } from "./Button";
+export { Card } from "./Card";
+export { Heading } from "./Heading";
 export { Input } from "./Input";
 export { Label } from "./Label";
-export { Card } from "./Card";
-export { Avatar } from "./Avatar";
-export { Heading } from "./Heading";
-export { Paragraph } from "./Paragraph";
-export { NavLink } from "./NavLink";
-export { NavBarButton } from "./NavBarButton";
 export { Line } from "./Line";
-
+export { NavBarButton } from "./NavBarButton";
+export { NavLink } from "./NavLink";
+export { Paragraph } from "./Paragraph";
+export { TextBackground } from "./TextBackground";

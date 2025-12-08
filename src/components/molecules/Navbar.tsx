@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { NavBarButton } from "../atoms/NavBarButton";
+import { NavBarButton } from "../atoms";
 import { FaBars, FaTimes } from "react-icons/fa"; // import icon hamburger
 
 export interface NavItem {

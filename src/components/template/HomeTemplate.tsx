@@ -1,34 +1,16 @@
 import React from "react";
-import { HeroSection } from "../organisms/HeroSection";
-import { ProgramGrid } from "../organisms/ProgramGrid";
+import { HeroSection } from "../organisms";
 import { StatsGrid } from "../organisms"
 import { LeaderboardTemplate } from "./LeaderboardTemplate";
-import { TestimoniSection } from "../organisms/TestimoniSection";
+import { TestimoniSection } from "../organisms";
 
-type ProgramType = {
-  id: number;
-  name: string;
-  description: string;
-};
-
-type HomeTemplateProps = {
-  programs: Array<ProgramType>;
-};
-
-export const HomeTemplate = ({ programs }: HomeTemplateProps) => {
-  const programItems = programs.map((program) => ({
-    id: program.id,
-    title: program.name,
-    img: "",
-    desc: "",
-  }));
+export const HomeTemplate = () => {
   
   return (
-  <main className="mx-auto min-h-screen w-full">
+  <main className="mx-auto">
     <div className="bg-red-50">
       <HeroSection />
     </div>
-      <ProgramGrid list={programItems} />
       <StatsGrid />
       <TestimoniSection />
       <LeaderboardTemplate data={[
@@ -52,7 +34,21 @@ export const HomeTemplate = ({ programs }: HomeTemplateProps) => {
           description: "UI/UX Designer",
           avatar: "https://via.placeholder.com/56",
           score: 890
-        }
+        },
+        {
+          id: 4,
+          title: "ALam Budiawan",
+          description: "UI/UX Designer",
+          avatar: "https://via.placeholder.com/56",
+          score: 850
+        },
+        {
+          id: 5,
+          title: "Rudi Pikachu",
+          description: "Data Engineer",
+          avatar: "https://via.placeholder.com/56",
+          score: 850
+        },
       ]} />
   </main>
   )

@@ -1,6 +1,5 @@
 import { AtomsShowcase } from "@/components/atoms/AtomShowcase";
 import { MoleculesShowcase } from "@/components/molecules/MoleculesShowcase";
-import { OrganismsShowcase } from "@/components/organisms/OrganismsShowcase";
 import { TemplateShowcase } from "@/components/template/TemplateShowcase";
 import { Heading } from "@/components/atoms/Heading";
 
@@ -23,11 +22,6 @@ export default function ShowcasePage() {
         {/* Molecules Showcase */}
         <section className="w-full border-t pt-8">
           <MoleculesShowcase />
-        </section>
-
-        {/* Organisms Showcase */}
-        <section className="w-full border-t pt-8">
-          <OrganismsShowcase />
         </section>
 
         {/* Templates */}

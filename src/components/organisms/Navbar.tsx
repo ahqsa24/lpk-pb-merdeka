@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
-import { useRouter } from "next/router"; // gunakan router
-import { Navbar as NavbarMolecule } from "../molecules/Navbar";
+import { useRouter } from "next/router";
+import { Navbar as NavbarMolecule } from "../molecules";
 
 export const Navbar = () => {
   const router = useRouter();

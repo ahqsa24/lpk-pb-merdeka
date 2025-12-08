@@ -1,6 +1,6 @@
 // components/organisms/StatsGrid.tsx
 import React from "react";
-import { StatBox } from "../molecules/StatBox";
+import { StatBox } from "../molecules";
 
 export const StatsGrid = () => (
   <section className="bg-red-600 overflow-hidden py-8">

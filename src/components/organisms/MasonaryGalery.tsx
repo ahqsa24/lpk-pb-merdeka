@@ -35,7 +35,7 @@ export default function MasonaryGalery() {
                 alt={`Galeri ${colIndex}-${imgIndex}`}
                 width={500} 
                 height={500}
-                className="h-auto max-w-full rounded-base object-cover"
+                className="h-auto max-w-full rounded-base border-2 border-neutral-200 object-cover"
               />
             </div>
           ))}

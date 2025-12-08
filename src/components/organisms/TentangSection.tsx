@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 
 export const TentangSection = () => (
-  <section className="px-12 lg:px-24 xl:px-48 items-start grid grid-cols-1 gap-16 p-8 py-24">
+  <section className="px-12 lg:px-24 xl:px-48 items-start grid grid-cols-1 gap-8 p-8 py-16">
     <div className="grid grid-cols-1 gap-32">
       <TextGroup
         heading="Apa Itu LPK PB Merdeka?"
