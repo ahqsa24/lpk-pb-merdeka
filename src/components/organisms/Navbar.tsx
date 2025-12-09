@@ -11,9 +11,9 @@ export const Navbar = ({ hideNavigation = false }: { hideNavigation?: boolean })
   const navItems = [
     { id: "beranda", label: "Beranda", href: "/" },
     { id: "tentang", label: "Tentang", href: "/about" },
-    { id: "silabus", label: "Silabus", href: "/sylabus" },
+    { id: "program", label: "Program", href: "/program" },
     { id: "galeri", label: "Galeri", href: "/galeri" },
-    { id: "bantuan", label: "Bantuan", href: "/contact" },
+    { id: "bantuan", label: "Bantuan", href: "/bantuan" },
   ];
 
   const handleNavClick = (id: string) => {

@@ -83,7 +83,7 @@ export const HeroSection = () => (
               src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1000&auto=format&fit=crop"
               alt="Students Learning"
               fill
-              className="object-cover"
+              className="object-cover hover:scale-105 transition-transform duration-700"
               priority
             />
           </div>

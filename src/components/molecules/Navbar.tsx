@@ -112,9 +112,11 @@ export const Navbar: React.FC<NavbarProps> = ({
 
         {/* Desktop buttons on right */}
         <div className="hidden md:flex items-center gap-3 flex-shrink-0">
+          {/*
           <button onClick={toggleTheme} className="p-2 rounded-full hover:bg-white/10 text-white transition-colors">
             {theme === 'dark' ? <FaSun /> : <FaMoon />}
           </button>
+          */}
 
           {isAuthenticated ? (
             <div className="relative" ref={dropdownRef}>

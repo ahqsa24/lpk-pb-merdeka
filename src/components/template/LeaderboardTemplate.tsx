@@ -95,7 +95,7 @@ export const LeaderboardTemplate = ({ data }: LeaderboardTemplateProps) => {
       </div>
 
       <div className="max-w-4xl mx-auto px-4">
-        <LeaderboardTable data={sortedData.slice(3, 13)} startRank={4} />
+        <LeaderboardTable data={sortedData.slice(3)} startRank={4} />
       </div>
     </main>
   );

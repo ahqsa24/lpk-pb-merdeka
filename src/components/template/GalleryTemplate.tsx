@@ -1,5 +1,6 @@
 import React from 'react';
 import GallerySection from '../organisms/GallerySection';
+import { ScrollReveal } from "../molecules/ScrollReveal";
 
 const GalleryTemplate = () => {
     return (
@@ -12,8 +13,9 @@ const GalleryTemplate = () => {
                         Menjelajahi momen-momen berharga dari kegiatan pelatihan, seminar, dan aktivitas komunitas kami.
                     </p>
                 </div>
-
-                <GallerySection />
+                <ScrollReveal width="100%">
+                    <GallerySection />
+                </ScrollReveal>
             </div>
         </div>
     );

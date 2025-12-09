@@ -21,7 +21,7 @@ export const LeaderboardRow: React.FC<LeaderboardRowProps> = ({ rank, src, title
 
             {/* Avatar Section */}
             <div className="flex-shrink-0 mr-4">
-                <Avatar src={src} size={56} className="ring-2 ring-gray-100 group-hover:ring-red-100 transition-all" />
+                <Avatar src={src} size={56} className="ring-2 ring-gray-100 group-hover:ring-red-100 group-hover:scale-110 transition-all duration-300" />
             </div>
 
             {/* Info Section */}

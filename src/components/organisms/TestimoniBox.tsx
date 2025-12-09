@@ -29,7 +29,7 @@ export const TestimoniBox: React.FC<TestimoniProps> = ({
               src={src}
               alt={title}
               fill
-              className="object-cover"
+              className="object-cover group-hover:scale-110 transition-transform duration-500"
             />
           </div>
         </div>
