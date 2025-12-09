@@ -1,6 +1,5 @@
 import React from "react";
-import { AvatarWithName } from "../molecules";
-import { LineHeading } from "../molecules";
+import { LeaderboardRow } from "../molecules";
 
 interface LeaderboardEntry {
   id: number;
@@ -8,19 +7,24 @@ interface LeaderboardEntry {
   description: string;
   avatar: string;
   score: number;
+  rank?: number; // Optional on entry, but we will pass it explicitly or map it
 }
 interface LeaderboardProps {
   data: LeaderboardEntry[];
+  startRank?: number; // Starting rank number
 }
-export const LeaderboardTable: React.FC<LeaderboardProps> = ({ data }) => (
-  <section className="p-4 bg-white rounded-xl">
-    <LineHeading title="Leaderboard"/>
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 py-16 gap-3">
-      {data.map(entry => (
-        <div key={entry.id} className="flex items-center justify-between p-4 border-2 border-neutral-200 rounded-xl">
-          <AvatarWithName src={entry.avatar} title={entry.title} description={entry.description} />
-          <span className="font-bold text-red-600 text-lg">{entry.score}</span>
-        </div>
+export const LeaderboardTable: React.FC<LeaderboardProps> = ({ data, startRank = 1 }) => (
+  <section className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+    <div className="flex flex-col">
+      {data.map((entry, index) => (
+        <LeaderboardRow
+          key={entry.id}
+          rank={startRank + index}
+          src={entry.avatar}
+          title={entry.title}
+          description={entry.description}
+          score={entry.score}
+        />
       ))}
     </div>
   </section>

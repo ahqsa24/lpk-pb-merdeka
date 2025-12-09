@@ -27,7 +27,7 @@ export const LeaderboardTemplate = ({ data }: LeaderboardTemplateProps) => {
 
   return (
     <main className="px-6 lg:px-24 xl:px-48 py-20 mx-auto bg-white">
-      <div className="text-center mb-16">
+      <div className="text-center mb-24">
         <LineHeading title="Top Talents" />
         <p className="text-gray-600 mt-4">Siswa berprestasi dengan skor kompetensi tertinggi bulan ini</p>
       </div>
@@ -91,9 +91,8 @@ export const LeaderboardTemplate = ({ data }: LeaderboardTemplateProps) => {
         })}
       </div>
 
-      <div className="max-w-4xl mx-auto">
-        <h3 className="text-xl font-bold text-gray-800 mb-6 px-4 border-l-4 border-red-600">Leaderboard Lengkap</h3>
-        <LeaderboardTable data={sortedData} /> {/* Pass all data or just restData based on preference. Usually showing top 3 in table too is fine or filtered. Keeping all for now but highlighted. */}
+      <div className="max-w-4xl mx-auto px-4">
+        <LeaderboardTable data={sortedData.slice(3, 13)} startRank={4} />
       </div>
     </main>
   );

@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { FaInstagram, FaFacebookF, FaLinkedinIn, FaTiktok, FaWhatsapp, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
 
 export const Footer = () => {
@@ -10,8 +11,14 @@ export const Footer = () => {
                     {/* Brand Section */}
                     <div className="flex flex-col gap-6">
                         <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-md">
-                                <span className="text-red-600 font-bold text-xl">L</span>
+                            <div className="w-10 h-10 flex items-center justify-center">
+                                <Image
+                                    src="/assets/LPK-White.png"
+                                    alt="LPK Merdeka Logo"
+                                    width={24}
+                                    height={24}
+                                    className="object-contain"
+                                />
                             </div>
                             <span className="text-white text-xl font-bold">LPK PB Merdeka</span>
                         </div>
