@@ -1,6 +1,6 @@
 import React from "react";
-import { Layout } from "@/components/template/Layout";
-import { AboutTemplate } from "@/components/template/AboutTemplate";
+import { Layout } from "@/components/shared/Layout";
+import { AboutTemplate } from "@/components/about/AboutTemplate";
 import Head from "next/head";
 
 export default function AboutPage() {

@@ -1,5 +1,5 @@
 import React from 'react'
-import SyllabusTemplate from '@/components/template/SyllabusTemplate'
+import SyllabusTemplate from '@/components/syllabus/SyllabusTemplate'
 
 const Sylabus = () => {
   return (

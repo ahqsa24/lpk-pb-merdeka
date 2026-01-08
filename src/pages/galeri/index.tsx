@@ -1,7 +1,7 @@
 import React from "react";
-import { Layout } from "@/components/template/Layout";
+import { Layout } from "@/components/shared/Layout";
 import Head from "next/head";
-import GalleryTemplate from "@/components/template/GalleryTemplate";
+import GalleryTemplate from "@/components/gallery/GalleryTemplate";
 
 export default function GalleryPage() {
     return (

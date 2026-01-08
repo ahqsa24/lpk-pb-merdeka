@@ -1,4 +1,4 @@
-import { Layout } from "../components/template/Layout";
+import { Layout } from "../components/shared/Layout";
 import Beranda from "./home/Beranda";
 import Head from "next/head";
 

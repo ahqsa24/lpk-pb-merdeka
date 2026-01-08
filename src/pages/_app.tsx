@@ -20,7 +20,7 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 
 import { ThemeProvider } from "@/context/ThemeContext";
 import { AuthProvider } from "@/context/AuthContext";
-import SplashScreen from "@/components/organisms/SplashScreen";
+import SplashScreen from "@/components/shared/organisms/SplashScreen";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (

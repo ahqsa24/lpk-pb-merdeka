@@ -1,5 +1,5 @@
 import React from "react";
-import { Layout } from "@/components/template/Layout";
+import { Layout } from "@/components/shared/Layout";
 import Sylabus from "./Sylabus"; // reusing existing component logic
 import Program from "./Program"; // reusing existing component logic
 import Head from "next/head";

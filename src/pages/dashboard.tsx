@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { Navbar } from "../components/organisms";
-import { DashboardSidebar } from "../components/organisms/DashboardSidebar";
+import { Navbar } from "../components/shared/organisms";
+import { DashboardSidebar } from "../components/dashboard/organisms/DashboardSidebar";
 import Head from "next/head";
 import Image from "next/image";
 

@@ -1,7 +1,7 @@
 import React from "react";
-import { Layout } from "@/components/template/Layout";
+import { Layout } from "@/components/shared/Layout";
 import Head from "next/head";
-import ContactTemplate from "@/components/template/ContactTemplate";
+import ContactTemplate from "@/components/contact/ContactTemplate";
 
 export default function ContactPage() {
     return (

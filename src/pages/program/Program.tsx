@@ -1,5 +1,5 @@
 import React from 'react'
-import ProgramTemplate from '@/components/template/ProgramTemplate'
+import ProgramTemplate from '@/components/program/ProgramTemplate'
 
 const Program = () => {
   return (

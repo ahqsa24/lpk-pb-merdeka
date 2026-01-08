@@ -1,4 +1,4 @@
-import { AboutTemplate } from '@/components/template/AboutTemplate'
+import { AboutTemplate } from '@/components/about/AboutTemplate'
 import React from 'react'
 
 

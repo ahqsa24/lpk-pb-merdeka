@@ -1,4 +1,4 @@
-import { TestimoniSection } from '@/components/organisms/TestimoniSection'
+import { TestimoniSection } from '@/components/home/organisms/TestimoniSection'
 import React from 'react'
 
 

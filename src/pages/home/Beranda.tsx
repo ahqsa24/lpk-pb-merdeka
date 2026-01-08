@@ -1,5 +1,5 @@
 import React from 'react'
-import { HomeTemplate } from '../../components/template'
+import { HomeTemplate } from '../../components/home/HomeTemplate'
 
 const Beranda = () => {
 
