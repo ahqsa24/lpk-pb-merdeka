@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import { AdminLayout } from '@/components/layouts/AdminLayout';
-import { FaEdit, FaTrash, FaPlus, FaSearch, FaCalendarCheck, FaToggleOn, FaToggleOff } from 'react-icons/fa';
+import { FaEdit, FaTrash, FaPlus, FaSearch, FaCalendarCheck, FaUsers, FaCheckCircle } from 'react-icons/fa';
 import { ConfirmationModal } from '@/components/shared/molecules/ConfirmationModal';
 
 interface Session {
@@ -12,6 +12,16 @@ interface Session {
     end_time: string;
     is_active: boolean;
     created_at: string;
+}
+
+interface AttendanceRecord {
+    id: string;
+    checked_in_at: string;
+    user: {
+        id: string;
+        name: string;
+        email: string;
+    };
 }
 
 export default function AttendanceSessionsManagement() {
@@ -32,6 +42,15 @@ export default function AttendanceSessionsManagement() {
     // Delete Modal State
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null);
+
+    // Attendees Modal State
+    const [isAttendeesModalOpen, setIsAttendeesModalOpen] = useState(false);
+    const [selectedSessionTitle, setSelectedSessionTitle] = useState('');
+    const [attendees, setAttendees] = useState<AttendanceRecord[]>([]);
+    const [loadingAttendees, setLoadingAttendees] = useState(false);
+
+    // Validation State
+    const [timeError, setTimeError] = useState('');
 
     const getAuthHeaders = () => {
         const token = localStorage.getItem('token');
@@ -128,6 +147,18 @@ export default function AttendanceSessionsManagement() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setTimeError(''); // Clear previous error
+
+        // Validate end_time is not before start_time
+        if (formData.start_time && formData.end_time) {
+            const start = new Date(`1970-01-01T${formData.start_time}:00`);
+            const end = new Date(`1970-01-01T${formData.end_time}:00`);
+
+            if (end <= start) {
+                setTimeError('Waktu selesai harus lebih besar dari waktu mulai');
+                return;
+            }
+        }
 
         const url = formMode === 'create' ? '/api/admin/attendance-sessions' : `/api/admin/attendance-sessions/${formData.id}`;
         const method = formMode === 'create' ? 'POST' : 'PUT';
@@ -141,6 +172,7 @@ export default function AttendanceSessionsManagement() {
 
             if (res.ok) {
                 setIsFormOpen(false);
+                setTimeError(''); // Clear error on success
                 fetchSessions();
             } else {
                 const data = await res.json();
@@ -160,12 +192,35 @@ export default function AttendanceSessionsManagement() {
             });
 
             if (res.ok) {
-                fetchSessions();
+                // Update local state immediately for better UX
+                setSessions(sessions.map(s =>
+                    s.id === session.id ? { ...s, is_active: !s.is_active } : s
+                ));
             }
         } catch (error) {
             console.error(error);
         }
     }
+
+    const viewAttendees = async (sessionId: string, sessionTitle: string) => {
+        setSelectedSessionTitle(sessionTitle);
+        setIsAttendeesModalOpen(true);
+        setLoadingAttendees(true);
+
+        try {
+            const res = await fetch(`/api/admin/attendance-sessions/${sessionId}/records`, {
+                headers: getAuthHeaders()
+            });
+            if (res.ok) {
+                const data = await res.json();
+                setAttendees(data);
+            }
+        } catch (error) {
+            console.error('Failed to fetch attendees', error);
+        } finally {
+            setLoadingAttendees(false);
+        }
+    };
 
     const displayTime = (iso: string) => {
         return new Date(iso).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
@@ -193,7 +248,7 @@ export default function AttendanceSessionsManagement() {
                         onClick={handleCreate}
                         className="bg-red-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-red-700 transition"
                     >
-                        <FaPlus /> create Session
+                        <FaPlus /> Create Session
                     </button>
                 </div>
 
@@ -221,7 +276,13 @@ export default function AttendanceSessionsManagement() {
                                 filteredSessions.map((session) => (
                                     <tr key={session.id} className="hover:bg-gray-50 transition">
                                         <td className="px-6 py-4 font-medium text-gray-900">
-                                            {session.title}
+                                            <button
+                                                onClick={() => viewAttendees(session.id, session.title)}
+                                                className="flex items-center gap-2 hover:text-red-600 transition"
+                                            >
+                                                <FaUsers className="text-gray-400" />
+                                                {session.title}
+                                            </button>
                                         </td>
                                         <td className="px-6 py-4 text-sm text-gray-500">
                                             {new Date(session.date).toLocaleDateString()}
@@ -232,11 +293,12 @@ export default function AttendanceSessionsManagement() {
                                         <td className="px-6 py-4">
                                             <button
                                                 onClick={() => toggleStatus(session)}
-                                                className={`flex items-center gap-1.5 px-2 py-1 rounded-full text-xs font-medium transition ${session.is_active
-                                                    ? 'bg-green-100 text-green-700 hover:bg-green-200'
-                                                    : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
-                                                    }`}>
-                                                {session.is_active ? 'Active' : 'Inactive'}
+                                                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${session.is_active ? 'bg-green-500' : 'bg-gray-300'
+                                                    }`}
+                                                title={session.is_active ? 'Click to deactivate' : 'Click to activate'}
+                                            >
+                                                <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${session.is_active ? 'translate-x-6' : 'translate-x-1'
+                                                    }`} />
                                             </button>
                                         </td>
                                         <td className="px-6 py-4 text-right">
@@ -263,6 +325,7 @@ export default function AttendanceSessionsManagement() {
                 </div>
             </div>
 
+            {/* Form Modal */}
             {isFormOpen && (
                 <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
                     <div className="bg-white rounded-xl shadow-xl w-full max-w-md overflow-hidden animate-in fade-in zoom-in duration-200">
@@ -301,7 +364,10 @@ export default function AttendanceSessionsManagement() {
                                         type="time"
                                         required
                                         value={formData.start_time}
-                                        onChange={e => setFormData({ ...formData, start_time: e.target.value })}
+                                        onChange={e => {
+                                            setFormData({ ...formData, start_time: e.target.value });
+                                            setTimeError(''); // Clear error when user changes time
+                                        }}
                                         className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none"
                                     />
                                 </div>
@@ -311,18 +377,33 @@ export default function AttendanceSessionsManagement() {
                                         type="time"
                                         required
                                         value={formData.end_time}
-                                        onChange={e => setFormData({ ...formData, end_time: e.target.value })}
+                                        onChange={e => {
+                                            setFormData({ ...formData, end_time: e.target.value });
+                                            setTimeError(''); // Clear error when user changes time
+                                        }}
                                         className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none"
                                     />
                                 </div>
                             </div>
 
+                            {/* Time Validation Error */}
+                            {timeError && (
+                                <div className="bg-red-50 border-l-4 border-red-500 p-3 rounded-r-lg animate-in fade-in slide-in-from-top-2">
+                                    <p className="text-red-700 text-sm font-medium flex items-center gap-2">
+                                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                                        </svg>
+                                        {timeError}
+                                    </p>
+                                </div>
+                            )}
+
                             <div className="flex items-center gap-3">
-                                <label className="block text-sm font-medium text-gray-700">Status Active?</label>
+                                <label className="block text-sm font-medium text-gray-700">Active Status</label>
                                 <button
                                     type="button"
                                     onClick={() => setFormData({ ...formData, is_active: !formData.is_active })}
-                                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${formData.is_active ? 'bg-green-500' : 'bg-gray-200'
+                                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${formData.is_active ? 'bg-green-500' : 'bg-gray-300'
                                         }`}
                                 >
                                     <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${formData.is_active ? 'translate-x-6' : 'translate-x-1'
@@ -346,6 +427,83 @@ export default function AttendanceSessionsManagement() {
                                 </button>
                             </div>
                         </form>
+                    </div>
+                </div>
+            )}
+
+            {/* Attendees Modal */}
+            {isAttendeesModalOpen && (
+                <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+                    <div className="bg-white rounded-xl shadow-xl w-full max-w-2xl max-h-[80vh] overflow-hidden animate-in fade-in zoom-in duration-200">
+                        <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-gradient-to-r from-red-50 to-pink-50">
+                            <div>
+                                <h3 className="text-lg font-bold text-gray-800 flex items-center gap-2">
+                                    <FaUsers className="text-red-600" />
+                                    Daftar Kehadiran
+                                </h3>
+                                <p className="text-sm text-gray-600 mt-1">{selectedSessionTitle}</p>
+                            </div>
+                            <button
+                                onClick={() => setIsAttendeesModalOpen(false)}
+                                className="text-gray-400 hover:text-gray-600 text-2xl"
+                            >
+                                &times;
+                            </button>
+                        </div>
+
+                        <div className="p-6 overflow-y-auto max-h-[60vh]">
+                            {loadingAttendees ? (
+                                <div className="text-center py-8 text-gray-500">Loading...</div>
+                            ) : attendees.length === 0 ? (
+                                <div className="text-center py-8">
+                                    <div className="text-gray-400 mb-2">
+                                        <FaUsers size={48} className="mx-auto opacity-50" />
+                                    </div>
+                                    <p className="text-gray-500">Belum ada yang absen</p>
+                                </div>
+                            ) : (
+                                <div className="space-y-3">
+                                    {attendees.map((record, index) => (
+                                        <div
+                                            key={record.id}
+                                            className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-100 hover:bg-gray-100 transition"
+                                        >
+                                            <div className="flex items-center gap-3">
+                                                <div className="w-10 h-10 bg-green-100 text-green-600 rounded-full flex items-center justify-center font-bold">
+                                                    {index + 1}
+                                                </div>
+                                                <div>
+                                                    <p className="font-medium text-gray-900">{record.user.name}</p>
+                                                    <p className="text-sm text-gray-500">{record.user.email}</p>
+                                                </div>
+                                            </div>
+                                            <div className="text-right">
+                                                <div className="flex items-center gap-2 text-green-600 text-sm font-medium">
+                                                    <FaCheckCircle />
+                                                    Hadir
+                                                </div>
+                                                <p className="text-xs text-gray-500 mt-1">
+                                                    {new Date(record.checked_in_at).toLocaleString('id-ID', {
+                                                        hour: '2-digit',
+                                                        minute: '2-digit',
+                                                        day: '2-digit',
+                                                        month: 'short'
+                                                    })}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+
+                            {attendees.length > 0 && (
+                                <div className="mt-6 p-4 bg-blue-50 border border-blue-100 rounded-lg">
+                                    <p className="text-sm text-blue-800">
+                                        <strong>Total Kehadiran:</strong> {attendees.length} orang
+                                    </p>
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </div>
             )}

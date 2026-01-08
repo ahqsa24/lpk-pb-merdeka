@@ -85,14 +85,6 @@ export default function AdminDashboard() {
                         </div>
                     ))}
                 </div>
-
-                <div className="bg-white rounded-xl p-6 border border-gray-100 shadow-sm mt-8">
-                    <h3 className="text-lg font-bold text-gray-800 mb-4">Quick Actions</h3>
-                    <div className="flex gap-4">
-                        <button className="px-4 py-2 bg-red-600 text-white rounded-lg text-sm hover:bg-red-700 transition">Example Action</button>
-                        <button className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm hover:bg-gray-200 transition">View Logs</button>
-                    </div>
-                </div>
             </div>
         </AdminLayout>
     );

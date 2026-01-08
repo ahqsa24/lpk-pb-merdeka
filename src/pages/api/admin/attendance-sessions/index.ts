@@ -9,7 +9,7 @@ async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
                 orderBy: { date: 'desc' },
             });
 
-            const serialized = sessions.map(s => ({
+            const serialized = sessions.map((s: any) => ({
                 ...s,
                 id: s.id.toString(),
                 date: s.date.toISOString(),
@@ -33,9 +33,12 @@ async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
         }
 
         try {
-            const dateObj = new Date(date);
-            const startObj = new Date(`1970-01-01T${start_time}:00Z`);
-            const endObj = new Date(`1970-01-01T${end_time}:00Z`);
+            // Parse date as local date
+            const dateObj = new Date(date + 'T00:00:00');
+
+            // Parse time as local time (no Z suffix to avoid UTC conversion)
+            const startObj = new Date(`1970-01-01T${start_time}:00`);
+            const endObj = new Date(`1970-01-01T${end_time}:00`);
 
             const newSession = await prisma.attendance_sessions.create({
                 data: {

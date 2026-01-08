@@ -40,9 +40,9 @@ async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
             };
 
             if (title) updateData.title = title;
-            if (date) updateData.date = new Date(date);
-            if (start_time) updateData.start_time = new Date(`1970-01-01T${start_time}:00Z`);
-            if (end_time) updateData.end_time = new Date(`1970-01-01T${end_time}:00Z`);
+            if (date) updateData.date = new Date(date + 'T00:00:00');
+            if (start_time) updateData.start_time = new Date(`1970-01-01T${start_time}:00`);
+            if (end_time) updateData.end_time = new Date(`1970-01-01T${end_time}:00`);
             if (is_active !== undefined) updateData.is_active = is_active;
 
             const session = await prisma.attendance_sessions.update({

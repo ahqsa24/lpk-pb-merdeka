@@ -37,8 +37,19 @@ export const checkAuth = (handler: (req: AuthenticatedRequest, res: NextApiRespo
 export const checkAdmin = (handler: (req: AuthenticatedRequest, res: NextApiResponse) => Promise<any>) => {
     return async (req: AuthenticatedRequest, res: NextApiResponse) => {
         return checkAuth(async (req, res) => {
-            if (req.user?.role !== 'admin') {
+            if (req.user?.role !== 'admin' && req.user?.role !== 'superAdmin') {
                 return res.status(403).json({ message: 'Access denied: Admins only' });
+            }
+            return handler(req, res);
+        })(req, res);
+    };
+};
+
+export const checkSuperAdmin = (handler: (req: AuthenticatedRequest, res: NextApiResponse) => Promise<any>) => {
+    return async (req: AuthenticatedRequest, res: NextApiResponse) => {
+        return checkAuth(async (req, res) => {
+            if (req.user?.role !== 'superAdmin') {
+                return res.status(403).json({ message: 'Access denied: Super Admins only' });
             }
             return handler(req, res);
         })(req, res);
