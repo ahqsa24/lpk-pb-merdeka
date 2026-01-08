@@ -1,0 +1,65 @@
+import type { NextApiRequest, NextApiResponse } from 'next';
+import { prisma } from '@/lib/prisma';
+import { checkAdmin, AuthenticatedRequest } from '@/lib/auth';
+
+async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
+    if (req.method === 'GET') {
+        try {
+            const sessions = await prisma.attendance_sessions.findMany({
+                orderBy: { date: 'desc' },
+            });
+
+            const serialized = sessions.map(s => ({
+                ...s,
+                id: s.id.toString(),
+                date: s.date.toISOString(),
+                start_time: s.start_time.toISOString(),
+                end_time: s.end_time.toISOString(),
+                created_at: s.created_at?.toISOString()
+            }));
+
+            return res.status(200).json(serialized);
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ message: 'Error fetching sessions' });
+        }
+    }
+
+    if (req.method === 'POST') {
+        const { title, date, start_time, end_time, is_active } = req.body;
+
+        if (!title || !date || !start_time || !end_time) {
+            return res.status(400).json({ message: 'Missing required fields' });
+        }
+
+        try {
+            const dateObj = new Date(date);
+            const startObj = new Date(`1970-01-01T${start_time}:00Z`);
+            const endObj = new Date(`1970-01-01T${end_time}:00Z`);
+
+            const newSession = await prisma.attendance_sessions.create({
+                data: {
+                    title,
+                    date: dateObj,
+                    start_time: startObj,
+                    end_time: endObj,
+                    is_active: is_active ?? true,
+                    created_at: new Date(),
+                    updated_at: new Date()
+                }
+            });
+
+            return res.status(201).json({
+                message: 'Session created',
+                session: { ...newSession, id: newSession.id.toString() }
+            });
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ message: 'Error creating session' });
+        }
+    }
+
+    return res.status(405).json({ message: 'Method not allowed' });
+}
+
+export default checkAdmin(handler as any);

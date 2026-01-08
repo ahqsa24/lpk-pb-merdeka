@@ -26,11 +26,8 @@ export default function RegisterPage() {
         setLoading(true);
         setError("");
 
-        // Default to localhost if env not set (failsafe)
-        const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api";
-
         try {
-            const response = await fetch(`${API_URL}/register`, {
+            const response = await fetch('/api/auth/register', {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

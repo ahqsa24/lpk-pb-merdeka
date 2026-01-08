@@ -23,8 +23,7 @@ export const AttendanceSessionList: React.FC = () => {
             const token = localStorage.getItem('token');
             if (!token) return;
 
-            const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
-            const response = await fetch(`${API_URL}/attendance-sessions`, {
+            const response = await fetch(`/api/attendance-sessions`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -58,8 +57,7 @@ export const AttendanceSessionList: React.FC = () => {
             const token = localStorage.getItem('token');
             if (!token) throw new Error("Anda belum login");
 
-            const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
-            const response = await fetch(`${API_URL}/attendance-sessions/${sessionId}/check-in`, {
+            const response = await fetch(`/api/attendance-sessions/${sessionId}/check-in`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -71,7 +69,7 @@ export const AttendanceSessionList: React.FC = () => {
             const result = await response.json();
 
             if (response.status === 200) {
-                const timeStr = result.record?.check_in_time;
+                const timeStr = result.check_in_time;
                 const niceTime = timeStr ? formatTime(timeStr) : 'Baru saja';
                 setMessage({ type: 'success', text: `Berhasil Absen! Pukul: ${niceTime}` });
             } else {

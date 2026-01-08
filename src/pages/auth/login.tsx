@@ -20,10 +20,8 @@ export default function LoginPage() {
         setError("");
 
         // Default to localhost if env not set (failsafe)
-        const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api";
-
         try {
-            const response = await fetch(`${API_URL}/login`, {
+            const response = await fetch('/api/auth/login', {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -43,13 +41,7 @@ export default function LoginPage() {
             }
 
             if (!response.ok) {
-                // Handle Laravel validation errors
-                if (data.errors) {
-                    const errorMessages = Object.values(data.errors).flat().join(", ");
-                    throw new Error(errorMessages || data.message || "Data yang dimasukkan tidak valid");
-                }
-
-                throw new Error(data.message || data.error || "Login gagal, periksa email dan password.");
+                throw new Error(data.message || "Login gagal, periksa email dan password.");
             }
 
             // Save token and user info via context
@@ -58,11 +50,10 @@ export default function LoginPage() {
                 console.log("Login berhasil");
 
                 if (data.user.role === 'admin') {
-                    window.location.href = "http://localhost:8000/admin";
-                    return;
+                    router.push("/admin/dashboard");
+                } else {
+                    router.push("/dashboard");
                 }
-
-                router.push("/dashboard");
             } else {
                 throw new Error("Format respons tidak valid dari server");
             }
