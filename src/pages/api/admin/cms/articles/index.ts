@@ -35,7 +35,7 @@ async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
 
     if (req.method === 'POST') {
         try {
-            const { title, content, excerpt, thumbnail_url, author, is_published } = req.body;
+            const { title, content, excerpt, thumbnail_url, author, is_published, published_at } = req.body;
             const slug = generateSlug(title);
 
             const article = await prisma.cms_articles.create({
@@ -47,7 +47,7 @@ async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
                     thumbnail_url,
                     author,
                     is_published: is_published || false,
-                    published_at: is_published ? new Date() : null
+                    published_at: published_at ? new Date(published_at) : (is_published ? new Date() : null)
                 }
             });
             return res.json(serializeBigInt(article));

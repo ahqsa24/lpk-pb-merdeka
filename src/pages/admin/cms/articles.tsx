@@ -31,6 +31,9 @@ export default function CMSArticles() {
         thumbnail_url: '',
         author: '',
         is_published: false,
+        publish_date: '',
+        publish_time: '',
+        publish_now: true,
         id: ''
     });
     const [formMode, setFormMode] = useState<'create' | 'edit'>('create');
@@ -95,6 +98,15 @@ export default function CMSArticles() {
     };
 
     const handleEdit = (article: Article) => {
+        let pDate = '';
+        let pTime = '';
+
+        if (article.published_at) {
+            const d = new Date(article.published_at);
+            pDate = d.toLocaleDateString('en-CA');
+            pTime = d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+        }
+
         setFormData({
             title: article.title,
             content: article.content,
@@ -102,20 +114,28 @@ export default function CMSArticles() {
             thumbnail_url: article.thumbnail_url || '',
             author: article.author || '',
             is_published: article.is_published,
+            publish_date: pDate,
+            publish_time: pTime,
+            publish_now: article.published_at ? false : true,
             id: article.id
         });
+
         setFormMode('edit');
         setIsFormOpen(true);
     };
 
     const handleCreate = () => {
+        const now = new Date();
         setFormData({
             title: '',
             content: '',
             excerpt: '',
             thumbnail_url: '',
             author: '',
-            is_published: false,
+            is_published: true, // Default to true (Published/Active) for new articles
+            publish_date: now.toLocaleDateString('en-CA'),
+            publish_time: now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }),
+            publish_now: true,
             id: ''
         });
         setFormMode('create');
@@ -127,11 +147,25 @@ export default function CMSArticles() {
         const url = formMode === 'create' ? '/api/admin/cms/articles' : `/api/admin/cms/articles/${formData.id}`;
         const method = formMode === 'create' ? 'POST' : 'PUT';
 
+        let finalPublishedAt = null;
+
+        if (formData.publish_now) {
+            finalPublishedAt = new Date().toISOString();
+        } else if (formData.publish_date && formData.publish_time) {
+            finalPublishedAt = new Date(`${formData.publish_date}T${formData.publish_time}`).toISOString();
+        }
+
+        const payload = {
+            ...formData,
+            is_published: true, // Always enforce active status when saving from this form
+            published_at: finalPublishedAt
+        };
+
         try {
             const res = await fetch(url, {
                 method,
                 headers: getAuthHeaders(),
-                body: JSON.stringify(formData)
+                body: JSON.stringify(payload)
             });
 
             if (res.ok) {
@@ -144,6 +178,32 @@ export default function CMSArticles() {
             }
         } catch (error) {
             setToast({ isOpen: true, message: 'Error submitting form', type: 'error' });
+        }
+    };
+
+    const toggleStatus = async (article: Article) => {
+        try {
+            const res = await fetch(`/api/admin/cms/articles/${article.id}`, {
+                method: 'PUT',
+                headers: getAuthHeaders(),
+                body: JSON.stringify({
+                    ...article,
+                    is_published: !article.is_published
+                    // We don't change published_at here, so it stays as is (or server handles it)
+                    // If switching from draft to published, server logic (is_published ? now : null) might trigger if we don't send published_at.
+                    // But we are sending "...article", which includes published_at string.
+                    // Wait, article.published_at is string from GET.
+                })
+            });
+
+            if (res.ok) {
+                // Update local state
+                const updated = await res.json();
+                setArticles(articles.map(a => a.id === article.id ? { ...a, is_published: !a.is_published, published_at: updated.published_at } : a));
+                setToast({ isOpen: true, message: `Article ${!article.is_published ? 'published' : 'unpublished'}`, type: 'success' });
+            }
+        } catch (error) {
+            setToast({ isOpen: true, message: 'Failed to update status', type: 'error' });
         }
     };
 
@@ -200,13 +260,15 @@ export default function CMSArticles() {
                                         <td className="px-6 py-4 font-medium text-gray-900 max-w-sm truncate">{article.title}</td>
                                         <td className="px-6 py-4 text-sm text-gray-500">{article.author || '-'}</td>
                                         <td className="px-6 py-4">
-                                            <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${article.is_published
-                                                ? 'bg-green-100 text-green-700'
-                                                : 'bg-gray-100 text-gray-600'
-                                                }`}>
-                                                {article.is_published ? <FaEye size={10} /> : <FaEyeSlash size={10} />}
+                                            <button
+                                                onClick={() => toggleStatus(article)}
+                                                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${article.is_published ? 'bg-green-500' : 'bg-gray-300'}`}
+                                            >
+                                                <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${article.is_published ? 'translate-x-6' : 'translate-x-1'}`} />
+                                            </button>
+                                            <div className="text-xs text-gray-500 mt-1">
                                                 {article.is_published ? 'Published' : 'Draft'}
-                                            </span>
+                                            </div>
                                         </td>
                                         <td className="px-6 py-4 text-sm text-gray-500">
                                             {new Date(article.created_at).toLocaleDateString()}
@@ -302,17 +364,47 @@ export default function CMSArticles() {
                                 </div>
                             </div>
 
-                            <div className="flex items-center gap-3 pt-2">
-                                <input
-                                    type="checkbox"
-                                    id="is_published"
-                                    checked={formData.is_published}
-                                    onChange={e => setFormData({ ...formData, is_published: e.target.checked })}
-                                    className="w-4 h-4 text-red-600 border-gray-300 rounded focus:ring-red-500"
-                                />
-                                <label htmlFor="is_published" className="text-sm font-medium text-gray-700">
-                                    Publish immediately
-                                </label>
+                            <div className="space-y-4 pt-4 border-t border-gray-100">
+                                <div className="flex items-center gap-3">
+                                    <input
+                                        type="checkbox"
+                                        id="publish_now"
+                                        checked={formData.publish_now}
+                                        onChange={e => setFormData({ ...formData, publish_now: e.target.checked })}
+                                        className="w-4 h-4 text-red-600 border-gray-300 rounded focus:ring-red-500"
+                                    />
+                                    <label htmlFor="publish_now" className="text-sm font-medium text-gray-700">
+                                        Publish Immediately
+                                    </label>
+                                </div>
+
+                                <div className={`grid grid-cols-2 gap-4 transition-all duration-200 ${formData.publish_now ? 'opacity-50 grayscale pointer-events-none' : ''}`}>
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                                            Date
+                                        </label>
+                                        <input
+                                            type="date"
+                                            value={formData.publish_date}
+                                            onChange={e => setFormData({ ...formData, publish_date: e.target.value })}
+                                            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                                            Time
+                                        </label>
+                                        <input
+                                            type="time"
+                                            value={formData.publish_time}
+                                            onChange={e => setFormData({ ...formData, publish_time: e.target.value })}
+                                            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none"
+                                        />
+                                    </div>
+                                </div>
+                                {formData.publish_now && (
+                                    <p className="text-xs text-gray-500 italic">Article will be published with the current time.</p>
+                                )}
                             </div>
 
                             <div className="pt-4 flex gap-3 justify-end border-t border-gray-100">

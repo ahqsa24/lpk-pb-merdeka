@@ -51,6 +51,7 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ activeTab, o
         {
             title: "Pusat Belajar",
             items: [
+                { id: "artikel", label: "Artikel & Berita", icon: <FaFileAlt /> },
                 { id: "materi", label: "Materi Belajar", icon: <FaBook /> },
                 { id: "video", label: "Video Tutorial", icon: <FaVideo /> },
                 { id: "kuis", label: "Kuis & Latihan", icon: <FaGamepad /> },

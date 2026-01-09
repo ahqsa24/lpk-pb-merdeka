@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import { DashboardSidebar, ProfileForm, AttendanceSessionList } from "../components/dashboard/organisms";
+import { DashboardSidebar, ProfileForm, AttendanceSessionList, ArticleList } from "../components/dashboard/organisms";
 import { useAuth } from "@/context/AuthContext";
 import { useSearch } from '@/context/SearchContext';
 import { FaBars, FaCog, FaSignOutAlt, FaSearch } from "react-icons/fa";
@@ -59,6 +59,8 @@ export default function DashboardPage() {
         switch (activeTab) {
             case "absensi":
                 return <AttendanceSessionList />;
+            case "artikel":
+                return <ArticleList />;
             case "profil":
                 return <ProfileForm />;
             case "kompetisi-aktif":

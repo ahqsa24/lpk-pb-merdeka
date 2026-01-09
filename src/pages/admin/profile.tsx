@@ -32,13 +32,25 @@ const ProfilePage = () => {
         setLoading(true);
 
         try {
-            // Mock API call simulation
-            await new Promise(resolve => setTimeout(resolve, 1000));
+            const token = localStorage.getItem('token');
+            const res = await fetch('/api/admin/profile', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ name, password })
+            });
 
-            // In a real app, you would define an API endpoint to update the profile
-            // await axios.put('/api/admin/profile', { name, email, password });
+            if (!res.ok) {
+                throw new Error('Failed to update profile');
+            }
 
             setMessage({ type: 'success', text: 'Profile updated successfully!' });
+
+            // Clear password fields on success
+            setPassword('');
+            setConfirmPassword('');
         } catch (error) {
             setMessage({ type: 'error', text: 'Failed to update profile.' });
         } finally {
