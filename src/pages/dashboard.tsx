@@ -3,14 +3,18 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import { DashboardSidebar, ProfileForm, AttendanceSessionList } from "../components/dashboard/organisms";
 import { useAuth } from "@/context/AuthContext";
-import { FaBars } from "react-icons/fa";
+import { FaBars, FaCog, FaSignOutAlt, FaSearch } from "react-icons/fa";
+import Link from "next/link";
 
 export default function DashboardPage() {
     const router = useRouter();
-    const { user, isAuthenticated } = useAuth();
+    const { user, isAuthenticated, logout } = useAuth();
     const [loading, setLoading] = useState(true);
     const [activeTab, setActiveTab] = useState("absensi");
     const [sidebarOpen, setSidebarOpen] = useState(false);
+    const [isProfileOpen, setIsProfileOpen] = useState(false);
+
+
 
     useEffect(() => {
         // Simple auth check delay or logic if needed, 
@@ -96,12 +100,50 @@ export default function DashboardPage() {
                         </div>
 
                         <div className="flex items-center gap-4">
-                            <div className="text-right hidden md:block">
-                                <p className="text-sm font-semibold text-gray-900 dark:text-white">{user?.name}</p>
-                                <p className="text-xs text-gray-500 dark:text-gray-400">{user?.role || 'Peserta'}</p>
+                            <div className="hidden md:flex items-center bg-gray-100 dark:bg-zinc-900 px-3 py-1.5 rounded-lg border border-gray-200 dark:border-zinc-800">
+                                <FaSearch className="text-gray-400 mr-2" />
+                                <input
+                                    type="text"
+                                    placeholder="Search..."
+                                    className="bg-transparent border-none text-sm focus:outline-none w-48 text-gray-900 dark:text-white"
+                                />
                             </div>
-                            <div className="w-9 h-9 bg-red-100 text-red-600 rounded-full flex items-center justify-center font-bold text-sm">
-                                {user?.name?.charAt(0) || 'U'}
+
+                            <div className="relative">
+                                <button
+                                    onClick={() => setIsProfileOpen(!isProfileOpen)}
+                                    className="flex items-center gap-4 focus:outline-none pl-4 border-l border-gray-200 dark:border-zinc-800"
+                                >
+                                    <div className="text-right hidden md:block">
+                                        <p className="text-sm font-semibold text-gray-900 dark:text-white">{user?.name}</p>
+                                        <p className="text-xs text-gray-500 dark:text-gray-400">{user?.role || 'Peserta'}</p>
+                                    </div>
+                                    <div className="w-9 h-9 bg-red-100 text-red-600 rounded-full flex items-center justify-center font-bold text-sm">
+                                        {user?.name?.charAt(0) || 'U'}
+                                    </div>
+                                </button>
+
+                                {isProfileOpen && (
+                                    <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-zinc-900 rounded-lg shadow-lg py-1 border border-gray-100 dark:border-zinc-800 z-50">
+                                        <button
+                                            onClick={() => setActiveTab('profil')} // Or link to profile page
+                                            className="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-zinc-800 flex items-center gap-2 transition-colors"
+                                        >
+                                            <FaCog className="text-gray-400" />
+                                            Edit Profil
+                                        </button>
+                                        <button
+                                            onClick={() => {
+                                                logout();
+                                                router.push('/auth/login');
+                                            }}
+                                            className="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-zinc-800 flex items-center gap-2 transition-colors"
+                                        >
+                                            <FaSignOutAlt className="text-red-500" />
+                                            Keluar
+                                        </button>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </header>

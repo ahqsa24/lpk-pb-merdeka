@@ -17,6 +17,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children, title }) => 
     const router = useRouter();
     const { user, logout } = useAuth();
     const [sidebarOpen, setSidebarOpen] = useState(false);
+    const [isProfileOpen, setIsProfileOpen] = useState(false);
 
     const handleLogout = () => {
         logout();
@@ -35,16 +36,16 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children, title }) => 
         {
             group: 'Landing Page',
             items: [
-                { label: 'Testimoni', href: '/admin/cms/testimonials', icon: <FaStar /> },
+                { label: 'Testimonials', href: '/admin/cms/testimonials', icon: <FaStar /> },
                 { label: 'FAQ', href: '/admin/cms/faq', icon: <FaQuestionCircle /> },
-                { label: 'Galeri', href: '/admin/cms/gallery', icon: <FaImages /> },
-                { label: 'Pengaturan', href: '/admin/cms/settings', icon: <FaCog /> }
+                { label: 'Gallery', href: '/admin/cms/gallery', icon: <FaImages /> },
+                { label: 'Settings', href: '/admin/cms/settings', icon: <FaCog /> }
             ]
         },
         {
-            group: 'Konten',
+            group: 'Content',
             items: [
-                { label: 'Artikel', href: '/admin/cms/articles', icon: <FaNewspaper /> }
+                { label: 'Articles', href: '/admin/cms/articles', icon: <FaNewspaper /> }
             ]
         },
         {
@@ -97,15 +98,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children, title }) => 
                         </div>
                     ))}
 
-                    <div className="pt-4 border-t border-gray-100">
-                        <button
-                            onClick={handleLogout}
-                            className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-red-600 hover:bg-red-50 transition-colors"
-                        >
-                            <FaSignOutAlt />
-                            Sign Out
-                        </button>
-                    </div>
+
                 </div>
             </aside>
 
@@ -140,14 +133,38 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children, title }) => 
                                 className="bg-transparent border-none text-sm focus:outline-none w-48"
                             />
                         </div>
-                        <div className="flex items-center gap-3 pl-4 border-l border-gray-200">
-                            <div className="text-right hidden sm:block">
-                                <p className="text-sm font-medium text-gray-900">{user?.name || 'Admin'}</p>
-                                <p className="text-xs text-gray-500">{user?.role || 'Administrator'}</p>
-                            </div>
-                            <div className="w-9 h-9 bg-red-100 text-red-600 rounded-full flex items-center justify-center font-bold text-sm">
-                                {user?.name?.charAt(0) || 'A'}
-                            </div>
+                        <div className="relative">
+                            <button
+                                onClick={() => setIsProfileOpen(!isProfileOpen)}
+                                className="flex items-center gap-3 pl-4 border-l border-gray-200 focus:outline-none"
+                            >
+                                <div className="text-right hidden sm:block">
+                                    <p className="text-sm font-medium text-gray-900">{user?.name || 'Admin'}</p>
+                                    <p className="text-xs text-gray-500">{user?.role || 'Administrator'}</p>
+                                </div>
+                                <div className="w-9 h-9 bg-red-100 text-red-600 rounded-full flex items-center justify-center font-bold text-sm">
+                                    {user?.name?.charAt(0) || 'A'}
+                                </div>
+                            </button>
+
+                            {isProfileOpen && (
+                                <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-1 border border-gray-100 z-50">
+                                    <Link
+                                        href="/admin/profile"
+                                        className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2 transition-colors"
+                                    >
+                                        <FaCog className="text-gray-400" />
+                                        Edit Profile
+                                    </Link>
+                                    <button
+                                        onClick={handleLogout}
+                                        className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2 transition-colors"
+                                    >
+                                        <FaSignOutAlt className="text-red-500" />
+                                        Sign Out
+                                    </button>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </header>

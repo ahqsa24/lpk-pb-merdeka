@@ -6,5 +6,5 @@ interface LabelProps {
 }
 
 export const Label: React.FC<LabelProps> = ({ htmlFor, children }) => {
-  return <label htmlFor={htmlFor} className="block mb-1 font-medium">{children}</label>;
+  return <label htmlFor={htmlFor} className="block mb-1.5 text-sm font-medium text-gray-700">{children}</label>;
 };
