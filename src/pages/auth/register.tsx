@@ -47,7 +47,7 @@ export default function SignUp() {
                     // Redirect to login after successful registration
                     router.push("/auth/login?registered=true");
                 },
-                onError: (ctx) => {
+                onError: (ctx: any) => {
                     setError(ctx.error.message || "Pendaftaran gagal, coba lagi.");
                 },
             }

@@ -4,6 +4,8 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
+import nodemailer from "nodemailer";
+
 export const auth = betterAuth({
     baseURL: process.env.BETTER_AUTH_URL || 'http://localhost:3000',
     database: prismaAdapter(prisma, {
@@ -12,6 +14,38 @@ export const auth = betterAuth({
     emailAndPassword: {
         enabled: true,
         minPasswordLength: 6,
+        requireEmailVerification: false, // Set to true if verification is needed
+        async sendResetPassword({ user, url }) {
+            const transporter = nodemailer.createTransport({
+                host: process.env.SMTP_HOST || "smtp.gmail.com",
+                port: Number(process.env.SMTP_PORT) || 587,
+                secure: false, // true for 465, false for other ports
+                auth: {
+                    user: process.env.SMTP_USER,
+                    pass: process.env.SMTP_PASS,
+                },
+            });
+
+            const mailOptions = {
+                from: process.env.SMTP_FROM || '"LPK Merdeka" <no-reply@lpk-merdeka.com>',
+                to: user.email,
+                subject: "Reset Password - LPK Merdeka",
+                html: `
+                    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #eee; border-radius: 10px;">
+                        <h2 style="color: #DC2626; text-align: center;">Reset Password Anda</h2>
+                        <p>Halo ${user.name},</p>
+                        <p>Kami menerima permintaan untuk mereset password akun LPK Merdeka Anda. Klik tombol di bawah ini untuk membuat password baru:</p>
+                        <div style="text-align: center; margin: 30px 0;">
+                            <a href="${url}" style="background-color: #DC2626; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-weight: bold;">Reset Password</a>
+                        </div>
+                        <p>Jika Anda tidak meminta ini, abaikan saja email ini.</p>
+                        <p style="color: #666; font-size: 12px; margin-top: 30px; text-align: center;">LPK PB Merdeka</p>
+                    </div>
+                `,
+            };
+
+            await transporter.sendMail(mailOptions);
+        },
     },
     user: {
         additionalFields: {

@@ -35,7 +35,7 @@ export default function SignIn() {
                 onResponse: () => {
                     setLoading(false);
                 },
-                onSuccess: async (ctx) => {
+                onSuccess: async (ctx: any) => {
                     // Check user role and redirect accordingly
                     const session = ctx.data;
                     if (session?.user?.role === 'superAdmin' || session?.user?.role === 'admin') {
@@ -44,7 +44,7 @@ export default function SignIn() {
                         router.push("/dashboard");
                     }
                 },
-                onError: (ctx) => {
+                onError: (ctx: any) => {
                     setError(ctx.error.message || "Login gagal, periksa email dan password.");
                 },
             }
@@ -64,7 +64,7 @@ export default function SignIn() {
                 onResponse: () => {
                     setLoading(false);
                 },
-                onError: (ctx) => {
+                onError: (ctx: any) => {
                     setError(ctx.error.message || "Login dengan Google gagal.");
                 },
             }
