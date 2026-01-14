@@ -36,7 +36,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const session = await prisma.attendance_sessions.findUnique({
             where: { id: sessionId }
         });
-        if (!session || !session.is_active) {
+        if (!session || !session.isActive) {
             return res.status(400).json({ message: 'Sesi tidak tersedia' });
         }
 
