@@ -1,16 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '@/lib/prisma';
 import { checkAdmin, AuthenticatedRequest } from '@/lib/auth';
-
-const prisma = new PrismaClient() as any;
-
-const serializeBigInt = (obj: any) => {
-    return JSON.parse(JSON.stringify(obj, (key, value) =>
-        typeof value === 'bigint'
-            ? value.toString()
-            : value
-    ));
-}
 
 async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
     const { id } = req.query;
@@ -21,7 +11,7 @@ async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
 
     // Get target user
     const targetUser = await prisma.user.findUnique({
-        where: { id: BigInt(id) },
+        where: { id },
         select: { role: true }
     });
 
@@ -53,7 +43,7 @@ async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
             }
 
             const updated = await prisma.user.update({
-                where: { id: BigInt(id) },
+                where: { id },
                 data: {
                     name,
                     email,
@@ -64,11 +54,14 @@ async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
                     name: true,
                     email: true,
                     role: true,
-                    created_at: true
+                    createdAt: true
                 }
             });
 
-            return res.json(serializeBigInt(updated));
+            return res.json({
+                ...updated,
+                createdAt: updated.createdAt.toISOString()
+            });
         } catch (error) {
             console.error(error);
             return res.status(500).json({ message: 'Error updating user' });
@@ -84,7 +77,7 @@ async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
                 });
             }
 
-            await prisma.user.delete({ where: { id: BigInt(id) } });
+            await prisma.user.delete({ where: { id } });
             return res.json({ success: true });
         } catch (error) {
             console.error(error);
