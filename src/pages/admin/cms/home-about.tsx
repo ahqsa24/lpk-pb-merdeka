@@ -450,20 +450,20 @@ export default function CMSHomeAbout() {
                                 <div className="space-y-6">
                                     <div className="flex items-center justify-between pb-4 border-b border-gray-100">
                                         <div>
-                                            <h2 className="text-lg font-bold text-gray-800">Tujuan</h2>
-                                            <p className="text-sm text-gray-500">Kelola daftar tujuan yang ditampilkan</p>
+                                            <h2 className="text-lg font-bold text-gray-800">Goals</h2>
+                                            <p className="text-sm text-gray-500">Manage the list of goals displayed</p>
                                         </div>
                                         <button
                                             onClick={addGoal}
                                             className="bg-red-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-red-700 transition"
                                         >
-                                            <FaPlus /> Tambah Tujuan
+                                            <FaPlus /> Add Goal
                                         </button>
                                     </div>
 
                                     {goals.length === 0 ? (
                                         <div className="p-12 text-center bg-gray-50 rounded-xl border border-dashed border-gray-200">
-                                            <p className="text-gray-500">Belum ada tujuan. Klik tombol "Tambah Tujuan" untuk menambahkan.</p>
+                                            <p className="text-gray-500">No goals yet. Click "Add Goal" button to add one.</p>
                                         </div>
                                     ) : (
                                         <div className="space-y-4">
@@ -472,7 +472,7 @@ export default function CMSHomeAbout() {
                                                     <div className="flex items-center justify-between">
                                                         <div className="flex items-center gap-2 text-gray-400">
                                                             <FaGripVertical />
-                                                            <span className="font-medium text-gray-700">Tujuan #{index + 1}</span>
+                                                            <span className="font-medium text-gray-700">Goal #{index + 1}</span>
                                                         </div>
                                                         <button
                                                             onClick={() => removeGoal(index)}
@@ -528,20 +528,20 @@ export default function CMSHomeAbout() {
                                 <div className="space-y-6">
                                     <div className="flex items-center justify-between pb-4 border-b border-gray-100">
                                         <div>
-                                            <h2 className="text-lg font-bold text-gray-800">Struktur Program</h2>
-                                            <p className="text-sm text-gray-500">Kelola tahapan program pelatihan (timeline)</p>
+                                            <h2 className="text-lg font-bold text-gray-800">Program Structure</h2>
+                                            <p className="text-sm text-gray-500">Manage program training stages (timeline)</p>
                                         </div>
                                         <button
                                             onClick={addStruktur}
                                             className="bg-red-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-red-700 transition"
                                         >
-                                            <FaPlus /> Tambah Tahap
+                                            <FaPlus /> Add Stage
                                         </button>
                                     </div>
 
                                     {struktur.length === 0 ? (
                                         <div className="p-12 text-center bg-gray-50 rounded-xl border border-dashed border-gray-200">
-                                            <p className="text-gray-500">Belum ada tahapan. Klik "Tambah Tahap" untuk menambahkan.</p>
+                                            <p className="text-gray-500">No stages yet. Click "Add Stage" to add one.</p>
                                         </div>
                                     ) : (
                                         <div className="space-y-6">
@@ -552,7 +552,7 @@ export default function CMSHomeAbout() {
                                                             <div className="w-10 h-10 bg-red-600 text-white rounded-lg flex items-center justify-center font-bold">
                                                                 {item.number}
                                                             </div>
-                                                            <span className="font-medium text-gray-700">Tahap {item.number}</span>
+                                                            <span className="font-medium text-gray-700">Stage {item.number}</span>
                                                         </div>
                                                         <button
                                                             onClick={() => removeStruktur(sIndex)}
@@ -564,7 +564,7 @@ export default function CMSHomeAbout() {
 
                                                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                                                         <div>
-                                                            <label className="block text-sm font-medium text-gray-700 mb-1">Nomor</label>
+                                                            <label className="block text-sm font-medium text-gray-700 mb-1">Number</label>
                                                             <input
                                                                 type="text"
                                                                 value={item.number}
@@ -586,23 +586,23 @@ export default function CMSHomeAbout() {
                                                             </select>
                                                         </div>
                                                         <div>
-                                                            <label className="block text-sm font-medium text-gray-700 mb-1">Judul Tahap</label>
+                                                            <label className="block text-sm font-medium text-gray-700 mb-1">Stage Title</label>
                                                             <input
                                                                 type="text"
                                                                 value={item.title}
                                                                 onChange={e => updateStruktur(sIndex, 'title', e.target.value)}
                                                                 className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none"
-                                                                placeholder="Tahap Pelatihan"
+                                                                placeholder="Training Stage"
                                                             />
                                                         </div>
                                                         <div className="md:col-span-3">
-                                                            <label className="block text-sm font-medium text-gray-700 mb-1">Deskripsi</label>
+                                                            <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
                                                             <textarea
                                                                 rows={2}
                                                                 value={item.description}
                                                                 onChange={e => updateStruktur(sIndex, 'description', e.target.value)}
                                                                 className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none"
-                                                                placeholder="Deskripsi tahap ini..."
+                                                                placeholder="Description of this stage..."
                                                             />
                                                         </div>
                                                         <div className="md:col-span-3 space-y-2">
@@ -613,7 +613,7 @@ export default function CMSHomeAbout() {
                                                                     onClick={() => addStrukturListItem(sIndex)}
                                                                     className="text-sm text-red-600 hover:text-red-700 font-medium"
                                                                 >
-                                                                    + Tambah Item
+                                                                    + Add Item
                                                                 </button>
                                                             </div>
                                                             {item.list.map((listItem, lIndex) => (

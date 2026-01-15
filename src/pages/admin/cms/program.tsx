@@ -11,10 +11,23 @@ interface FeatureItem {
 }
 
 interface CurriculumItem {
+    number: string;
+    icon: string;
     title: string;
     description: string;
-    duration: string;
+    list: string[];
 }
+
+const CURRICULUM_ICON_OPTIONS = [
+    { value: 'FaChartLine', label: 'Chart Line' },
+    { value: 'FaUserTie', label: 'User Tie' },
+    { value: 'FaUsers', label: 'Users' },
+    { value: 'FaHandshake', label: 'Handshake' },
+    { value: 'FaSearchDollar', label: 'Search Dollar' },
+    { value: 'FaLightbulb', label: 'Lightbulb' },
+    { value: 'FaFileAlt', label: 'File Alt' },
+    { value: 'FaUserFriends', label: 'User Friends' },
+];
 
 const ICON_OPTIONS = [
     { value: 'BookOpen', label: 'Book' },
@@ -154,7 +167,8 @@ export default function CMSProgram() {
 
     // Curriculum handlers
     const addCurriculumItem = () => {
-        setCurriculumItems([...curriculumItems, { title: '', description: '', duration: '' }]);
+        const newNumber = String(curriculumItems.length + 1);
+        setCurriculumItems([...curriculumItems, { number: newNumber, icon: 'FaChartLine', title: '', description: '', list: [''] }]);
         setToast({ isOpen: true, message: 'Curriculum item added', type: 'info' });
     };
 
@@ -163,9 +177,28 @@ export default function CMSProgram() {
         setToast({ isOpen: true, message: 'Curriculum item removed', type: 'info' });
     };
 
-    const updateCurriculumItem = (index: number, field: keyof CurriculumItem, value: string) => {
+    const updateCurriculumItem = (index: number, field: keyof CurriculumItem, value: string | string[]) => {
         const updated = [...curriculumItems];
-        updated[index][field] = value;
+        (updated[index][field] as any) = value;
+        setCurriculumItems(updated);
+    };
+
+    // Curriculum List Item handlers
+    const addCurriculumListItem = (curriculumIndex: number) => {
+        const updated = [...curriculumItems];
+        updated[curriculumIndex].list = [...(updated[curriculumIndex].list || []), ''];
+        setCurriculumItems(updated);
+    };
+
+    const removeCurriculumListItem = (curriculumIndex: number, listIndex: number) => {
+        const updated = [...curriculumItems];
+        updated[curriculumIndex].list = updated[curriculumIndex].list.filter((_, i) => i !== listIndex);
+        setCurriculumItems(updated);
+    };
+
+    const updateCurriculumList = (curriculumIndex: number, listIndex: number, value: string) => {
+        const updated = [...curriculumItems];
+        updated[curriculumIndex].list[listIndex] = value;
         setCurriculumItems(updated);
     };
 
@@ -338,68 +371,112 @@ export default function CMSProgram() {
                                     {/* Curriculum Items */}
                                     <div className="space-y-4">
                                         <div className="flex items-center justify-between">
-                                            <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wider">Curriculum Materials</h3>
+                                            <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wider">Curriculum Stages</h3>
                                             <button
                                                 onClick={addCurriculumItem}
                                                 className="bg-red-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-red-700 transition text-sm"
                                             >
-                                                <FaPlus /> Add Material
+                                                <FaPlus /> Add Syllabus
                                             </button>
                                         </div>
 
                                         {curriculumItems.length === 0 ? (
                                             <div className="p-8 text-center bg-gray-50 rounded-xl border border-dashed border-gray-200">
-                                                <p className="text-gray-500">No curriculum materials yet.</p>
+                                                <p className="text-gray-500">No curriculum stages yet. Click "Add Syllabus" to add one.</p>
                                             </div>
                                         ) : (
-                                            <div className="space-y-4">
+                                            <div className="space-y-6">
                                                 {curriculumItems.map((item, index) => (
-                                                    <div key={index} className="p-4 border border-gray-200 rounded-xl bg-gray-50 space-y-3">
+                                                    <div key={index} className="p-5 border border-gray-200 rounded-xl bg-gray-50 space-y-4">
                                                         <div className="flex items-center justify-between">
                                                             <div className="flex items-center gap-3">
-                                                                <div className="w-8 h-8 bg-red-600 text-white rounded-lg flex items-center justify-center font-bold text-sm">
-                                                                    {index + 1}
+                                                                <div className="w-10 h-10 bg-red-600 text-white rounded-lg flex items-center justify-center font-bold">
+                                                                    {item.number || index + 1}
                                                                 </div>
-                                                                <span className="font-medium text-gray-700">Material {index + 1}</span>
+                                                                <span className="font-medium text-gray-700">Syllabus {item.number || index + 1}</span>
                                                             </div>
                                                             <button
                                                                 onClick={() => removeCurriculumItem(index)}
                                                                 className="text-red-500 hover:text-red-700 p-2 hover:bg-red-50 rounded-lg transition"
                                                             >
-                                                                <FaTrash size={14} />
+                                                                <FaTrash />
                                                             </button>
                                                         </div>
 
-                                                        <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
-                                                            <div className="md:col-span-2">
-                                                                <label className="block text-sm font-medium text-gray-700 mb-1">Material Title</label>
+                                                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                                            <div>
+                                                                <label className="block text-sm font-medium text-gray-700 mb-1">Number</label>
+                                                                <input
+                                                                    type="text"
+                                                                    value={item.number}
+                                                                    onChange={e => updateCurriculumItem(index, 'number', e.target.value)}
+                                                                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none"
+                                                                    placeholder="1"
+                                                                />
+                                                            </div>
+                                                            <div>
+                                                                <label className="block text-sm font-medium text-gray-700 mb-1">Icon</label>
+                                                                <select
+                                                                    value={item.icon}
+                                                                    onChange={e => updateCurriculumItem(index, 'icon', e.target.value)}
+                                                                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none"
+                                                                >
+                                                                    {CURRICULUM_ICON_OPTIONS.map(opt => (
+                                                                        <option key={opt.value} value={opt.value}>{opt.label}</option>
+                                                                    ))}
+                                                                </select>
+                                                            </div>
+                                                            <div>
+                                                                <label className="block text-sm font-medium text-gray-700 mb-1">Stage Title</label>
                                                                 <input
                                                                     type="text"
                                                                     value={item.title}
                                                                     onChange={e => updateCurriculumItem(index, 'title', e.target.value)}
-                                                                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none text-sm"
-                                                                    placeholder="Introduction to Trading"
+                                                                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none"
+                                                                    placeholder="Training Stage"
                                                                 />
                                                             </div>
-                                                            <div>
-                                                                <label className="block text-sm font-medium text-gray-700 mb-1">Duration</label>
-                                                                <input
-                                                                    type="text"
-                                                                    value={item.duration}
-                                                                    onChange={e => updateCurriculumItem(index, 'duration', e.target.value)}
-                                                                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none text-sm"
-                                                                    placeholder="2 Hours"
-                                                                />
-                                                            </div>
-                                                            <div className="md:col-span-4">
+                                                            <div className="md:col-span-3">
                                                                 <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
                                                                 <textarea
                                                                     rows={2}
                                                                     value={item.description}
                                                                     onChange={e => updateCurriculumItem(index, 'description', e.target.value)}
-                                                                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none text-sm"
-                                                                    placeholder="Material description..."
+                                                                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none"
+                                                                    placeholder="Description of this stage..."
                                                                 />
+                                                            </div>
+                                                            <div className="md:col-span-3 space-y-2">
+                                                                <div className="flex items-center justify-between">
+                                                                    <label className="block text-sm font-medium text-gray-700">List Item</label>
+                                                                    <button
+                                                                        type="button"
+                                                                        onClick={() => addCurriculumListItem(index)}
+                                                                        className="text-sm text-red-600 hover:text-red-700 font-medium"
+                                                                    >
+                                                                        + Add Item
+                                                                    </button>
+                                                                </div>
+                                                                {(item.list || []).map((listItem, lIndex) => (
+                                                                    <div key={lIndex} className="flex gap-2">
+                                                                        <input
+                                                                            type="text"
+                                                                            value={listItem}
+                                                                            onChange={e => updateCurriculumList(index, lIndex, e.target.value)}
+                                                                            className="flex-1 border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none text-sm"
+                                                                            placeholder={`Topic ${lIndex + 1}`}
+                                                                        />
+                                                                        {(item.list || []).length > 1 && (
+                                                                            <button
+                                                                                type="button"
+                                                                                onClick={() => removeCurriculumListItem(index, lIndex)}
+                                                                                className="text-gray-400 hover:text-red-500 p-2"
+                                                                            >
+                                                                                <FaTrash size={12} />
+                                                                            </button>
+                                                                        )}
+                                                                    </div>
+                                                                ))}
                                                             </div>
                                                         </div>
                                                     </div>
