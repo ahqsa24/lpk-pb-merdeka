@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { FaEye, FaEyeSlash, FaSave } from "react-icons/fa";
+import { FaUser, FaEnvelope, FaLock, FaSave, FaEye, FaEyeSlash } from "react-icons/fa";
 import { useAuth } from "@/context/AuthContext";
+import { authClient } from "@/lib/auth-client";
+// Only import what we need or verify imports. 
+// FaEye, FaEyeSlash were removed in previous edit? Yes. Adding them back.
 
 export const ProfileForm = () => {
     const { user } = useAuth();
@@ -8,8 +11,8 @@ export const ProfileForm = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [passwordConfirmation, setPasswordConfirmation] = useState("");
-    const [showPassword, setShowPassword] = useState(false);
-    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [showPassword, setShowPassword] = useState(false); // State for toggle
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false); // State for toggle
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
@@ -25,63 +28,46 @@ export const ProfileForm = () => {
         setLoading(true);
         setMessage(null);
 
+        // Validation for password match
+        if (password && password !== passwordConfirmation) {
+            setLoading(false);
+            setMessage({ type: "error", text: "Password confirmation does not match." });
+            return;
+        }
+
         try {
-            const token = localStorage.getItem("token");
-            if (!token) throw new Error("Token tidak ditemukan, silakan login ulang.");
+            // 1. Update Profile Name
+            if (name !== user?.name) {
+                await authClient.updateUser({
+                    name: name
+                });
+            }
 
-            const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api";
-
-            const payload: any = {
-                name,
-                email,
-            };
-
+            // 2. Change Password (if provided)
             if (password) {
-                payload.password = password;
-                payload.password_confirmation = passwordConfirmation;
+                await authClient.changePassword({
+                    newPassword: password,
+                    currentPassword: "",
+                    revokeOtherSessions: true
+                });
             }
 
-            const response = await fetch(`${API_URL}/user`, {
-                method: "PUT",
-                headers: {
-                    "Authorization": `Bearer ${token}`,
-                    "Content-Type": "application/json",
-                    "Accept": "application/json",
-                },
-                body: JSON.stringify(payload),
-            });
-
-            let data;
-            const responseText = await response.text();
-            try {
-                data = JSON.parse(responseText);
-            } catch (e) {
-                throw new Error(`Error sistem (${response.status})`);
-            }
-
-            if (!response.ok) {
-                if (data.errors) {
-                    const errorMsgs = Object.values(data.errors).flat().join(", ");
-                    throw new Error(errorMsgs);
-                }
-                throw new Error(data.message || "Gagal memperbarui profil");
-            }
-
-            // Update local user context if API returns new user data
-            // Usually PUT /user should return the updated user object
-            if (data.user || data.data) {
-                // const updatedUser = data.user || data.data;
-                // Session update handled by re-fetch or reload
-            } else {
-                // Fallback: update context manually
-                // Session update handled by re-fetch or reload
-            }
-
-            setMessage({ type: "success", text: "Profil berhasil diperbarui!" });
+            setMessage({ type: "success", text: "Profile updated successfully!" });
             setPassword("");
             setPasswordConfirmation("");
+
+            // Reload to reflect changes if session context doesn't update automatically
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+
         } catch (err: any) {
-            setMessage({ type: "error", text: err.message || "Terjadi kesalahan" });
+            const msg = err?.message || err?.body?.message || "Gagal memperbarui profil";
+            if (msg.includes("current password")) {
+                setMessage({ type: "error", text: "Keamanan: Password saat ini diperlukan untuk mengubah password." });
+            } else {
+                setMessage({ type: "error", text: msg });
+            }
         } finally {
             setLoading(false);
         }
@@ -110,28 +96,37 @@ export const ProfileForm = () => {
                     <div className="space-y-4">
                         <div>
                             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Full Name</label>
-                            <input // No icon for name in admin screenshot? partial view. But admin/profile.tsx had icons. I'll add them back for nicer UI or match strict?
-                                // Admin profile.tsx had FaUser. I will use that.
-                                type="text"
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
-                                className="w-full px-4 py-2 border border-gray-200 dark:border-zinc-700 rounded-lg focus:ring-2 focus:ring-red-100 focus:border-red-500 outline-none transition-all dark:bg-zinc-800 dark:text-white"
-                                placeholder="Enter your name"
-                                required
-                            />
+                            <div className="relative">
+                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <FaUser className="text-gray-400" />
+                                </div>
+                                <input
+                                    type="text"
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
+                                    className="w-full pl-10 pr-4 py-2 border border-gray-200 dark:border-zinc-700 rounded-lg focus:ring-2 focus:ring-red-100 focus:border-red-500 outline-none transition-all dark:bg-zinc-800 dark:text-white"
+                                    placeholder="Enter your name"
+                                    required
+                                />
+                            </div>
                         </div>
 
                         <div>
                             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email Address</label>
-                            <input
-                                type="email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                className="w-full px-4 py-2 border border-gray-200 dark:border-zinc-700 rounded-lg focus:ring-2 focus:ring-red-100 focus:border-red-500 outline-none transition-all bg-gray-50 dark:bg-zinc-800/50 cursor-not-allowed dark:text-gray-400 text-gray-500"
-                                placeholder="Enter your email"
-                                disabled
-                                title="Email cannot be changed"
-                            />
+                            <div className="relative">
+                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <FaEnvelope className="text-gray-400" />
+                                </div>
+                                <input
+                                    type="email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    className="w-full pl-10 pr-4 py-2 border border-gray-200 dark:border-zinc-700 rounded-lg focus:ring-2 focus:ring-red-100 focus:border-red-500 outline-none transition-all bg-gray-50 dark:bg-zinc-800/50 cursor-not-allowed dark:text-gray-400 text-gray-500"
+                                    placeholder="Enter your email"
+                                    disabled
+                                    title="Email cannot be changed"
+                                />
+                            </div>
                             <p className="text-xs text-gray-400 mt-1">Email cannot be changed.</p>
                         </div>
 
@@ -140,24 +135,48 @@ export const ProfileForm = () => {
                             <div className="space-y-4">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">New Password</label>
-                                    <input
-                                        type="password"
-                                        value={password}
-                                        onChange={(e) => setPassword(e.target.value)}
-                                        className="w-full px-4 py-2 border border-gray-200 dark:border-zinc-700 rounded-lg focus:ring-2 focus:ring-red-100 focus:border-red-500 outline-none transition-all dark:bg-zinc-800 dark:text-white"
-                                        placeholder="Leave blank to keep current"
-                                    />
+                                    <div className="relative">
+                                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                            <FaLock className="text-gray-400" />
+                                        </div>
+                                        <input
+                                            type={showPassword ? "text" : "password"}
+                                            value={password}
+                                            onChange={(e) => setPassword(e.target.value)}
+                                            className="w-full pl-10 pr-10 py-2 border border-gray-200 dark:border-zinc-700 rounded-lg focus:ring-2 focus:ring-red-100 focus:border-red-500 outline-none transition-all dark:bg-zinc-800 dark:text-white"
+                                            placeholder="Leave blank to keep current"
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={() => setShowPassword(!showPassword)}
+                                            className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 focus:outline-none"
+                                        >
+                                            {showPassword ? <FaEyeSlash /> : <FaEye />}
+                                        </button>
+                                    </div>
                                 </div>
 
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Confirm New Password</label>
-                                    <input
-                                        type="password"
-                                        value={passwordConfirmation}
-                                        onChange={(e) => setPasswordConfirmation(e.target.value)}
-                                        className="w-full px-4 py-2 border border-gray-200 dark:border-zinc-700 rounded-lg focus:ring-2 focus:ring-red-100 focus:border-red-500 outline-none transition-all dark:bg-zinc-800 dark:text-white"
-                                        placeholder="Confirm new password"
-                                    />
+                                    <div className="relative">
+                                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                            <FaLock className="text-gray-400" />
+                                        </div>
+                                        <input
+                                            type={showConfirmPassword ? "text" : "password"}
+                                            value={passwordConfirmation}
+                                            onChange={(e) => setPasswordConfirmation(e.target.value)}
+                                            className="w-full pl-10 pr-10 py-2 border border-gray-200 dark:border-zinc-700 rounded-lg focus:ring-2 focus:ring-red-100 focus:border-red-500 outline-none transition-all dark:bg-zinc-800 dark:text-white"
+                                            placeholder="Confirm new password"
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                            className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 focus:outline-none"
+                                        >
+                                            {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
