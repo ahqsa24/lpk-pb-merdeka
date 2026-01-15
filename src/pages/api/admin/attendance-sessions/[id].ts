@@ -42,9 +42,9 @@ async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
             if (title) updateData.title = title;
             // Use UTC noon to avoid date shifting
             if (date) updateData.date = new Date(date + 'T12:00:00Z');
-            // Use UTC to preserve Wall Clock time
-            if (start_time) updateData.startTime = new Date(`1970-01-01T${start_time}:00Z`);
-            if (end_time) updateData.endTime = new Date(`1970-01-01T${end_time}:00Z`);
+            // Use UTC to preserve Wall Clock time but adjusted for WIB input
+            if (start_time) updateData.startTime = new Date(`1970-01-01T${start_time}:00+07:00`);
+            if (end_time) updateData.endTime = new Date(`1970-01-01T${end_time}:00+07:00`);
             if (is_active !== undefined) updateData.isActive = is_active;
 
             const session = await prisma.attendance_sessions.update({

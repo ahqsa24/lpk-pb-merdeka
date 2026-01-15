@@ -80,10 +80,11 @@ async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
             // Parse date as UTC noon to safely avoid timezone shifts
             const dateObj = new Date(date + 'T12:00:00Z');
 
-            // Parse time as UTC to preserve the "Wall Clock" numbers (e.g. 17:00 input -> 17:00 UTC stored)
-            // This aligns with our read logic that assumes DB stores "Wall Clock" values as UTC
-            const startObj = new Date(`1970-01-01T${start_time}:00Z`);
-            const endObj = new Date(`1970-01-01T${end_time}:00Z`);
+            // Parse time as WIB (UTC+7) to convert to correct UTC for storage
+            // e.g., Input 09:00 WIB -> Stores as 02:00 UTC
+            // When retrieved by frontend and formatted as 'Asia/Jakarta', 02:00 UTC -> 09:00 WIB
+            const startObj = new Date(`1970-01-01T${start_time}:00+07:00`);
+            const endObj = new Date(`1970-01-01T${end_time}:00+07:00`);
 
             const newSession = await prisma.attendance_sessions.create({
                 data: {

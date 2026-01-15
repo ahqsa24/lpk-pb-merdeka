@@ -31,19 +31,24 @@ async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
     }
 
     if (req.method === 'PUT') {
-        const { name, email, password, role } = req.body;
+        const { name, email, role, password } = req.body; // Removed password from update logic
 
         try {
             const updateData: any = {
                 name,
-                email,
+                email, // Note: Changing email might break login if Account is not updated. Better Auth usually handles this if using its API.
                 role,
                 updatedAt: new Date()
             };
 
+            // Password update removed because manual bcrypt hash in 'users' table 
+            // is ignored by Better Auth (which uses 'accounts' table and scrypt).
+            // TODO: Implement proper password update via Better Auth Admin API or correct manual hashing.
+            /*
             if (password) {
                 updateData.password = await bcrypt.hash(password, 10);
             }
+            */
 
             const user = await prisma.user.update({
                 where: { id: userId },
@@ -51,7 +56,7 @@ async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
             });
 
             return res.status(200).json({
-                message: 'User updated',
+                message: 'User updated (Password update not supported via this endpoint)',
                 user: { ...user, id: user.id.toString() }
             });
         } catch (error) {

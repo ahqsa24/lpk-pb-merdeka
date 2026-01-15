@@ -11,8 +11,10 @@ export const ProfileForm = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [passwordConfirmation, setPasswordConfirmation] = useState("");
+    const [currentPassword, setCurrentPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false); // State for toggle
     const [showConfirmPassword, setShowConfirmPassword] = useState(false); // State for toggle
+    const [showCurrentPassword, setShowCurrentPassword] = useState(false); // State for toggle
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
@@ -35,36 +37,42 @@ export const ProfileForm = () => {
             return;
         }
 
+        if (password && !currentPassword) {
+            setLoading(false);
+            setMessage({ type: 'error', text: 'Password saat ini diperlukan untuk mengubah password.' });
+            return;
+        }
+
         try {
             // 1. Update Profile Name
             if (name !== user?.name) {
-                await authClient.updateUser({
+                const { error } = await authClient.updateUser({
                     name: name
                 });
+                if (error) throw error;
             }
 
             // 2. Change Password (if provided)
             if (password) {
-                await authClient.changePassword({
+                const { error } = await authClient.changePassword({
                     newPassword: password,
-                    currentPassword: "",
+                    currentPassword: currentPassword,
                     revokeOtherSessions: true
                 });
+                if (error) throw error;
             }
 
             setMessage({ type: "success", text: "Profile updated successfully!" });
             setPassword("");
             setPasswordConfirmation("");
+            setCurrentPassword("");
 
-            // Reload to reflect changes if session context doesn't update automatically
-            setTimeout(() => {
-                window.location.reload();
-            }, 1000);
+            // Removed window.location.reload() to prevent auto-refresh
 
         } catch (err: any) {
             const msg = err?.message || err?.body?.message || "Gagal memperbarui profil";
             if (msg.includes("current password")) {
-                setMessage({ type: "error", text: "Keamanan: Password saat ini diperlukan untuk mengubah password." });
+                setMessage({ type: "error", text: "Keamanan: Password saat ini salah." });
             } else {
                 setMessage({ type: "error", text: msg });
             }
@@ -133,6 +141,28 @@ export const ProfileForm = () => {
                         <div className="pt-4 border-t border-gray-100 dark:border-zinc-800">
                             <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">Change Password</h3>
                             <div className="space-y-4">
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Current Password (Required to change)</label>
+                                    <div className="relative">
+                                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                            <FaLock className="text-gray-400" />
+                                        </div>
+                                        <input
+                                            type={showCurrentPassword ? "text" : "password"}
+                                            value={currentPassword}
+                                            onChange={(e) => setCurrentPassword(e.target.value)}
+                                            className="w-full pl-10 pr-10 py-2 border border-gray-200 dark:border-zinc-700 rounded-lg focus:ring-2 focus:ring-red-100 focus:border-red-500 outline-none transition-all dark:bg-zinc-800 dark:text-white"
+                                            placeholder="Enter current password"
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={() => setShowCurrentPassword(!showCurrentPassword)}
+                                            className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 focus:outline-none"
+                                        >
+                                            {showCurrentPassword ? <FaEyeSlash /> : <FaEye />}
+                                        </button>
+                                    </div>
+                                </div>
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">New Password</label>
                                     <div className="relative">

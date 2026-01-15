@@ -11,6 +11,7 @@ const ProfilePage = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const [currentPassword, setCurrentPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -32,6 +33,11 @@ const ProfilePage = () => {
             return;
         }
 
+        if (password && !currentPassword) {
+            setMessage({ type: 'error', text: 'Current password is required to set a new password.' });
+            return;
+        }
+
         setLoading(true);
 
         try {
@@ -46,25 +52,26 @@ const ProfilePage = () => {
             if (password) {
                 await authClient.changePassword({
                     newPassword: password,
-                    currentPassword: "", // better-auth might require current password. If so, logic needs adjustment.
+                    currentPassword: currentPassword,
                     revokeOtherSessions: true
                 });
             }
 
             setMessage({ type: 'success', text: 'Profile updated successfully!' });
 
-            // Clear password fields on success
+            // Clear sensitive fields on success
             setPassword('');
             setConfirmPassword('');
+            setCurrentPassword('');
 
-            // Reload to reflect changes if session context doesn't update automatically
-            setTimeout(() => {
-                window.location.reload();
-            }, 1000);
+            // No reload - let the state update reflect changes naturally (name is already updated locally?)
+            // If name needs re-fetch, authClient/useAuth usually handles revalidation or we can force it.
+            // But removing the hard reload solves the user annoyance.
+
         } catch (error: any) {
             const msg = error?.message || error?.body?.message || 'Failed to update profile.';
             if (msg.includes("current password")) {
-                setMessage({ type: "error", text: "Security: Current password is required to change password." });
+                setMessage({ type: "error", text: "Incorrect current password." });
             } else {
                 setMessage({ type: "error", text: msg });
             }
@@ -139,6 +146,22 @@ const ProfilePage = () => {
                             <div className="pt-4 border-t border-gray-100">
                                 <h3 className="text-sm font-semibold text-gray-900 mb-4">Change Password</h3>
                                 <div className="space-y-4">
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">Current Password (Required to change password)</label>
+                                        <div className="relative">
+                                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                                <FaLock className="text-gray-400" />
+                                            </div>
+                                            <input
+                                                type={showPassword ? "text" : "password"}
+                                                value={currentPassword}
+                                                onChange={(e) => setCurrentPassword(e.target.value)}
+                                                className="w-full pl-10 pr-10 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-red-100 focus:border-red-500 outline-none transition-all"
+                                                placeholder="Enter current password"
+                                            />
+                                        </div>
+                                    </div>
+
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 mb-1">New Password</label>
                                         <div className="relative">

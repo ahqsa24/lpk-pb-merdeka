@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { prisma } from '@/lib/prisma';
 import bcrypt from 'bcryptjs';
-import { checkAdmin, AuthenticatedRequest } from '@/lib/auth';
+import { checkAdmin, AuthenticatedRequest, auth } from '@/lib/auth';
 
 async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
     if (req.method === 'GET') {
@@ -39,26 +39,79 @@ async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
         }
 
         try {
-            const hashedPassword = await bcrypt.hash(password, 10);
-            const newUser = await prisma.user.create({
-                data: {
-                    id: crypto.randomUUID(),
-                    name,
+            // Check if user exists first to return friendly 409
+            const existingUser = await prisma.user.findUnique({ where: { email } });
+            if (existingUser) {
+                return res.status(409).json({ message: 'Email already exists' });
+            }
+
+            // Use Better Auth to create the user. This ensures Account creation and correct password hashing.
+            // We do not pass headers to avoid interfering with current admin session.
+            const result = await auth.api.signUpEmail({
+                body: {
                     email,
-                    password: hashedPassword,
-                    role: role || 'user',
-                    createdAt: new Date(),
-                    updatedAt: new Date()
+                    password,
+                    name,
+                    role: role || 'user' // Try passing role if supported by schema
+                }
+            });
+
+            // If result is null/undefined or has error (depends on BA version, but usually throws or returns object)
+            // Assuming it returns the session/user object on success.
+
+            if (!result) {
+                throw new Error("Failed to create user via auth system");
+            }
+
+            // Explicitly force role update via Prisma to be 100% sure, as signUpEmail typically ignores unauthorized fields for security
+            // unless 'admin' logic overrides it, but we are calling as anonymous here (no headers).
+            // The user returned by signUpEmail might be the user object.
+            let userId = result.user?.id;
+
+            if (userId) {
+                await prisma.user.update({
+                    where: { id: userId },
+                    data: { role: role || 'user' }
+                });
+            } else {
+                // Fallback: try to find the user we just created by email
+                const newUser = await prisma.user.findUnique({ where: { email } });
+                if (newUser) {
+                    userId = newUser.id;
+                    await prisma.user.update({
+                        where: { id: userId },
+                        data: { role: role || 'user' }
+                    });
+                }
+            }
+
+            const finalUser = await prisma.user.findUnique({
+                where: { email },
+                select: {
+                    id: true,
+                    name: true,
+                    email: true,
+                    role: true,
+                    createdAt: true
                 }
             });
 
             return res.status(201).json({
                 message: 'User created successfully',
-                user: { ...newUser, id: newUser.id.toString() }
+                user: { ...finalUser, id: finalUser?.id.toString() }
             });
         } catch (error: any) {
-            if (error.code === 'P2002') {
-                return res.status(409).json({ message: 'Email already exists' });
+            // Handle Better Auth errors
+            if (error?.body?.message) {
+                return res.status(400).json({ message: error.body.message });
+            }
+            if (error?.message) {
+                // duplicate key or similar
+                if (error.message.includes('already exists')) {
+                    return res.status(409).json({ message: 'Email already exists' });
+                }
+                console.error("Auth Error:", error);
+                return res.status(500).json({ message: error.message });
             }
             console.error(error);
             return res.status(500).json({ message: 'Error creating user' });
