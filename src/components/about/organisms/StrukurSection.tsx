@@ -1,9 +1,90 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { LineHeading } from "../../shared/molecules";
 import { TimelineItem } from "../molecules/TimelineItem";
-import { FaBook, FaClipboardCheck, FaMedal } from "react-icons/fa";
+import { FaBook, FaClipboardCheck, FaMedal, FaAward, FaGraduationCap } from "react-icons/fa";
+
+// Icon mapping
+const iconMap: { [key: string]: any } = {
+  Book: FaBook,
+  ClipboardCheck: FaClipboardCheck,
+  Medal: FaMedal,
+  Award: FaAward,
+  GraduationCap: FaGraduationCap
+};
+
+interface StrukturItem {
+  number: string;
+  title: string;
+  description: string;
+  list: string[];
+  icon: string;
+}
+
+// Default data fallback
+const defaultStruktur: StrukturItem[] = [
+  {
+    number: "1",
+    title: "Tahap Pelatihan",
+    description: "Peserta akan mengikuti sesi pembelajaran terstruktur yang mencakup materi dasar hingga lanjutan",
+    list: [
+      "Teori dan Konsep Dasar",
+      "Studi Kasus",
+      "Simulasi dan Praktik",
+      "Diskusi dan Konsultasi Materi"
+    ],
+    icon: "Book"
+  },
+  {
+    number: "2",
+    title: "Tahap Assessment (Uji Kompetensi)",
+    description: "Setelah pelatihan selesai, peserta mengikuti ujian penilaian kemampuan oleh Assessor Kompetensi LSP PB sesuai standar BNSP",
+    list: [
+      "Ujian tertulis",
+      "Observasi praktik",
+      "Wawancara kompetensi",
+      "Penelusuran bukti portofolio"
+    ],
+    icon: "ClipboardCheck"
+  },
+  {
+    number: "3",
+    title: "Kompeten & Sertifikasi",
+    description: "Peserta yang dinilai kompeten akan mendapatkan",
+    list: [
+      "Sertifikat Kompetensi Resmi dari BNSP",
+      "Legalitas sebagai Wakil Penasihat Berjangka",
+      "Hak untuk berpraktik secara profesional",
+      "Kesempatan remedial assessment tanpa mengulang pelatihan"
+    ],
+    icon: "Medal"
+  }
+];
 
 export const StrukturSection = () => {
+  const [struktur, setStruktur] = useState<StrukturItem[]>(defaultStruktur);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch('/api/cms/home-about')
+      .then(res => res.json())
+      .then(data => {
+        if (data.about_struktur && Array.isArray(data.about_struktur) && data.about_struktur.length > 0) {
+          setStruktur(data.about_struktur);
+        }
+      })
+      .catch(err => console.error(err))
+      .finally(() => setLoading(false));
+  }, []);
+
+  const getIcon = (iconName: string) => {
+    const IconComponent = iconMap[iconName] || FaBook;
+    return <IconComponent />;
+  };
+
+  const getPosition = (index: number): 'left' | 'right' => {
+    return index % 2 === 0 ? 'left' : 'right';
+  };
+
   return (
     <section className="relative px-6 lg:px-24 xl:px-48 py-20 overflow-hidden">
       {/* Background Decorations */}
@@ -22,48 +103,17 @@ export const StrukturSection = () => {
         <div className="hidden md:block absolute top-0 bottom-0 left-1/2 w-0.5 bg-gradient-to-b from-red-200 via-red-500 to-red-200 transform -translate-x-1/2"></div>
 
         <div className="flex flex-col">
-
-          <TimelineItem
-            number="1"
-            title="Tahap Pelatihan"
-            description="Peserta akan mengikuti sesi pembelajaran terstruktur yang mencakup materi dasar hingga lanjutan"
-            list={[
-              "Teori dan Konsep Dasar",
-              "Studi Kasus",
-              "Simulasi dan Praktik",
-              "Diskusi dan Konsultasi Materi",
-            ]}
-            position="left"
-            icon={<FaBook />}
-          />
-
-          <TimelineItem
-            number="2"
-            title="Tahap Assessment (Uji Kompetensi)"
-            description="Setelah pelatihan selesai, peserta mengikuti ujian penilaian kemampuan oleh Assessor Kompetensi LSP PB sesuai standar BNSP"
-            list={[
-              "Ujian tertulis",
-              "Observasi praktik",
-              "Wawancara kompetensi",
-              "Penelusuran bukti portofolio",
-            ]}
-            position="right"
-            icon={<FaClipboardCheck />}
-          />
-
-          <TimelineItem
-            number="3"
-            title="Kompeten & Sertifikasi"
-            description="Peserta yang dinilai kompeten akan mendapatkan"
-            list={[
-              "Sertifikat Kompetensi Resmi dari BNSP",
-              "Legalitas sebagai Wakil Penasihat Berjangka",
-              "Hak untuk berpraktik secara profesional",
-              "Kesempatan remedial assessment tanpa mengulang pelatihan",
-            ]}
-            position="left"
-            icon={<FaMedal />}
-          />
+          {struktur.map((item, index) => (
+            <TimelineItem
+              key={index}
+              number={item.number}
+              title={item.title}
+              description={item.description}
+              list={item.list}
+              position={getPosition(index)}
+              icon={getIcon(item.icon)}
+            />
+          ))}
         </div>
       </div>
     </section>

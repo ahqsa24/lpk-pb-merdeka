@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { AdminLayout } from '@/components/layouts/AdminLayout';
 import { FaEdit, FaTrash, FaPlus, FaUsers } from 'react-icons/fa';
 import { ConfirmationModal } from '@/components/shared/molecules/ConfirmationModal';
+import { Toast } from '@/components/shared/molecules/Toast';
 import { useSearch } from '@/context/SearchContext';
 
 interface Session {
@@ -39,6 +40,9 @@ export default function AttendanceSessionsManagement() {
 
     // Validation State
     const [timeError, setTimeError] = useState('');
+
+    // Toast State
+    const [toast, setToast] = useState({ isOpen: false, message: '', type: 'info' as 'success' | 'error' | 'info' });
 
     const getAuthHeaders = () => {
         const token = localStorage.getItem('token');
@@ -87,11 +91,12 @@ export default function AttendanceSessionsManagement() {
             });
             if (res.ok) {
                 setSessions(sessions.filter(s => s.id !== deleteTargetId));
+                setToast({ isOpen: true, message: 'Session deleted successfully', type: 'success' });
             } else {
-                alert('Failed to delete session');
+                setToast({ isOpen: true, message: 'Failed to delete session', type: 'error' });
             }
         } catch (error) {
-            alert('Error deleting session');
+            setToast({ isOpen: true, message: 'Error deleting session', type: 'error' });
         } finally {
             setIsDeleteModalOpen(false);
             setDeleteTargetId(null);
@@ -143,7 +148,7 @@ export default function AttendanceSessionsManagement() {
             const end = new Date(`1970-01-01T${formData.end_time}:00`);
 
             if (end <= start) {
-                setTimeError('Waktu selesai harus lebih besar dari waktu mulai');
+                setTimeError('End time must be later than start time');
                 return;
             }
         }
@@ -167,12 +172,13 @@ export default function AttendanceSessionsManagement() {
                 setIsFormOpen(false);
                 setTimeError(''); // Clear error on success
                 fetchSessions();
+                setToast({ isOpen: true, message: formMode === 'create' ? 'Session created successfully' : 'Session updated successfully', type: 'success' });
             } else {
                 const data = await res.json();
-                alert(data.message || 'Operation failed');
+                setToast({ isOpen: true, message: data.message || 'Operation failed', type: 'error' });
             }
         } catch (error) {
-            alert('Error submitting form');
+            setToast({ isOpen: true, message: 'Error submitting form', type: 'error' });
         }
     };
 
@@ -403,11 +409,18 @@ export default function AttendanceSessionsManagement() {
                 isOpen={isDeleteModalOpen}
                 onClose={() => setIsDeleteModalOpen(false)}
                 onConfirm={handleConfirmDelete}
-                title="Hapus Sesi?"
-                message="Apakah Anda yakin ingin menghapus sesi ini? Tindakan ini tidak dapat dibatalkan."
+                title="Delete Session?"
+                message="Are you sure you want to delete this session? This action cannot be undone."
                 isDanger={true}
-                confirmText="Hapus"
-                cancelText="Batal"
+                confirmText="Delete"
+                cancelText="Cancel"
+            />
+
+            <Toast
+                isOpen={toast.isOpen}
+                message={toast.message}
+                type={toast.type}
+                onClose={() => setToast({ ...toast, isOpen: false })}
             />
         </AdminLayout>
     );

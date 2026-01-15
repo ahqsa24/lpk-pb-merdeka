@@ -6,26 +6,42 @@ import Image from "next/image";
 import Link from "next/link";
 
 interface HeroData {
-  title: string;
-  subtitle: string;
-  image_url: string;
-  cta_text: string;
-  cta_link: string;
+  hero_title?: string;
+  hero_subtitle?: string;
+  hero_image_url?: string;
+  hero_cta_text?: string;
+  hero_cta_link?: string;
 }
+
+// Default/Fallback values
+const DEFAULTS = {
+  title: "Kompetensi Kuat, Masa Depan Hebat",
+  subtitle: "Lembaga pelatihan resmi di bidang perdagangan berjangka, mencetak tenaga profesional dengan keterampilan siap kerja dan daya saing global.",
+  image_url: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1000&auto=format&fit=crop",
+  cta_text: "Daftar Program",
+  cta_link: "/auth/register"
+};
 
 export const HeroSection = () => {
   const [hero, setHero] = useState<HeroData | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/api/cms/home')
+    fetch('/api/cms/home-about')
       .then(res => res.json())
       .then(data => {
         if (data && Object.keys(data).length > 0) setHero(data);
       })
-      .catch(err => console.error(err));
+      .catch(err => console.error(err))
+      .finally(() => setLoading(false));
   }, []);
 
-  const defaultImage = "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1000&auto=format&fit=crop";
+  // Use CMS data or fallback to defaults
+  const title = hero?.hero_title || DEFAULTS.title;
+  const subtitle = hero?.hero_subtitle || DEFAULTS.subtitle;
+  const imageUrl = hero?.hero_image_url || DEFAULTS.image_url;
+  const ctaText = hero?.hero_cta_text || DEFAULTS.cta_text;
+  const ctaLink = hero?.hero_cta_link || DEFAULTS.cta_link;
 
   return (
     <section className="w-full flex flex-col items-center justify-center relative overflow-hidden bg-white min-h-[90vh]">
@@ -54,26 +70,26 @@ export const HeroSection = () => {
           </div>
 
           <Heading level={1} className="text-5xl lg:text-7xl font-extrabold text-gray-900 leading-tight">
-            {hero?.title ? (
-              hero.title
-            ) : (
+            {title.includes(',') ? (
               <>
-                Kompetensi Kuat, <br />
+                {title.split(',')[0]}, <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-pink-600">
-                  Masa Depan Hebat
+                  {title.split(',')[1]?.trim() || ''}
                 </span>
               </>
+            ) : (
+              title
             )}
           </Heading>
 
           <Paragraph variant="black" className="text-lg md:text-xl leading-relaxed max-w-lg">
-            {hero?.subtitle || "Lembaga pelatihan resmi di bidang perdagangan berjangka, mencetak tenaga profesional dengan keterampilan siap kerja dan daya saing global."}
+            {subtitle}
           </Paragraph>
 
           <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto mt-4">
-            <Link href={hero?.cta_link || "/auth/register"}>
+            <Link href={ctaLink}>
               <Button variant="primary" className="px-8 py-4 text-lg shadow-lg shadow-red-200 bg-red-600 hover:bg-red-700 text-white w-full sm:w-auto justify-center">
-                {hero?.cta_text || "Daftar Program"}
+                {ctaText}
               </Button>
             </Link>
             <Link href="/about">
@@ -107,8 +123,8 @@ export const HeroSection = () => {
           <div className="relative w-full max-w-md lg:max-w-lg aspect-square">
             <div className="absolute inset-0 bg-gradient-to-tr from-red-600 to-pink-500 rounded-[2rem] transform rotate-6 opacity-20"></div>
             <div className="absolute inset-0 bg-white rounded-[2rem] shadow-2xl overflow-hidden border-4 border-white transform -rotate-3 transition-transform hover:rotate-0 duration-500">
-              <img // Changed Next Image to img to handle external invalid URLs gracefully
-                src={hero?.image_url || defaultImage}
+              <img
+                src={imageUrl}
                 alt="Students Learning"
                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
               />

@@ -3,6 +3,7 @@ import Head from 'next/head';
 import { AdminLayout } from '@/components/layouts/AdminLayout';
 import { FaEdit, FaTrash, FaPlus, FaSearch, FaUserShield, FaCrown } from 'react-icons/fa';
 import { ConfirmationModal } from '@/components/shared/molecules/ConfirmationModal';
+import { Toast } from '@/components/shared/molecules/Toast';
 import { useAuth } from '@/context/AuthContext';
 import { useSearch } from '@/context/SearchContext';
 
@@ -33,6 +34,9 @@ export default function AdminsManagement() {
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null);
     const [deleteTargetRole, setDeleteTargetRole] = useState<string>('');
+
+    // Toast State
+    const [toast, setToast] = useState({ isOpen: false, message: '', type: 'info' as 'success' | 'error' | 'info' });
 
     const getAuthHeaders = () => {
         const token = localStorage.getItem('token');
@@ -84,12 +88,13 @@ export default function AdminsManagement() {
 
             if (res.ok) {
                 setAdmins(admins.filter(a => a.id !== deleteTargetId));
+                setToast({ isOpen: true, message: 'Admin deleted successfully', type: 'success' });
             } else {
                 const data = await res.json();
-                alert(data.message || 'Failed to delete admin');
+                setToast({ isOpen: true, message: data.message || 'Failed to delete admin', type: 'error' });
             }
         } catch (error) {
-            alert('Error deleting admin');
+            setToast({ isOpen: true, message: 'Error deleting admin', type: 'error' });
         } finally {
             setIsDeleteModalOpen(false);
             setDeleteTargetId(null);
@@ -139,12 +144,13 @@ export default function AdminsManagement() {
             if (res.ok) {
                 setIsFormOpen(false);
                 fetchAdmins();
+                setToast({ isOpen: true, message: formMode === 'create' ? 'Admin created successfully' : 'Admin updated successfully', type: 'success' });
             } else {
                 const data = await res.json();
-                alert(data.message || 'Operation failed');
+                setToast({ isOpen: true, message: data.message || 'Operation failed', type: 'error' });
             }
         } catch (error) {
-            alert('Error submitting form');
+            setToast({ isOpen: true, message: 'Error submitting form', type: 'error' });
         }
     };
 
@@ -338,14 +344,21 @@ export default function AdminsManagement() {
                 isOpen={isDeleteModalOpen}
                 onClose={() => setIsDeleteModalOpen(false)}
                 onConfirm={handleConfirmDelete}
-                title="Hapus Admin?"
+                title="Delete Admin?"
                 message={
                     deleteTargetRole === 'superAdmin'
-                        ? "SuperAdmin tidak dapat dihapus."
-                        : "Yakin ingin menghapus admin ini? Tindakan ini tidak dapat dibatalkan."
+                        ? "SuperAdmin cannot be deleted."
+                        : "Are you sure you want to delete this admin? This action cannot be undone."
                 }
                 isDanger={true}
-                confirmText="Hapus"
+                confirmText="Delete"
+            />
+
+            <Toast
+                isOpen={toast.isOpen}
+                message={toast.message}
+                type={toast.type}
+                onClose={() => setToast({ ...toast, isOpen: false })}
             />
         </AdminLayout>
     );

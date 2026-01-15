@@ -3,6 +3,7 @@ import Head from 'next/head';
 import { AdminLayout } from '@/components/layouts/AdminLayout';
 import { FaEdit, FaTrash, FaPlus, FaSearch, FaUser } from 'react-icons/fa';
 import { ConfirmationModal } from '@/components/shared/molecules/ConfirmationModal';
+import { Toast } from '@/components/shared/molecules/Toast';
 import { useSearch } from '@/context/SearchContext';
 
 interface User {
@@ -24,6 +25,9 @@ export default function UsersManagement() {
     // Delete Modal State
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null);
+
+    // Toast State
+    const [toast, setToast] = useState({ isOpen: false, message: '', type: 'info' as 'success' | 'error' | 'info' });
 
     const getAuthHeaders = () => {
         const token = localStorage.getItem('token');
@@ -73,11 +77,12 @@ export default function UsersManagement() {
             });
             if (res.ok) {
                 setUsers(users.filter(u => u.id !== deleteTargetId));
+                setToast({ isOpen: true, message: 'User deleted successfully', type: 'success' });
             } else {
-                alert('Failed to delete user');
+                setToast({ isOpen: true, message: 'Failed to delete user', type: 'error' });
             }
         } catch (error) {
-            alert('Error deleting user');
+            setToast({ isOpen: true, message: 'Error deleting user', type: 'error' });
         } finally {
             setIsDeleteModalOpen(false);
             setDeleteTargetId(null);
@@ -118,12 +123,13 @@ export default function UsersManagement() {
             if (res.ok) {
                 setIsFormOpen(false);
                 fetchUsers(); // Refresh list
+                setToast({ isOpen: true, message: formMode === 'create' ? 'User created successfully' : 'User updated successfully', type: 'success' });
             } else {
                 const data = await res.json();
-                alert(data.message || 'Operation failed');
+                setToast({ isOpen: true, message: data.message || 'Operation failed', type: 'error' });
             }
         } catch (error) {
-            alert('Error submitting form');
+            setToast({ isOpen: true, message: 'Error submitting form', type: 'error' });
         }
     };
 
@@ -299,11 +305,18 @@ export default function UsersManagement() {
                 isOpen={isDeleteModalOpen}
                 onClose={() => setIsDeleteModalOpen(false)}
                 onConfirm={handleConfirmDelete}
-                title="Hapus User?"
-                message="Apakah Anda yakin ingin menghapus user ini? Tindakan ini tidak dapat dibatalkan."
+                title="Delete User?"
+                message="Are you sure you want to delete this user? This action cannot be undone."
                 isDanger={true}
-                confirmText="Hapus"
-                cancelText="Batal"
+                confirmText="Delete"
+                cancelText="Cancel"
+            />
+
+            <Toast
+                isOpen={toast.isOpen}
+                message={toast.message}
+                type={toast.type}
+                onClose={() => setToast({ ...toast, isOpen: false })}
             />
         </AdminLayout>
     );

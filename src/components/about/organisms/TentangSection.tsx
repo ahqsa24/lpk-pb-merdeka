@@ -1,11 +1,83 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { LineHeading } from "../../shared/molecules";
-import { aboutData } from "./TentangSection.data";
+import { aboutData as defaultAboutData } from "./TentangSection.data";
 import Image from "next/image";
-import { FaBullseye, FaRocket } from "react-icons/fa"; // Icons for Vision/Mission
+import { FaBullseye, FaRocket } from "react-icons/fa";
+import { BookOpen, Laptop, GraduationCap, Medal, Target, Users, Briefcase, Award } from "lucide-react";
+
+// Icon mapping for dynamic goals
+const iconMap: { [key: string]: any } = {
+  BookOpen, Laptop, GraduationCap, Medal, Target, Users, Briefcase, Award
+};
+
+interface GoalItem {
+  icon: string;
+  title: string;
+  description: string;
+}
+
+interface CMSData {
+  about_intro_title?: string;
+  about_intro_heading?: string;
+  about_intro_description?: string;
+  about_intro_image_url?: string;
+  about_vision_title?: string;
+  about_vision_heading?: string;
+  about_vision_description?: string;
+  about_mission_title?: string;
+  about_mission_heading?: string;
+  about_mission_description?: string;
+  about_goals?: GoalItem[];
+}
 
 export const TentangSection = () => {
-  const { intro, vision, mission, goals } = aboutData;
+  const [cmsData, setCmsData] = useState<CMSData | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch('/api/cms/home-about')
+      .then(res => res.json())
+      .then(data => {
+        if (data && Object.keys(data).length > 0) {
+          setCmsData(data);
+        }
+      })
+      .catch(err => console.error(err))
+      .finally(() => setLoading(false));
+  }, []);
+
+  // Fallback to default data
+  const intro = {
+    title: cmsData?.about_intro_title || defaultAboutData.intro.title,
+    heading: cmsData?.about_intro_heading || defaultAboutData.intro.heading,
+    description: cmsData?.about_intro_description || defaultAboutData.intro.description,
+    image_url: cmsData?.about_intro_image_url || "https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070&auto=format&fit=crop"
+  };
+
+  const vision = {
+    title: cmsData?.about_vision_title || defaultAboutData.vision.title,
+    heading: cmsData?.about_vision_heading || defaultAboutData.vision.heading,
+    description: cmsData?.about_vision_description || defaultAboutData.vision.description
+  };
+
+  const mission = {
+    title: cmsData?.about_mission_title || defaultAboutData.mission.title,
+    heading: cmsData?.about_mission_heading || defaultAboutData.mission.heading,
+    description: cmsData?.about_mission_description || defaultAboutData.mission.description
+  };
+
+  // Use CMS goals if available, otherwise use default
+  const goals = (cmsData?.about_goals && cmsData.about_goals.length > 0)
+    ? cmsData.about_goals.map(g => ({
+      ...g,
+      IconComponent: iconMap[g.icon] || BookOpen
+    }))
+    : defaultAboutData.goals.map(g => ({
+      icon: 'BookOpen',
+      title: g.title,
+      description: g.description,
+      IconComponent: g.icon
+    }));
 
   return (
     <section className="py-20 bg-white">
@@ -26,15 +98,12 @@ export const TentangSection = () => {
           </div>
           <div className="w-full lg:w-1/2 relative">
             <div className="relative aspect-video rounded-3xl overflow-hidden shadow-2xl border-4 border-white">
-              {/* Placeholder for Intro Image */}
-              <Image
-                src="https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070&auto=format&fit=crop"
+              <img
+                src={intro.image_url}
                 alt="About Us Team"
-                fill
-                className="object-cover"
+                className="w-full h-full object-cover"
               />
             </div>
-            {/* Decorative elements */}
             <div className="absolute -z-10 top-10 -right-10 w-full h-full bg-red-100/50 rounded-3xl"></div>
           </div>
         </div>
@@ -70,19 +139,22 @@ export const TentangSection = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {goals.map((goal, index) => (
-              <div key={index} className="flex gap-6 p-6 rounded-2xl border border-gray-100 hover:border-red-200 hover:bg-red-50/30 transition-colors duration-300 group bg-white shadow-sm hover:shadow-md">
-                <div className="flex-shrink-0">
-                  <div className="w-16 h-16 bg-red-600 text-white rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
-                    <goal.icon size={32} />
+            {goals.map((goal, index) => {
+              const IconComponent = goal.IconComponent;
+              return (
+                <div key={index} className="flex gap-6 p-6 rounded-2xl border border-gray-100 hover:border-red-200 hover:bg-red-50/30 transition-colors duration-300 group bg-white shadow-sm hover:shadow-md">
+                  <div className="flex-shrink-0">
+                    <div className="w-16 h-16 bg-red-600 text-white rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                      <IconComponent size={32} />
+                    </div>
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <h4 className="text-xl font-bold text-gray-900">{goal.title}</h4>
+                    <p className="text-gray-600 leading-relaxed text-sm">{goal.description}</p>
                   </div>
                 </div>
-                <div className="flex flex-col gap-2">
-                  <h4 className="text-xl font-bold text-gray-900">{goal.title}</h4>
-                  <p className="text-gray-600 leading-relaxed text-sm">{goal.description}</p>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
 
