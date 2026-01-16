@@ -4,7 +4,7 @@ import Head from "next/head";
 import { DashboardSidebar, ProfileForm, AttendanceSessionList, ArticleList, EbookList, VideoList, QuizList, Leaderboard, CertificateList, PointHistory, GamificationGuide, DashboardOverview } from "../components/dashboard/organisms";
 import { useAuth } from "@/context/AuthContext";
 import { useSearch } from '@/context/SearchContext';
-import { FaBars, FaCog, FaSignOutAlt, FaSearch, FaHome } from "react-icons/fa";
+import { FaBars, FaCog, FaSignOutAlt, FaSearch, FaHome, FaExclamationTriangle } from "react-icons/fa";
 import Link from "next/link";
 
 export default function DashboardPage() {
@@ -16,7 +16,25 @@ export default function DashboardPage() {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
     const [isProfileOpen, setIsProfileOpen] = useState(false);
+    const [userProfile, setUserProfile] = useState<any>(null); // State for fresh user data
     const dropdownRef = useRef<HTMLDivElement>(null);
+
+    // Fetch fresh user data on mount and tab change
+    useEffect(() => {
+        if (isAuthenticated) {
+            fetch('/api/user')
+                .then(res => res.json())
+                .then(data => setUserProfile(data))
+                .catch(err => console.error("Failed to fetch user profile", err));
+        }
+    }, [isAuthenticated, activeTab]);
+
+    // Sync initial state
+    useEffect(() => {
+        if (user && !userProfile) {
+            setUserProfile(user);
+        }
+    }, [user]);
 
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
@@ -72,6 +90,34 @@ export default function DashboardPage() {
     }
 
     const renderContent = () => {
+        const isAdmin = user?.role === 'admin' || user?.role === 'superAdmin';
+        const u = userProfile || user; // Use fresh data if available
+
+        // Check if important fields are filled
+        const isProfileComplete =
+            isAdmin ||
+            (u?.name && u?.gender && u?.birthDate && u?.address && u?.phoneNumber && (u?.photo_url || u?.image));
+
+        if (!isProfileComplete && activeTab !== 'profil') {
+            return (
+                <div className="flex flex-col items-center justify-center py-20 bg-white dark:bg-zinc-900 rounded-xl border border-red-200 dark:border-red-900/30 p-8 text-center max-w-2xl mx-auto mt-10 shadow-sm animate-in fade-in zoom-in duration-300">
+                    <div className="w-20 h-20 bg-red-50 dark:bg-red-900/20 text-red-600 rounded-full flex items-center justify-center mb-6 text-3xl">
+                        <FaExclamationTriangle />
+                    </div>
+                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">Profil Belum Lengkap</h2>
+                    <p className="text-gray-600 dark:text-gray-400 mb-8 max-w-lg mx-auto leading-relaxed">
+                        Mohon maaf, Anda diharuskan untuk melengkapi data diri (<strong>Jenis Kelamin, Tanggal Lahir, Alamat, No. Telp, Foto Profil</strong>) terlebih dahulu sebelum dapat mengakses fitur pembelajaran dan sertifikasi.
+                    </p>
+                    <button
+                        onClick={() => handleTabChange('profil')}
+                        className="px-8 py-3 bg-red-600 text-white rounded-lg font-bold hover:bg-red-700 transition-all shadow-lg shadow-red-600/20 transform hover:-translate-y-1"
+                    >
+                        Lengkapi Profil Sekarang
+                    </button>
+                </div>
+            );
+        }
+
         switch (activeTab) {
             case "overview":
                 return <DashboardOverview />;
@@ -167,11 +213,21 @@ export default function DashboardPage() {
                                     className="flex items-center gap-4 focus:outline-none pl-4 border-l border-gray-200 dark:border-zinc-800"
                                 >
                                     <div className="text-right hidden md:block">
-                                        <p className="text-sm font-semibold text-gray-900 dark:text-white">{user?.name}</p>
+                                        <p className="text-sm font-semibold text-gray-900 dark:text-white">{userProfile?.name || user?.name}</p>
                                         <p className="text-xs text-gray-500 dark:text-gray-400">{user?.role || 'Peserta'}</p>
                                     </div>
-                                    <div className="w-9 h-9 bg-red-100 text-red-600 rounded-full flex items-center justify-center font-bold text-sm">
-                                        {user?.name?.charAt(0) || 'U'}
+                                    <div className="w-9 h-9 bg-gray-100 rounded-full flex items-center justify-center overflow-hidden border border-gray-200 dark:border-zinc-700 relative">
+                                        {(userProfile?.photo_url || userProfile?.image || user?.image) ? (
+                                            <img
+                                                src={userProfile?.photo_url || userProfile?.image || user?.image}
+                                                alt="Profile"
+                                                className="w-full h-full object-cover"
+                                            />
+                                        ) : (
+                                            <div className="text-red-600 font-bold text-sm">
+                                                {(userProfile?.name || user?.name || 'U').charAt(0).toUpperCase()}
+                                            </div>
+                                        )}
                                     </div>
                                 </button>
 
