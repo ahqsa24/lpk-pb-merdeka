@@ -381,6 +381,18 @@ export default function FolderVideos() {
                             </div>
 
                             <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Duration (minutes)</label>
+                                <input
+                                    type="number"
+                                    min="0"
+                                    value={formData.duration}
+                                    onChange={e => setFormData({ ...formData, duration: e.target.value })}
+                                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none"
+                                    placeholder="e.g. 15"
+                                />
+                            </div>
+
+                            <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1">
                                     Cover Image URL <span className="text-gray-400 font-normal">(Optional)</span>
                                 </label>
