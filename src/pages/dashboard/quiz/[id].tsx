@@ -273,6 +273,19 @@ export default function QuizPlayer() {
                             </div>
                         </div>
 
+                        {result.certificateUrl && (
+                            <div className="mb-6 animate-in slide-in-from-bottom duration-500 delay-200">
+                                <Link
+                                    href={result.certificateUrl}
+                                    target="_blank"
+                                    className="block w-full bg-green-600 hover:bg-green-700 text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-green-500/30 transition-all flex items-center justify-center gap-2"
+                                >
+                                    <FaTrophy /> Download Sertifikat
+                                </Link>
+                                <p className="text-sm text-gray-500 mt-2">Selamat! Kamu berhak mendapatkan sertifikat.</p>
+                            </div>
+                        )}
+
                         <Link
                             href="/dashboard?tab=kuis"
                             className="inline-block w-full bg-gray-900 hover:bg-black text-white font-bold py-4 rounded-xl transition-all"

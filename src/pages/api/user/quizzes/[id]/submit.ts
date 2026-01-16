@@ -1,6 +1,8 @@
 import { NextApiResponse } from 'next';
 import { PrismaClient } from '@prisma/client';
 import { checkAuth, AuthenticatedRequest } from '@/lib/auth';
+import { PointsService } from '@/lib/services/points-service';
+import { CertificateGenerator } from '@/lib/services/certificate-generator';
 
 const prisma = new PrismaClient() as any;
 
@@ -63,6 +65,8 @@ async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
         let earnedPoints = (correctCount * 10);
         if (score === 100) earnedPoints += 50;
 
+        let certificateUrl = null;
+
         // 5. Transaction: Create Attempt & Update Gamification
         await prisma.$transaction(async (tx: any) => {
             // Create Attempt
@@ -76,38 +80,40 @@ async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
                     finished_at: new Date()
                 }
             });
+        });
 
-            // Update/Create Gamification Profile
-            // upsert
-            const profile = await tx.gamification_profile.findUnique({
-                where: { user_id: userId }
-            });
+        // 6. Award Points (Outside Transaction to use PointsService which has its own transaction)
+        await PointsService.awardPoints(userId!, 'quiz', earnedPoints, `quiz_${id}`);
 
-            if (profile) {
-                await tx.gamification_profile.update({
-                    where: { user_id: userId },
-                    data: {
-                        total_points: profile.total_points + earnedPoints,
-                        // Level up logic could go here
-                    }
-                });
-            } else {
-                await tx.gamification_profile.create({
+        // 7. Generate Certificate if Score >= 70 (Passing Grade)
+        if (score >= 70) {
+            const certCode = `CERT-${userId}-${id}-${Date.now()}`;
+            certificateUrl = await CertificateGenerator.generate(
+                req.user?.name || 'Peserta',
+                quiz.title,
+                new Date(),
+                certCode
+            );
+
+            if (certificateUrl) {
+                await prisma.certificates.create({
                     data: {
                         user_id: userId,
-                        total_points: earnedPoints,
-                        level: 1
+                        quiz_id: BigInt(String(id)),
+                        certificate_code: certCode,
+                        file_url: certificateUrl
                     }
                 });
             }
-        });
+        }
 
         return res.json({
             message: 'Quiz submitted successfully',
             score,
             correctCount,
             totalQuestions,
-            earnedPoints
+            earnedPoints,
+            certificateUrl
         });
 
     } catch (error) {

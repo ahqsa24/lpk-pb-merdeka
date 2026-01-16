@@ -4,7 +4,7 @@ import {
     FaUser, FaCertificate, FaHistory, FaTrophy,
     FaBook, FaFileAlt, FaVideo, FaGamepad, FaPuzzlePiece,
     FaChevronDown, FaChevronRight, FaCalendarCheck,
-    FaSignOutAlt
+    FaSignOutAlt, FaInfoCircle
 } from "react-icons/fa";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/router";
@@ -43,9 +43,11 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ activeTab, o
         {
             title: "Akademik",
             items: [
-                { id: "kompetisi-aktif", label: "Kompetisi", icon: <FaTrophy /> },
+                //{ id: "kompetisi-aktif", label: "Kompetisi", icon: <FaTrophy /> },
+                { id: "panduan-gamifikasi", label: "Panduan Gamifikasi", icon: <FaInfoCircle /> },
                 { id: "leaderboard", label: "Leaderboard", icon: <FaPuzzlePiece /> },
                 { id: "riwayat", label: "Riwayat", icon: <FaHistory /> },
+                { id: "sertifikat", label: "Sertifikat", icon: <FaCertificate /> },
             ],
         },
         {
@@ -55,7 +57,6 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ activeTab, o
                 { id: "materi", label: "E-Book", icon: <FaBook /> },
                 { id: "video", label: "Video", icon: <FaVideo /> },
                 { id: "kuis", label: "Kuis & Latihan", icon: <FaGamepad /> },
-                { id: "sertifikat", label: "Sertifikat", icon: <FaCertificate /> },
             ],
         },
     ];

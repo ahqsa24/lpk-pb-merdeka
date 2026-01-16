@@ -6,3 +6,6 @@ export { EbookList } from './EbookList';
 export { VideoList } from './VideoList';
 export { QuizList } from './QuizList';
 export { Leaderboard } from './Leaderboard';
+export { CertificateList } from './CertificateList';
+export { PointHistory } from './PointHistory';
+export { GamificationGuide } from './GamificationGuide';

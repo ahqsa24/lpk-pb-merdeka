@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import { DashboardSidebar, ProfileForm, AttendanceSessionList, ArticleList, EbookList, VideoList, QuizList, Leaderboard } from "../components/dashboard/organisms";
+import { DashboardSidebar, ProfileForm, AttendanceSessionList, ArticleList, EbookList, VideoList, QuizList, Leaderboard, CertificateList, PointHistory, GamificationGuide } from "../components/dashboard/organisms";
 import { useAuth } from "@/context/AuthContext";
 import { useSearch } from '@/context/SearchContext';
 import { FaBars, FaCog, FaSignOutAlt, FaSearch, FaHome } from "react-icons/fa";
@@ -84,6 +84,12 @@ export default function DashboardPage() {
                 return <QuizList />;
             case "leaderboard":
                 return <Leaderboard />;
+            case "sertifikat":
+                return <CertificateList />;
+            case "riwayat":
+                return <PointHistory />;
+            case "panduan-gamifikasi":
+                return <GamificationGuide />;
             case "profil":
                 return <ProfileForm />;
             case "kompetisi-aktif":

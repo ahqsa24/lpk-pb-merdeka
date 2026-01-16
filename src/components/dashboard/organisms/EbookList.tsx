@@ -103,6 +103,22 @@ export const EbookList: React.FC = () => {
         setIsFullscreen(false);
     };
 
+    const trackEbookRead = async (ebookId: string) => {
+        try {
+            const res = await fetch('/api/user/gamification/track', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ type: 'ebook', id: ebookId })
+            });
+            const data = await res.json();
+            if (res.ok && data.awarded) {
+                console.log("Points Awarded:", data.points);
+            }
+        } catch (e) {
+            console.error(e);
+        }
+    };
+
     // FILTER LOGIC
     const filteredFolders = folders.filter(f => f.name.toLowerCase().includes(searchQuery.toLowerCase()) || (f.description && f.description.toLowerCase().includes(searchQuery.toLowerCase())));
     const filteredEbooks = ebooks.filter(e => e.title.toLowerCase().includes(searchQuery.toLowerCase()) || (e.description && e.description.toLowerCase().includes(searchQuery.toLowerCase())));
@@ -201,7 +217,10 @@ export const EbookList: React.FC = () => {
                                     </p>
                                 )}
                                 <button
-                                    onClick={() => handlePreview(ebook.file_url)}
+                                    onClick={() => {
+                                        handlePreview(ebook.file_url);
+                                        trackEbookRead(ebook.id);
+                                    }}
                                     className="mt-auto w-full bg-red-600 hover:bg-red-700 text-white py-2 rounded-lg text-sm font-medium flex items-center justify-center gap-2 transition-colors shadow-sm hover:shadow-md"
                                 >
                                     <FaBook size={12} /> Baca / Preview

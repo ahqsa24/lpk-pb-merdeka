@@ -97,6 +97,23 @@ export const VideoList: React.FC = () => {
         return url;
     };
 
+    const trackVideoView = async (videoId: string) => {
+        try {
+            const res = await fetch('/api/user/gamification/track', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ type: 'video', id: videoId })
+            });
+            const data = await res.json();
+            if (res.ok && data.awarded) {
+                // Could invoke a toast notification here later
+                console.log("Points Awarded:", data.points);
+            }
+        } catch (e) {
+            console.error(e);
+        }
+    };
+
     // FILTER LOGIC
     const filteredFolders = folders.filter(f => f.name.toLowerCase().includes(searchQuery.toLowerCase()) || (f.description && f.description.toLowerCase().includes(searchQuery.toLowerCase())));
     const filteredVideos = videos.filter(v => v.title.toLowerCase().includes(searchQuery.toLowerCase()) || (v.description && v.description.toLowerCase().includes(searchQuery.toLowerCase())));
@@ -180,7 +197,10 @@ export const VideoList: React.FC = () => {
                         <div key={video.id} className="bg-white dark:bg-zinc-900 rounded-xl overflow-hidden border border-gray-100 dark:border-zinc-800 hover:shadow-lg transition-all group flex flex-col h-full">
                             <div
                                 className="relative aspect-video bg-gray-900 flex items-center justify-center overflow-hidden cursor-pointer group/video"
-                                onClick={() => setActiveVideo(video.url)}
+                                onClick={() => {
+                                    setActiveVideo(video.url);
+                                    trackVideoView(video.id);
+                                }}
                             >
                                 {video.cover_url ? (
                                     <img src={video.cover_url} alt={video.title} className="w-full h-full object-cover opacity-80 group-hover/video:opacity-60 transition-opacity" />

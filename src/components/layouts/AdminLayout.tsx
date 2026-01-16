@@ -71,16 +71,18 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children, title }) => 
             ]
         },
         {
+            group: 'Activity & Gamification',
+            items: [
+                { label: 'Attendance Sessions', href: '/admin/attendance-sessions', icon: <FaCalendarCheck /> },
+                { label: 'Leaderboard', href: '/admin/gamification/leaderboard', icon: <FaStar /> },
+                { label: 'Certificates', href: '/admin/gamification/certificates', icon: <FaClipboardList /> }
+            ]
+        },
+        {
             group: 'Management',
             items: [
                 { label: 'Admins', href: '/admin/admins', icon: <FaUserShield /> },
                 { label: 'Users', href: '/admin/users', icon: <FaUsers /> }
-            ]
-        },
-        {
-            group: 'Menu',
-            items: [
-                { label: 'Attendance Sessions', href: '/admin/attendance-sessions', icon: <FaCalendarCheck /> }
             ]
         }
     ];
