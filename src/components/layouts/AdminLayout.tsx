@@ -6,7 +6,7 @@ import { useSearch } from '@/context/SearchContext';
 import {
     FaHome, FaUsers, FaUserShield, FaCalendarCheck,
     FaBars, FaSignOutAlt, FaSearch,
-    FaList, FaImages, FaQuestionCircle, FaCog, FaStar, FaNewspaper, FaBook, FaMoneyBillWave
+    FaList, FaImages, FaQuestionCircle, FaCog, FaStar, FaNewspaper, FaBook, FaMoneyBillWave, FaVideo
 } from 'react-icons/fa';
 
 interface AdminLayoutProps {
@@ -63,6 +63,8 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children, title }) => 
             group: 'Content',
             items: [
                 { label: 'Articles', href: '/admin/cms/articles', icon: <FaNewspaper /> },
+                { label: 'E-Books', href: '/admin/content/ebooks', icon: <FaBook /> },
+                { label: 'Videos', href: '/admin/content/videos', icon: <FaVideo /> },
                 { label: 'Program Management', href: '/admin/cms/pricing', icon: <FaMoneyBillWave /> }
             ]
         },

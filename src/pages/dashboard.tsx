@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import { DashboardSidebar, ProfileForm, AttendanceSessionList, ArticleList } from "../components/dashboard/organisms";
+import { DashboardSidebar, ProfileForm, AttendanceSessionList, ArticleList, EbookList, VideoList } from "../components/dashboard/organisms";
 import { useAuth } from "@/context/AuthContext";
 import { useSearch } from '@/context/SearchContext';
 import { FaBars, FaCog, FaSignOutAlt, FaSearch, FaHome } from "react-icons/fa";
@@ -62,6 +62,10 @@ export default function DashboardPage() {
                 return <AttendanceSessionList />;
             case "artikel":
                 return <ArticleList />;
+            case "materi":
+                return <EbookList />;
+            case "video":
+                return <VideoList />;
             case "profil":
                 return <ProfileForm />;
             case "kompetisi-aktif":

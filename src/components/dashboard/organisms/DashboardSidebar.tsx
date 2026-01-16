@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import {
     FaUser, FaCertificate, FaHistory, FaTrophy,
-    FaBook, FaFileAlt, FaVideo, FaGamepad,
+    FaBook, FaFileAlt, FaVideo, FaGamepad, FaPuzzlePiece,
     FaChevronDown, FaChevronRight, FaCalendarCheck,
     FaSignOutAlt
 } from "react-icons/fa";
@@ -44,7 +44,7 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ activeTab, o
             title: "Akademik",
             items: [
                 { id: "kompetisi-aktif", label: "Kompetisi", icon: <FaTrophy /> },
-                { id: "sertifikat", label: "Sertifikat", icon: <FaCertificate /> },
+                { id: "leaderboard", label: "Leaderboard", icon: <FaPuzzlePiece /> },
                 { id: "riwayat", label: "Riwayat", icon: <FaHistory /> },
             ],
         },
@@ -52,9 +52,10 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ activeTab, o
             title: "Pusat Belajar",
             items: [
                 { id: "artikel", label: "Artikel & Berita", icon: <FaFileAlt /> },
-                { id: "materi", label: "Materi Belajar", icon: <FaBook /> },
-                { id: "video", label: "Video Tutorial", icon: <FaVideo /> },
+                { id: "materi", label: "E-Book", icon: <FaBook /> },
+                { id: "video", label: "Video", icon: <FaVideo /> },
                 { id: "kuis", label: "Kuis & Latihan", icon: <FaGamepad /> },
+                { id: "sertifikat", label: "Sertifikat", icon: <FaCertificate /> },
             ],
         },
     ];
