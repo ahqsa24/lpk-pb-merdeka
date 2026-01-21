@@ -143,7 +143,7 @@ export default function SignIn() {
             <Head>
                 <title>Sign In | LPK PB Merdeka</title>
             </Head>
-            <div className="min-h-screen w-full flex bg-gray-50 dark:bg-zinc-950">
+            <div className="h-screen w-full flex bg-gray-50 dark:bg-zinc-950 overflow-hidden">
                 {/* Left Side - Image/Branding */}
                 <div className="hidden lg:flex w-1/2 relative overflow-hidden bg-red-700">
                     <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center opacity-30 mix-blend-multiply"></div>
@@ -169,7 +169,7 @@ export default function SignIn() {
                 </div>
 
                 {/* Right Side - Form */}
-                <div className="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-12 lg:p-24 relative">
+                <div className="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-12 lg:p-12 h-full relative overflow-y-auto">
                     {/* Back to Home Button */}
                     <Link
                         href="/"
