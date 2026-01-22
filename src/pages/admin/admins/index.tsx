@@ -103,25 +103,42 @@ export default function AdminsManagement() {
     };
 
     const handleEdit = (admin: Admin) => {
-        setFormData({
+        const data = {
             name: admin.name,
             email: admin.email,
             role: admin.role,
             id: admin.id
-        });
+        };
+        setFormData(data);
+        setInitialFormData(data);
         setFormMode('edit');
         setIsFormOpen(true);
     };
 
     const handleCreate = () => {
-        setFormData({
+        const data = {
             name: '',
             email: '',
             role: 'admin',
             id: ''
-        });
+        };
+        setFormData(data);
+        setInitialFormData(null); // No initial data for create
         setFormMode('create');
         setIsFormOpen(true);
+    };
+
+    const [initialFormData, setInitialFormData] = useState<typeof formData | null>(null);
+
+    const hasChanges = () => {
+        if (formMode === 'create') return true;
+        if (!initialFormData) return false;
+
+        return (
+            formData.name !== initialFormData.name ||
+            formData.email !== initialFormData.email ||
+            formData.role !== initialFormData.role
+        );
     };
 
     const [errors, setErrors] = useState({ name: '', email: '' });
@@ -378,8 +395,8 @@ export default function AdminsManagement() {
                                 </button>
                                 <button
                                     type="submit"
-                                    disabled={!isFormValid()}
-                                    className={`px-4 py-2 text-white rounded-lg font-medium transition ${!isFormValid() ? 'bg-gray-300 cursor-not-allowed' : 'bg-red-600 hover:bg-red-700'}`}
+                                    disabled={!isFormValid() || !hasChanges()}
+                                    className={`px-4 py-2 text-white rounded-lg font-medium transition ${!isFormValid() || !hasChanges() ? 'bg-gray-300 cursor-not-allowed' : 'bg-red-600 hover:bg-red-700'}`}
                                 >
                                     {formMode === 'create' ? 'Create Admin' : 'Update Admin'}
                                 </button>

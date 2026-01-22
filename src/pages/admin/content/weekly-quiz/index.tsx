@@ -477,11 +477,12 @@ export default function WeeklyQuizManager() {
                                         validateField('type', tId);
                                         // Re-validate count when type/available questions change
                                         if (formQuestionCount) {
-                                            // Need to defer this or pass updated available
-                                            // Simple way: just pass current count to re-trigger internal check
-                                            // But availableQuestions state update is async/detached here?
-                                            // Actually state updates are batched. We might need useEffect or direct logic.
-                                            // For now, let's trust validation on count change or submit.
+                                            const questionsAvailable = type?._count.question_bank || 0;
+                                            if (formQuestionCount > questionsAvailable) {
+                                                setErrors(prev => ({ ...prev, questionCount: `Maximum ${questionsAvailable} questions available` }));
+                                            } else {
+                                                setErrors(prev => ({ ...prev, questionCount: '' }));
+                                            }
                                         }
                                     }}
                                     className={`w-full border rounded-lg px-3 py-2 outline-none bg-white ${errors.type ? 'border-red-500 focus:ring-red-200' : 'border-gray-300 focus:ring-red-500 focus:ring-2'}`}

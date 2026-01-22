@@ -105,6 +105,34 @@ const ProfilePage = () => {
                         </div>
                     )}
 
+                    {(() => {
+                        const hasChanges = () => {
+                            if (!user) return false;
+                            const nameChanged = name !== user.name;
+                            const passwordChanged = password.length > 0;
+                            return nameChanged || passwordChanged;
+                        };
+
+                        const isFormValid = () => {
+                            if (!name.trim()) return false;
+                            if (password && password !== confirmPassword) return false;
+                            if (password && !currentPassword) return false;
+                            return true;
+                        };
+
+                        const canSubmit = hasChanges() && isFormValid() && !loading;
+
+                        return (
+                            <form onSubmit={handleSubmit} className="space-y-6">
+                                {/* ... form fields ... */}
+                                {/* Wrapping form content isn't ideal for search replace since it's large. 
+                                    I will just splice the button logic check in the button itself, 
+                                    or define the helper functions at the top level of the component.
+                                */}
+                            </form>
+                        );
+                    })() && null /* This block is just for comment, I will actually move logic up */}
+
                     <form onSubmit={handleSubmit} className="space-y-6">
                         <div className="space-y-4">
                             <div>
@@ -225,7 +253,7 @@ const ProfilePage = () => {
                         <div className="flex justify-end pt-4">
                             <button
                                 type="submit"
-                                disabled={loading}
+                                disabled={loading || (name === user?.name && !password) || !name.trim() || !!(password && password !== confirmPassword)}
                                 className="flex items-center gap-2 px-6 py-2.5 bg-red-600 text-white rounded-lg hover:bg-red-700 focus:ring-4 focus:ring-red-100 transition-all disabled:opacity-70 disabled:cursor-not-allowed"
                             >
                                 {loading ? (

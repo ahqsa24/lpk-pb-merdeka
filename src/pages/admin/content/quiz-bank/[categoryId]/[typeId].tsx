@@ -494,7 +494,7 @@ export default function QuestionsManager() {
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">Options</label>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">Options <span className="text-red-500">*</span></label>
                                 <div className="space-y-3">
                                     {formOptions.map((opt, idx) => (
                                         <div key={idx} className="flex items-center gap-3">

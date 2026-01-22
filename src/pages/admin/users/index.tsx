@@ -91,22 +91,39 @@ export default function UsersManagement() {
         }
     };
 
+    const [initialFormData, setInitialFormData] = useState<typeof formData | null>(null);
+
     const handleEdit = (user: User) => {
-        setFormData({
+        const data = {
             name: user.name,
             email: user.email,
             password: '',
             role: user.role,
             id: user.id
-        });
+        };
+        setFormData(data);
+        setInitialFormData(data);
         setFormMode('edit');
         setIsFormOpen(true);
     };
 
     const handleCreate = () => {
         setFormData({ name: '', email: '', password: '', role: 'user', id: '' });
+        setInitialFormData(null);
         setFormMode('create');
         setIsFormOpen(true);
+    };
+
+    const hasChanges = () => {
+        if (formMode === 'create') return true;
+        if (!initialFormData) return false;
+
+        return (
+            formData.name !== initialFormData.name ||
+            formData.email !== initialFormData.email ||
+            formData.role !== initialFormData.role ||
+            formData.password !== ''
+        );
     };
 
     const [errors, setErrors] = useState({ name: '', email: '', password: '' });
@@ -355,8 +372,8 @@ export default function UsersManagement() {
                                 </button>
                                 <button
                                     type="submit"
-                                    disabled={!isFormValid()}
-                                    className={`px-4 py-2 text-white rounded-lg font-medium transition ${!isFormValid() ? 'bg-gray-300 cursor-not-allowed' : 'bg-red-600 hover:bg-red-700'}`}
+                                    disabled={!isFormValid() || !hasChanges()}
+                                    className={`px-4 py-2 text-white rounded-lg font-medium transition ${!isFormValid() || !hasChanges() ? 'bg-gray-300 cursor-not-allowed' : 'bg-red-600 hover:bg-red-700'}`}
                                 >
                                     {formMode === 'create' ? 'Create User' : 'Save Changes'}
                                 </button>
