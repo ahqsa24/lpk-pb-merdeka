@@ -272,11 +272,11 @@ export default function FolderEbooks() {
                 </Link>
             </div>
 
-            <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
-                <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
+            <div className="bg-white dark:bg-zinc-900 rounded-xl border border-gray-100 dark:border-zinc-800 shadow-sm overflow-hidden transition-colors">
+                <div className="p-6 border-b border-gray-100 dark:border-zinc-800 flex justify-between items-center bg-gray-50/50 dark:bg-zinc-800/50">
                     <div>
-                        <h2 className="text-xl font-bold text-gray-800">{folder?.name}</h2>
-                        <p className="text-gray-500 text-sm mt-1">Manage e-books inside this folder.</p>
+                        <h2 className="text-xl font-bold text-gray-800 dark:text-white">{folder?.name}</h2>
+                        <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">Manage e-books inside this folder.</p>
                     </div>
                     <button
                         onClick={handleCreate}
@@ -288,27 +288,27 @@ export default function FolderEbooks() {
 
                 <div className="overflow-x-auto">
                     <table className="w-full text-left">
-                        <thead className="bg-gray-50 border-b border-gray-200">
+                        <thead className="bg-gray-50 dark:bg-zinc-800/50 border-b border-gray-200 dark:border-zinc-700">
                             <tr>
-                                <th className="px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Cover</th>
-                                <th className="px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Title & Desc</th>
-                                <th className="px-6 py-3 text-xs font-semibold text-gray-500 uppercase">File</th>
-                                <th className="px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Created</th>
-                                <th className="px-6 py-3 text-xs font-semibold text-gray-500 uppercase text-right">Actions</th>
+                                <th className="px-6 py-3 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">Cover</th>
+                                <th className="px-6 py-3 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">Title & Desc</th>
+                                <th className="px-6 py-3 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">File</th>
+                                <th className="px-6 py-3 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">Created</th>
+                                <th className="px-6 py-3 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase text-right">Actions</th>
                             </tr>
                         </thead>
-                        <tbody className="divide-y divide-gray-100">
+                        <tbody className="divide-y divide-gray-100 dark:divide-zinc-800">
                             {filteredEbooks.length === 0 ? (
                                 <tr>
-                                    <td colSpan={5} className="px-6 py-12 text-center text-gray-500">
+                                    <td colSpan={5} className="px-6 py-12 text-center text-gray-500 dark:text-gray-400">
                                         {searchQuery ? `No ebooks found matching "${searchQuery}"` : 'No ebooks found in this folder.'}
                                     </td>
                                 </tr>
                             ) : (
                                 filteredEbooks.map((ebook) => (
-                                    <tr key={ebook.id} className="hover:bg-gray-50 transition">
+                                    <tr key={ebook.id} className="hover:bg-gray-50 dark:hover:bg-zinc-800/50 transition">
                                         <td className="px-6 py-4">
-                                            <div className="w-12 h-16 bg-gray-200 rounded overflow-hidden flex items-center justify-center text-gray-400 relative">
+                                            <div className="w-12 h-16 bg-gray-200 dark:bg-zinc-700 rounded overflow-hidden flex items-center justify-center text-gray-400 relative">
                                                 <FaImage className="absolute" />
                                                 {ebook.cover_url && (
                                                     <img
@@ -323,31 +323,31 @@ export default function FolderEbooks() {
                                             </div>
                                         </td>
                                         <td className="px-6 py-4">
-                                            <div className="font-medium text-gray-900">{ebook.title}</div>
-                                            <div className="text-sm text-gray-500 truncate max-w-xs">{ebook.description}</div>
+                                            <div className="font-medium text-gray-900 dark:text-white">{ebook.title}</div>
+                                            <div className="text-sm text-gray-500 dark:text-gray-400 truncate max-w-xs">{ebook.description}</div>
                                         </td>
                                         <td className="px-6 py-4">
                                             <button
                                                 onClick={() => handlePreview(ebook.file_url)}
-                                                className="flex items-center gap-2 text-blue-600 hover:underline"
+                                                className="flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:underline"
                                             >
                                                 <FaFilePdf /> Preview
                                             </button>
                                         </td>
-                                        <td className="px-6 py-4 text-sm text-gray-500">
+                                        <td className="px-6 py-4 text-sm text-gray-500 dark:text-gray-400">
                                             {new Date(ebook.created_at).toLocaleDateString()}
                                         </td>
                                         <td className="px-6 py-4 text-right">
                                             <div className="flex items-center justify-end gap-2">
                                                 <button
                                                     onClick={() => handleEdit(ebook)}
-                                                    className="p-2 hover:bg-gray-100 rounded-lg text-blue-600 transition"
+                                                    className="p-2 hover:bg-gray-100 dark:hover:bg-zinc-700 rounded-lg text-blue-600 dark:text-blue-400 transition"
                                                 >
                                                     <FaEdit />
                                                 </button>
                                                 <button
                                                     onClick={() => handleDeleteClick(ebook.id)}
-                                                    className="p-2 hover:bg-gray-100 rounded-lg text-red-600 transition"
+                                                    className="p-2 hover:bg-gray-100 dark:hover:bg-zinc-700 rounded-lg text-red-600 dark:text-red-400 transition"
                                                 >
                                                     <FaTrash />
                                                 </button>
@@ -364,9 +364,9 @@ export default function FolderEbooks() {
             {/* Modal Form */}
             {isFormOpen && (
                 <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-                    <div className="bg-white rounded-xl shadow-xl w-full max-w-lg p-6 animate-in zoom-in duration-200 max-h-[90vh] overflow-y-auto">
+                    <div className="bg-white dark:bg-zinc-900 rounded-xl shadow-xl w-full max-w-lg p-6 animate-in zoom-in duration-200 max-h-[90vh] overflow-y-auto">
                         <div className="flex justify-between items-center mb-6">
-                            <h3 className="text-lg font-bold text-gray-800">
+                            <h3 className="text-lg font-bold text-gray-800 dark:text-white">
                                 {formMode === 'create' ? 'Add E-Book' : 'Edit E-Book'}
                             </h3>
                             <button onClick={() => setIsFormOpen(false)} className="text-gray-400 hover:text-gray-600 text-xl">&times;</button>
@@ -374,33 +374,32 @@ export default function FolderEbooks() {
 
                         <form onSubmit={handleSubmit} className="space-y-4">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Title <span className="text-red-500">*</span></label>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Title <span className="text-red-500">*</span></label>
                                 <input
                                     type="text"
                                     name="title"
                                     required
                                     value={formData.title}
                                     onChange={handleInputChange}
-                                    className={`w-full border rounded-lg px-3 py-2 focus:ring-2 outline-none ${errors.title ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-red-500'}`}
+                                    className={`w-full border rounded-lg px-3 py-2 focus:ring-2 outline-none bg-white dark:bg-zinc-800 dark:text-white ${errors.title ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 dark:border-zinc-700 focus:ring-red-500'}`}
                                 />
                                 {errors.title && <p className="text-xs text-red-500 mt-1">{errors.title}</p>}
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Description</label>
                                 <textarea
                                     name="description"
                                     rows={3}
                                     value={formData.description}
                                     onChange={handleInputChange}
-                                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none"
+                                    className="w-full border border-gray-300 dark:border-zinc-700 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none bg-white dark:bg-zinc-800 dark:text-white"
                                 />
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">PDF File URL <span className="text-red-500">*</span></label>
-                                <div className="mb-2 bg-blue-50 text-blue-700 px-3 py-2 rounded-lg text-xs flex gap-2 items-start border border-blue-100">
-                                    <span className="mt-0.5">ℹ️</span>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">PDF File URL <span className="text-red-500">*</span></label>
+                                <div className="mb-2 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 px-3 py-2 rounded-lg text-xs flex gap-2 items-start border border-blue-100 dark:border-blue-800">
                                     <span>
                                         <strong>Only Google Drive links are accepted.</strong><br />
                                         Make sure the file permission is set to "Anyone with the link can view".
@@ -412,7 +411,7 @@ export default function FolderEbooks() {
                                     required
                                     value={formData.file_url}
                                     onChange={handleInputChange}
-                                    className={`w-full border rounded-lg px-3 py-2 focus:ring-2 outline-none ${errors.file_url ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-red-500'}`}
+                                    className={`w-full border rounded-lg px-3 py-2 focus:ring-2 outline-none bg-white dark:bg-zinc-800 dark:text-white ${errors.file_url ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 dark:border-zinc-700 focus:ring-red-500'}`}
                                     placeholder="https://drive.google.com/..."
                                     onBlur={(e) => {
                                         validateField('file_url', e.target.value);
@@ -424,14 +423,14 @@ export default function FolderEbooks() {
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Cover Image URL <span className="text-gray-400 font-normal">(Optional)</span>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                    Cover Image URL <span className="text-gray-400 dark:text-gray-500 font-normal">(Optional)</span>
                                 </label>
                                 <input
                                     type="text"
                                     value={formData.cover_url}
                                     onChange={e => setFormData({ ...formData, cover_url: e.target.value })}
-                                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none"
+                                    className="w-full border border-gray-300 dark:border-zinc-700 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none bg-white dark:bg-zinc-800 dark:text-white"
                                     placeholder="https://..."
                                 />
                                 <p className="text-xs text-gray-500 mt-1">
@@ -440,18 +439,18 @@ export default function FolderEbooks() {
                                 </p>
                             </div>
 
-                            <div className="flex justify-end gap-3 pt-6 border-t border-gray-100">
+                            <div className="flex justify-end gap-3 pt-6 border-t border-gray-100 dark:border-zinc-800">
                                 <button
                                     type="button"
                                     onClick={() => setIsFormOpen(false)}
-                                    className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg font-medium"
+                                    className="px-4 py-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-zinc-800 rounded-lg font-medium"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     type="submit"
                                     disabled={!isFormValid()}
-                                    className={`px-4 py-2 text-white rounded-lg font-medium transition ${!isFormValid() ? 'bg-gray-300 cursor-not-allowed' : 'bg-red-600 hover:bg-red-700'}`}
+                                    className={`px-4 py-2 text-white rounded-lg font-medium transition ${!isFormValid() ? 'bg-gray-300 dark:bg-zinc-700 cursor-not-allowed' : 'bg-red-600 hover:bg-red-700'}`}
                                 >
                                     Save E-Book
                                 </button>

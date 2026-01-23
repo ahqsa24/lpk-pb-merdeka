@@ -216,14 +216,14 @@ export default function CMSProgram() {
 
             <div className="w-full space-y-6">
                 {/* Tabs */}
-                <div className="bg-white rounded-xl border border-gray-100 p-1 flex gap-1">
+                <div className="bg-white dark:bg-zinc-900 rounded-xl border border-gray-100 dark:border-zinc-800 p-1 flex gap-1 transition-colors">
                     {tabs.map(tab => (
                         <button
                             key={tab.id}
                             onClick={() => setActiveTab(tab.id as any)}
                             className={`flex-1 py-3 px-4 rounded-lg font-medium transition-all flex items-center justify-center gap-2 ${activeTab === tab.id
-                                ? 'bg-red-600 text-white shadow-lg'
-                                : 'text-gray-600 hover:bg-gray-50'
+                                ? 'bg-red-600 text-white shadow-lg shadow-red-900/20'
+                                : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-zinc-800'
                                 }`}
                         >
                             {tab.label}
@@ -232,7 +232,7 @@ export default function CMSProgram() {
                 </div>
 
                 {/* Content */}
-                <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+                <div className="bg-white dark:bg-zinc-900 rounded-xl border border-gray-100 dark:border-zinc-800 shadow-sm overflow-hidden transition-colors">
                     {loading ? (
                         <div className="p-12 text-center text-gray-500">
                             <FaSpinner className="animate-spin mx-auto text-2xl mb-2" />
@@ -244,26 +244,26 @@ export default function CMSProgram() {
                             {activeTab === 'features' && (
                                 <div className="space-y-6">
                                     {/* Section Header */}
-                                    <div className="space-y-4 pb-6 border-b border-gray-100">
-                                        <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wider">Header Section</h3>
+                                    <div className="space-y-4 pb-6 border-b border-gray-100 dark:border-zinc-800">
+                                        <h3 className="text-sm font-semibold text-gray-900 dark:text-white uppercase tracking-wider">Header Section</h3>
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                             <div className="md:col-span-2">
-                                                <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>
+                                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Title</label>
                                                 <input
                                                     type="text"
                                                     value={whySection.program_why_title}
                                                     onChange={e => setWhySection({ ...whySection, program_why_title: e.target.value })}
-                                                    className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none"
+                                                    className="w-full border border-gray-300 dark:border-zinc-700 rounded-lg px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none bg-white dark:bg-zinc-900 text-gray-900 dark:text-white placeholder-gray-400"
                                                     placeholder="Why Choose Our Program?"
                                                 />
                                             </div>
                                             <div className="md:col-span-2">
-                                                <label className="block text-sm font-medium text-gray-700 mb-1">Subtitle</label>
+                                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Subtitle</label>
                                                 <textarea
                                                     rows={2}
                                                     value={whySection.program_why_subtitle}
                                                     onChange={e => setWhySection({ ...whySection, program_why_subtitle: e.target.value })}
-                                                    className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none"
+                                                    className="w-full border border-gray-300 dark:border-zinc-700 rounded-lg px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none bg-white dark:bg-zinc-900 text-gray-900 dark:text-white placeholder-gray-400"
                                                     placeholder="Get competitive advantage..."
                                                 />
                                             </div>
@@ -273,7 +273,7 @@ export default function CMSProgram() {
                                     {/* Features List */}
                                     <div className="space-y-4">
                                         <div className="flex items-center justify-between">
-                                            <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wider">Program Features</h3>
+                                            <h3 className="text-sm font-semibold text-gray-900 dark:text-white uppercase tracking-wider">Program Features</h3>
                                             <button
                                                 onClick={addFeature}
                                                 className="bg-red-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-red-700 transition text-sm"
@@ -289,15 +289,15 @@ export default function CMSProgram() {
                                         ) : (
                                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                                 {features.map((feature, index) => (
-                                                    <div key={index} className="p-4 border border-gray-200 rounded-xl bg-gray-50 space-y-3">
+                                                    <div key={index} className="p-4 border border-gray-200 dark:border-zinc-800 rounded-xl bg-gray-50 dark:bg-zinc-800/50 space-y-3">
                                                         <div className="flex items-center justify-between">
                                                             <div className="flex items-center gap-2 text-gray-400">
                                                                 <FaGripVertical />
-                                                                <span className="font-medium text-gray-700 text-sm">Feature #{index + 1}</span>
+                                                                <span className="font-medium text-gray-700 text-sm dark:text-gray-300">Feature #{index + 1}</span>
                                                             </div>
                                                             <button
                                                                 onClick={() => removeFeature(index)}
-                                                                className="text-red-500 hover:text-red-700 p-1.5 hover:bg-red-50 rounded-lg transition"
+                                                                className="text-red-500 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 p-1.5 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition"
                                                             >
                                                                 <FaTrash size={12} />
                                                             </button>
@@ -308,7 +308,7 @@ export default function CMSProgram() {
                                                                 <select
                                                                     value={feature.icon}
                                                                     onChange={e => updateFeature(index, 'icon', e.target.value)}
-                                                                    className="border border-gray-300 rounded-lg px-2 py-2 focus:ring-2 focus:ring-red-500 outline-none text-sm"
+                                                                    className="border border-gray-300 dark:border-zinc-700 rounded-lg px-2 py-2 focus:ring-2 focus:ring-red-500 outline-none text-sm bg-white dark:bg-zinc-900 text-gray-900 dark:text-white"
                                                                 >
                                                                     {ICON_OPTIONS.map(opt => (
                                                                         <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -318,7 +318,7 @@ export default function CMSProgram() {
                                                                     type="text"
                                                                     value={feature.title}
                                                                     onChange={e => updateFeature(index, 'title', e.target.value)}
-                                                                    className="col-span-2 border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none text-sm"
+                                                                    className="col-span-2 border border-gray-300 dark:border-zinc-700 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none text-sm bg-white dark:bg-zinc-900 text-gray-900 dark:text-white placeholder-gray-400"
                                                                     placeholder="Feature Title"
                                                                 />
                                                             </div>
@@ -326,7 +326,7 @@ export default function CMSProgram() {
                                                                 rows={2}
                                                                 value={feature.description}
                                                                 onChange={e => updateFeature(index, 'description', e.target.value)}
-                                                                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none text-sm"
+                                                                className="w-full border border-gray-300 dark:border-zinc-700 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none text-sm bg-white dark:bg-zinc-900 text-gray-900 dark:text-white placeholder-gray-400"
                                                                 placeholder="Short description..."
                                                             />
                                                         </div>
@@ -342,26 +342,26 @@ export default function CMSProgram() {
                             {activeTab === 'curriculum' && (
                                 <div className="space-y-6">
                                     {/* Section Header */}
-                                    <div className="space-y-4 pb-6 border-b border-gray-100">
-                                        <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wider">Header Section</h3>
+                                    <div className="space-y-4 pb-6 border-b border-gray-100 dark:border-zinc-700">
+                                        <h3 className="text-sm font-semibold text-gray-900 dark:text-white uppercase tracking-wider">Header Section</h3>
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                             <div className="md:col-span-2">
-                                                <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>
+                                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Title</label>
                                                 <input
                                                     type="text"
                                                     value={curriculumSection.program_curriculum_title}
                                                     onChange={e => setCurriculumSection({ ...curriculumSection, program_curriculum_title: e.target.value })}
-                                                    className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none"
+                                                    className="w-full border border-gray-300 dark:border-zinc-700 rounded-lg px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none bg-white dark:bg-zinc-900 text-gray-900 dark:text-white placeholder-gray-400"
                                                     placeholder="Training Curriculum"
                                                 />
                                             </div>
                                             <div className="md:col-span-2">
-                                                <label className="block text-sm font-medium text-gray-700 mb-1">Subtitle</label>
+                                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Subtitle</label>
                                                 <textarea
                                                     rows={2}
                                                     value={curriculumSection.program_curriculum_subtitle}
                                                     onChange={e => setCurriculumSection({ ...curriculumSection, program_curriculum_subtitle: e.target.value })}
-                                                    className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none"
+                                                    className="w-full border border-gray-300 dark:border-zinc-700 rounded-lg px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none bg-white dark:bg-zinc-900 text-gray-900 dark:text-white placeholder-gray-400"
                                                     placeholder="What you will learn..."
                                                 />
                                             </div>
@@ -371,7 +371,7 @@ export default function CMSProgram() {
                                     {/* Curriculum Items */}
                                     <div className="space-y-4">
                                         <div className="flex items-center justify-between">
-                                            <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wider">Curriculum Stages</h3>
+                                            <h3 className="text-sm font-semibold text-gray-900 dark:text-white uppercase tracking-wider">Curriculum Stages</h3>
                                             <button
                                                 onClick={addCurriculumItem}
                                                 className="bg-red-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-red-700 transition text-sm"
@@ -387,17 +387,17 @@ export default function CMSProgram() {
                                         ) : (
                                             <div className="space-y-6">
                                                 {curriculumItems.map((item, index) => (
-                                                    <div key={index} className="p-5 border border-gray-200 rounded-xl bg-gray-50 space-y-4">
+                                                    <div key={index} className="p-5 border border-gray-200 dark:border-zinc-800 rounded-xl bg-gray-50 dark:bg-zinc-800/50 space-y-4">
                                                         <div className="flex items-center justify-between">
                                                             <div className="flex items-center gap-3">
-                                                                <div className="w-10 h-10 bg-red-600 text-white rounded-lg flex items-center justify-center font-bold">
+                                                                <div className="w-10 h-10 bg-red-600 text-white rounded-lg flex items-center justify-center font-bold dark:bg-red-700">
                                                                     {item.number || index + 1}
                                                                 </div>
-                                                                <span className="font-medium text-gray-700">Syllabus {item.number || index + 1}</span>
+                                                                <span className="font-medium text-gray-700 dark:text-gray-300">Syllabus {item.number || index + 1}</span>
                                                             </div>
                                                             <button
                                                                 onClick={() => removeCurriculumItem(index)}
-                                                                className="text-red-500 hover:text-red-700 p-2 hover:bg-red-50 rounded-lg transition"
+                                                                className="text-red-500 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 p-2 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition"
                                                             >
                                                                 <FaTrash />
                                                             </button>
@@ -405,21 +405,21 @@ export default function CMSProgram() {
 
                                                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                                                             <div>
-                                                                <label className="block text-sm font-medium text-gray-700 mb-1">Number</label>
+                                                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Number</label>
                                                                 <input
                                                                     type="text"
                                                                     value={item.number}
                                                                     onChange={e => updateCurriculumItem(index, 'number', e.target.value)}
-                                                                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none"
+                                                                    className="w-full border border-gray-300 dark:border-zinc-700 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none bg-white dark:bg-zinc-900 text-gray-900 dark:text-white"
                                                                     placeholder="1"
                                                                 />
                                                             </div>
                                                             <div>
-                                                                <label className="block text-sm font-medium text-gray-700 mb-1">Icon</label>
+                                                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Icon</label>
                                                                 <select
                                                                     value={item.icon}
                                                                     onChange={e => updateCurriculumItem(index, 'icon', e.target.value)}
-                                                                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none"
+                                                                    className="w-full border border-gray-300 dark:border-zinc-700 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none bg-white dark:bg-zinc-900 text-gray-900 dark:text-white"
                                                                 >
                                                                     {CURRICULUM_ICON_OPTIONS.map(opt => (
                                                                         <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -427,28 +427,28 @@ export default function CMSProgram() {
                                                                 </select>
                                                             </div>
                                                             <div>
-                                                                <label className="block text-sm font-medium text-gray-700 mb-1">Stage Title</label>
+                                                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Stage Title</label>
                                                                 <input
                                                                     type="text"
                                                                     value={item.title}
                                                                     onChange={e => updateCurriculumItem(index, 'title', e.target.value)}
-                                                                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none"
+                                                                    className="w-full border border-gray-300 dark:border-zinc-700 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none bg-white dark:bg-zinc-900 text-gray-900 dark:text-white"
                                                                     placeholder="Training Stage"
                                                                 />
                                                             </div>
                                                             <div className="md:col-span-3">
-                                                                <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                                                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Description</label>
                                                                 <textarea
                                                                     rows={2}
                                                                     value={item.description}
                                                                     onChange={e => updateCurriculumItem(index, 'description', e.target.value)}
-                                                                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none"
+                                                                    className="w-full border border-gray-300 dark:border-zinc-700 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none bg-white dark:bg-zinc-900 text-gray-900 dark:text-white"
                                                                     placeholder="Description of this stage..."
                                                                 />
                                                             </div>
                                                             <div className="md:col-span-3 space-y-2">
                                                                 <div className="flex items-center justify-between">
-                                                                    <label className="block text-sm font-medium text-gray-700">List Item</label>
+                                                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">List Item</label>
                                                                     <button
                                                                         type="button"
                                                                         onClick={() => addCurriculumListItem(index)}
@@ -463,14 +463,14 @@ export default function CMSProgram() {
                                                                             type="text"
                                                                             value={listItem}
                                                                             onChange={e => updateCurriculumList(index, lIndex, e.target.value)}
-                                                                            className="flex-1 border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none text-sm"
+                                                                            className="flex-1 border border-gray-300 dark:border-zinc-700 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none text-sm bg-white dark:bg-zinc-900 text-gray-900 dark:text-white placeholder-gray-400"
                                                                             placeholder={`Topic ${lIndex + 1}`}
                                                                         />
                                                                         {(item.list || []).length > 1 && (
                                                                             <button
                                                                                 type="button"
                                                                                 onClick={() => removeCurriculumListItem(index, lIndex)}
-                                                                                className="text-gray-400 hover:text-red-500 p-2"
+                                                                                className="text-gray-400 hover:text-red-500 dark:text-gray-500 dark:hover:text-red-400 p-2"
                                                                             >
                                                                                 <FaTrash size={12} />
                                                                             </button>
@@ -490,45 +490,45 @@ export default function CMSProgram() {
                             {/* CTA TAB */}
                             {activeTab === 'cta' && (
                                 <div className="space-y-6">
-                                    <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wider border-b border-gray-100 pb-2">Call to Action Section</h3>
+                                    <h3 className="text-sm font-semibold text-gray-900 dark:text-white uppercase tracking-wider border-b border-gray-100 dark:border-zinc-700 pb-2">Call to Action Section</h3>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         <div className="md:col-span-2">
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">CTA Title</label>
+                                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">CTA Title</label>
                                             <input
                                                 type="text"
                                                 value={ctaSection.program_cta_title}
                                                 onChange={e => setCtaSection({ ...ctaSection, program_cta_title: e.target.value })}
-                                                className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none"
+                                                className="w-full border border-gray-300 dark:border-zinc-700 rounded-lg px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none bg-white dark:bg-zinc-900 text-gray-900 dark:text-white placeholder-gray-400"
                                                 placeholder="Ready to Start Your Career?"
                                             />
                                         </div>
                                         <div className="md:col-span-2">
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">CTA Subtitle</label>
+                                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">CTA Subtitle</label>
                                             <textarea
                                                 rows={2}
                                                 value={ctaSection.program_cta_subtitle}
                                                 onChange={e => setCtaSection({ ...ctaSection, program_cta_subtitle: e.target.value })}
-                                                className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none"
+                                                className="w-full border border-gray-300 dark:border-zinc-700 rounded-lg px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none bg-white dark:bg-zinc-900 text-gray-900 dark:text-white placeholder-gray-400"
                                                 placeholder="Join thousands of successful alumni..."
                                             />
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Button Text</label>
+                                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Button Text</label>
                                             <input
                                                 type="text"
                                                 value={ctaSection.program_cta_button_text}
                                                 onChange={e => setCtaSection({ ...ctaSection, program_cta_button_text: e.target.value })}
-                                                className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none"
+                                                className="w-full border border-gray-300 dark:border-zinc-700 rounded-lg px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none bg-white dark:bg-zinc-900 text-gray-900 dark:text-white placeholder-gray-400"
                                                 placeholder="Register Now"
                                             />
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Button Link</label>
+                                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Button Link</label>
                                             <input
                                                 type="text"
                                                 value={ctaSection.program_cta_button_link}
                                                 onChange={e => setCtaSection({ ...ctaSection, program_cta_button_link: e.target.value })}
-                                                className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none"
+                                                className="w-full border border-gray-300 dark:border-zinc-700 rounded-lg px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none bg-white dark:bg-zinc-900 text-gray-900 dark:text-white placeholder-gray-400"
                                                 placeholder="/auth/register"
                                             />
                                         </div>
@@ -537,7 +537,7 @@ export default function CMSProgram() {
                             )}
 
                             {/* Save Button */}
-                            <div className="pt-6 border-t border-gray-100 flex justify-end">
+                            <div className="pt-6 border-t border-gray-100 dark:border-zinc-700 flex justify-end">
                                 <button
                                     onClick={handleSubmit}
                                     disabled={saving}

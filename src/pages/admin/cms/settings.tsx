@@ -71,12 +71,12 @@ export default function CMSSettings() {
             </Head>
 
             <div className="w-full">
-                <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-                    <div className="p-6 border-b border-gray-100 flex items-center gap-3">
-                        <div className="p-2 bg-gray-100 rounded-lg text-gray-600"><FaCog /></div>
+                <div className="bg-white dark:bg-zinc-900 rounded-xl shadow-sm border border-gray-100 dark:border-zinc-800 overflow-hidden transition-colors">
+                    <div className="p-6 border-b border-gray-100 dark:border-zinc-800 flex items-center gap-3">
+                        <div className="p-2 bg-gray-100 dark:bg-zinc-800 rounded-lg text-gray-600 dark:text-gray-400"><FaCog /></div>
                         <div>
-                            <h2 className="text-lg font-bold text-gray-800">General Settings</h2>
-                            <p className="text-sm text-gray-500">Manage contact info and social links.</p>
+                            <h2 className="text-lg font-bold text-gray-800 dark:text-white">General Settings</h2>
+                            <p className="text-sm text-gray-500 dark:text-gray-400">Manage contact info and social links.</p>
                         </div>
                     </div>
 
@@ -86,52 +86,52 @@ export default function CMSSettings() {
                         <form onSubmit={handleSubmit} className="p-6 space-y-8">
                             {/* Contact Information */}
                             <section className="space-y-4">
-                                <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wider border-b border-gray-100 pb-2">Contact Information</h3>
+                                <h3 className="text-sm font-semibold text-gray-900 dark:text-white uppercase tracking-wider border-b border-gray-100 dark:border-zinc-800 pb-2">Contact Information</h3>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email Address</label>
                                         <input
                                             type="email"
                                             value={settings.contact_email || ''}
                                             onChange={e => handleChange('contact_email', e.target.value)}
-                                            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none"
+                                            className="w-full border border-gray-300 dark:border-zinc-700 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none bg-white dark:bg-zinc-800 dark:text-white"
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Phone Number</label>
                                         <input
                                             type="text"
                                             value={settings.contact_phone || ''}
                                             onChange={e => handleChange('contact_phone', e.target.value)}
-                                            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none"
+                                            className="w-full border border-gray-300 dark:border-zinc-700 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 dark:bg-zinc-800 outline-none"
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">WhatsApp Number</label>
+                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">WhatsApp Number</label>
                                         <input
                                             type="text"
                                             value={settings.contact_whatsapp || ''}
                                             onChange={e => handleChange('contact_whatsapp', e.target.value)}
-                                            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none"
+                                            className="w-full border border-gray-300 dark:border-zinc-700 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none bg-white dark:bg-zinc-800 dark:text-white"
                                             placeholder="628..."
                                         />
                                     </div>
                                     <div className="md:col-span-2">
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Address</label>
+                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Address</label>
                                         <textarea
                                             rows={3}
                                             value={settings.contact_address || ''}
                                             onChange={e => handleChange('contact_address', e.target.value)}
-                                            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none"
+                                            className="w-full border border-gray-300 dark:border-zinc-700 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none bg-white dark:bg-zinc-800 dark:text-white"
                                         />
                                     </div>
                                     <div className="md:col-span-2">
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Jam Operasional</label>
+                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Jam Operasional</label>
                                         <input
                                             type="text"
                                             value={settings.contact_hours || ''}
                                             onChange={e => handleChange('contact_hours', e.target.value)}
-                                            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none"
+                                            className="w-full border border-gray-300 dark:border-zinc-700 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none bg-white dark:bg-zinc-800 dark:text-white"
                                         />
                                     </div>
                                 </div>
@@ -139,42 +139,42 @@ export default function CMSSettings() {
 
                             {/* Social Media */}
                             <section className="space-y-4">
-                                <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wider border-b border-gray-100 pb-2">Social Media</h3>
+                                <h3 className="text-sm font-semibold text-gray-900 dark:text-white uppercase tracking-wider border-b border-gray-100 dark:border-zinc-800 pb-2">Social Media</h3>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Instagram URL</label>
+                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Instagram URL</label>
                                         <input
                                             type="text"
                                             value={settings.social_instagram || ''}
                                             onChange={e => handleChange('social_instagram', e.target.value)}
-                                            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none"
+                                            className="w-full border border-gray-300 dark:border-zinc-700 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none bg-white dark:bg-zinc-800 dark:text-white"
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Facebook URL</label>
+                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Facebook URL</label>
                                         <input
                                             type="text"
                                             value={settings.social_facebook || ''}
                                             onChange={e => handleChange('social_facebook', e.target.value)}
-                                            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none"
+                                            className="w-full border border-gray-300 dark:border-zinc-700 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none bg-white dark:bg-zinc-800 dark:text-white"
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">LinkedIn URL</label>
+                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">LinkedIn URL</label>
                                         <input
                                             type="text"
                                             value={settings.social_linkedin || ''}
                                             onChange={e => handleChange('social_linkedin', e.target.value)}
-                                            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none"
+                                            className="w-full border border-gray-300 dark:border-zinc-700 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none bg-white dark:bg-zinc-800 dark:text-white"
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">YouTube URL</label>
+                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">YouTube URL</label>
                                         <input
                                             type="text"
                                             value={settings.social_youtube || ''}
                                             onChange={e => handleChange('social_youtube', e.target.value)}
-                                            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none"
+                                            className="w-full border border-gray-300 dark:border-zinc-700 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none bg-white dark:bg-zinc-800 dark:text-white"
                                         />
                                     </div>
                                 </div>
@@ -182,25 +182,25 @@ export default function CMSSettings() {
 
                             {/* Maps */}
                             <section className="space-y-4">
-                                <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wider border-b border-gray-100 pb-2">Location</h3>
+                                <h3 className="text-sm font-semibold text-gray-900 dark:text-white uppercase tracking-wider border-b border-gray-100 dark:border-zinc-800 pb-2">Location</h3>
                                 <div className="space-y-4">
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Google Maps Embed URL (untuk iframe)</label>
+                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Google Maps Embed URL (untuk iframe)</label>
                                         <input
                                             type="text"
                                             value={settings.map_embed_url || ''}
                                             onChange={e => handleChange('map_embed_url', e.target.value)}
-                                            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none"
+                                            className="w-full border border-gray-300 dark:border-zinc-700 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none bg-white dark:bg-zinc-800 dark:text-white"
                                             placeholder="https://www.google.com/maps/embed?pb=..."
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Google Maps Share Link (untuk tombol &quot;Buka Maps&quot;)</label>
+                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Google Maps Share Link (untuk tombol &quot;Buka Maps&quot;)</label>
                                         <input
                                             type="text"
                                             value={settings.map_share_url || ''}
                                             onChange={e => handleChange('map_share_url', e.target.value)}
-                                            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none"
+                                            className="w-full border border-gray-300 dark:border-zinc-700 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none bg-white dark:bg-zinc-800 dark:text-white"
                                             placeholder="https://maps.app.goo.gl/... atau https://goo.gl/maps/..."
                                         />
                                         <p className="text-xs text-gray-500 mt-1">Link pendek dari tombol &quot;Share&quot; → &quot;Copy link&quot; di Google Maps.</p>
@@ -208,7 +208,7 @@ export default function CMSSettings() {
                                 </div>
                             </section>
 
-                            <div className="pt-6 border-t border-gray-100 flex justify-end">
+                            <div className="pt-6 border-t border-gray-100 dark:border-zinc-800 flex justify-end">
                                 <button
                                     type="submit"
                                     disabled={saving}

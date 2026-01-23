@@ -173,11 +173,11 @@ export default function QuizBankIndex() {
                 <title>Quiz Categories | Admin</title>
             </Head>
 
-            <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
+            <div className="bg-white dark:bg-zinc-900 rounded-xl border border-gray-100 dark:border-zinc-800 shadow-sm p-6 transition-colors">
                 <div className="flex justify-between items-center mb-6">
                     <div>
-                        <h2 className="text-xl font-bold text-gray-800">Quiz Categories</h2>
-                        <p className="text-gray-500 text-sm mt-1">Manage categories for the question bank.</p>
+                        <h2 className="text-xl font-bold text-gray-800 dark:text-white">Quiz Categories</h2>
+                        <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">Manage categories for the question bank.</p>
                     </div>
                     <button
                         onClick={handleCreate}
@@ -188,34 +188,34 @@ export default function QuizBankIndex() {
                 </div>
 
                 {loading ? (
-                    <div className="text-center py-12 text-gray-500">Loading Categories...</div>
+                    <div className="text-center py-12 text-gray-500 dark:text-gray-400">Loading Categories...</div>
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {filteredCategories.map(category => (
-                            <div key={category.id} className="group relative bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200">
+                            <div key={category.id} className="group relative bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 rounded-xl shadow-sm hover:shadow-md transition-all duration-200">
                                 <Link href={`/admin/content/quiz-bank/${category.id}`} className="block p-6">
                                     <div className="flex items-center justify-between mb-4">
-                                        <div className="p-3 bg-red-50 text-red-600 rounded-lg group-hover:bg-red-100 transition-colors">
+                                        <div className="p-3 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-lg group-hover:bg-red-100 dark:group-hover:bg-red-900/40 transition-colors">
                                             <FaLayerGroup size={24} />
                                         </div>
                                         <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                                             <button
                                                 onClick={(e) => { e.preventDefault(); handleEdit(category); }}
-                                                className="p-1.5 text-gray-400 hover:text-blue-600 transition"
+                                                className="p-1.5 text-gray-400 dark:text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 transition"
                                             >
                                                 <FaEdit />
                                             </button>
                                             <button
                                                 onClick={(e) => handleDeleteClick(category.id, e)}
-                                                className="p-1.5 text-gray-400 hover:text-red-600 transition"
+                                                className="p-1.5 text-gray-400 dark:text-gray-500 hover:text-red-600 dark:hover:text-red-400 transition"
                                             >
                                                 <FaTrash />
                                             </button>
                                         </div>
                                     </div>
-                                    <h4 className="font-semibold text-gray-900 truncate mb-1">{category.name}</h4>
-                                    <p className="text-sm text-gray-500 line-clamp-2 h-10 mb-3">{category.description || 'No description'}</p>
-                                    <div className="flex items-center text-xs text-gray-400 font-medium bg-gray-50 w-fit px-2 py-1 rounded">
+                                    <h4 className="font-semibold text-gray-900 dark:text-white truncate mb-1">{category.name}</h4>
+                                    <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-2 h-10 mb-3">{category.description || 'No description'}</p>
+                                    <div className="flex items-center text-xs text-gray-400 font-medium bg-gray-50 dark:bg-zinc-800 dark:text-gray-500 w-fit px-2 py-1 rounded">
                                         {category.question_types?.length || 0} Question Types
                                     </div>
                                 </Link>
@@ -223,11 +223,11 @@ export default function QuizBankIndex() {
                         ))}
 
                         {filteredCategories.length === 0 && (
-                            <div className="col-span-full py-12 text-center border-2 border-dashed border-gray-200 rounded-xl">
+                            <div className="col-span-full py-12 text-center border-2 border-dashed border-gray-200 dark:border-zinc-700 rounded-xl">
                                 <div className="mx-auto w-12 h-12 text-gray-300 mb-3">
                                     <FaLayerGroup size={48} />
                                 </div>
-                                <p className="text-gray-500">
+                                <p className="text-gray-500 dark:text-gray-400">
                                     {searchQuery ? `No categories match "${searchQuery}"` : 'No categories found. Create one to get started.'}
                                 </p>
                             </div>
@@ -239,32 +239,32 @@ export default function QuizBankIndex() {
             {/* Form Modal */}
             {isFormOpen && (
                 <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-                    <div className="bg-white rounded-xl shadow-xl w-full max-w-md p-6 animate-in zoom-in duration-200">
-                        <h3 className="text-lg font-bold text-gray-800 mb-4 capitalize">
+                    <div className="bg-white dark:bg-zinc-900 rounded-xl shadow-xl w-full max-w-md p-6 animate-in zoom-in duration-200">
+                        <h3 className="text-lg font-bold text-gray-800 dark:text-white mb-4 capitalize">
                             {formMode === 'create' ? 'Create Category' : 'Edit Category'}
                         </h3>
                         <form onSubmit={handleSubmit} className="space-y-4">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Category Name <span className="text-red-500">*</span></label>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Category Name <span className="text-red-500">*</span></label>
                                 <input
                                     type="text"
                                     name="name"
                                     required
                                     value={formData.name}
                                     onChange={handleInputChange}
-                                    className={`w-full border rounded-lg px-3 py-2 outline-none ${errors.name ? 'border-red-500 focus:ring-red-200' : 'border-gray-300 focus:ring-red-500 focus:ring-2'}`}
+                                    className={`w-full border rounded-lg px-3 py-2 outline-none dark:bg-zinc-800 dark:text-white ${errors.name ? 'border-red-500 focus:ring-red-200' : 'border-gray-300 dark:border-zinc-700 focus:ring-red-500 focus:ring-2'}`}
                                     placeholder="e.g. History"
                                 />
                                 {errors.name && <p className="text-xs text-red-600 mt-1">{errors.name}</p>}
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Description</label>
                                 <textarea
                                     rows={3}
                                     name="description"
                                     value={formData.description}
                                     onChange={handleInputChange}
-                                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none"
+                                    className="w-full border border-gray-300 dark:border-zinc-700 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none bg-white dark:bg-zinc-800 dark:text-white"
                                     placeholder="Category description..."
                                 />
                             </div>
@@ -272,14 +272,14 @@ export default function QuizBankIndex() {
                                 <button
                                     type="button"
                                     onClick={() => setIsFormOpen(false)}
-                                    className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg"
+                                    className="px-4 py-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-zinc-800 rounded-lg"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     type="submit"
                                     disabled={!isFormValid()}
-                                    className={`px-4 py-2 text-white rounded-lg transition ${!isFormValid() ? 'bg-gray-300 cursor-not-allowed' : 'bg-red-600 hover:bg-red-700'}`}
+                                    className={`px-4 py-2 text-white rounded-lg transition ${!isFormValid() ? 'bg-gray-300 dark:bg-zinc-700 cursor-not-allowed' : 'bg-red-600 hover:bg-red-700'}`}
                                 >
                                     Save
                                 </button>

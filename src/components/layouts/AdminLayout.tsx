@@ -4,11 +4,12 @@ import { useRouter } from 'next/router';
 import { useAuth } from '@/context/AuthContext';
 import { useTheme } from '@/context/ThemeContext';
 import { useSearch } from '@/context/SearchContext';
+import { useSidebar } from '@/context/SidebarContext';
 import {
     FaHome, FaUsers, FaUserShield, FaCalendarCheck,
     FaBars, FaSignOutAlt, FaSearch,
     FaLock, FaImages, FaQuestionCircle, FaCog, FaStar, FaNewspaper, FaBook, FaMoneyBillWave, FaVideo, FaClipboardList,
-    FaChevronLeft, FaChevronRight, FaChevronDown, FaSun, FaMoon
+    FaChevronLeft, FaChevronRight, FaChevronDown, FaSun, FaMoon, FaExclamationCircle
 } from 'react-icons/fa';
 import Image from 'next/image';
 
@@ -24,7 +25,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children, title }) => 
     const { searchQuery, setSearchQuery } = useSearch();
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [isProfileOpen, setIsProfileOpen] = useState(false);
-    const [isCollapsed, setIsCollapsed] = useState(false);
+    const { isCollapsed, toggleSidebar } = useSidebar();
     const [collapsedGroups, setCollapsedGroups] = useState<Record<string, boolean>>({});
     const dropdownRef = useRef<HTMLDivElement>(null);
     const [userProfile, setUserProfile] = useState<any>(null);
@@ -71,7 +72,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children, title }) => 
         {
             group: 'Landing Page',
             items: [
-                { label: 'Home & About', href: '/admin/cms/home-about', icon: <FaHome /> },
+                { label: 'Home & About', href: '/admin/cms/home-about', icon: <FaExclamationCircle /> },
                 { label: 'Program', href: '/admin/cms/program', icon: <FaBook /> },
                 { label: 'Testimonials', href: '/admin/cms/testimonials', icon: <FaStar /> },
                 { label: 'FAQ', href: '/admin/cms/faq', icon: <FaQuestionCircle /> },
@@ -117,7 +118,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children, title }) => 
             `}>
                 {/* Collapse Toggle */}
                 <button
-                    onClick={() => setIsCollapsed(!isCollapsed)}
+                    onClick={toggleSidebar}
                     className="hidden md:flex absolute -right-3 top-20 w-6 h-6 bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 rounded-full items-center justify-center text-gray-500 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 shadow-sm z-50 transition-colors"
                 >
                     {isCollapsed ? <FaChevronRight size={10} /> : <FaChevronLeft size={10} />}

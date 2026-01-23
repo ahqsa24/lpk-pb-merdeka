@@ -231,14 +231,14 @@ export default function CMSHomeAbout() {
 
             <div className="w-full space-y-6">
                 {/* Tabs */}
-                <div className="bg-white rounded-xl border border-gray-100 p-1 flex gap-1">
+                <div className="bg-white dark:bg-zinc-900 rounded-xl border border-gray-100 dark:border-zinc-700 p-1 flex gap-1 transition-colors">
                     {tabs.map(tab => (
                         <button
                             key={tab.id}
                             onClick={() => setActiveTab(tab.id as any)}
                             className={`flex-1 py-3 px-4 rounded-lg font-medium transition-all flex items-center justify-center gap-2 ${activeTab === tab.id
-                                ? 'bg-red-600 text-white shadow-lg'
-                                : 'text-gray-600 hover:bg-gray-50'
+                                ? 'bg-red-600 text-white shadow-lg shadow-red-900/20'
+                                : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-zinc-800'
                                 }`}
                         >
                             {tab.label}
@@ -247,9 +247,9 @@ export default function CMSHomeAbout() {
                 </div>
 
                 {/* Content */}
-                <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+                <div className="bg-white dark:bg-zinc-900 rounded-xl border border-gray-100 dark:border-zinc-800 shadow-sm overflow-hidden transition-colors">
                     {loading ? (
-                        <div className="p-12 text-center text-gray-500">
+                        <div className="p-12 text-center text-gray-500 dark:text-gray-400">
                             <FaSpinner className="animate-spin mx-auto text-2xl mb-2" />
                             Loading...
                         </div>
@@ -258,62 +258,61 @@ export default function CMSHomeAbout() {
                             {/* HERO TAB */}
                             {activeTab === 'hero' && (
                                 <div className="space-y-6">
-                                    <div className="flex items-center gap-3 pb-4 border-b border-gray-100">
-                                        <div className="p-2 bg-red-100 text-red-600 rounded-lg"><FaHome /></div>
+                                    <div className="flex items-center gap-3 pb-4 border-b border-gray-100 dark:border-zinc-800">
                                         <div>
-                                            <h2 className="text-lg font-bold text-gray-800">Hero Section (Homepage)</h2>
-                                            <p className="text-sm text-gray-500">Manage the main landing page display</p>
+                                            <h2 className="text-lg font-bold text-gray-800 dark:text-white">Hero Section (Homepage)</h2>
+                                            <p className="text-sm text-gray-500 dark:text-gray-400">Manage the main landing page display</p>
                                         </div>
                                     </div>
 
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         <div className="md:col-span-2">
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Hero Title</label>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1 dark:text-gray-300">Hero Title</label>
                                             <input
                                                 type="text"
                                                 value={hero.hero_title}
                                                 onChange={e => setHero({ ...hero, hero_title: e.target.value })}
-                                                className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none"
+                                                className="w-full border border-gray-300 dark:border-zinc-700 rounded-lg px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none bg-white dark:bg-zinc-900 text-gray-900 dark:text-white placeholder-gray-400"
                                                 placeholder="Strong Competence, Great Future"
                                             />
                                         </div>
                                         <div className="md:col-span-2">
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Subtitle</label>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1 dark:text-gray-300">Subtitle</label>
                                             <textarea
                                                 rows={3}
                                                 value={hero.hero_subtitle}
                                                 onChange={e => setHero({ ...hero, hero_subtitle: e.target.value })}
-                                                className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none"
+                                                className="w-full border border-gray-300 dark:border-zinc-700 rounded-lg px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none bg-white dark:bg-zinc-900 text-gray-900 dark:text-white placeholder-gray-400"
                                                 placeholder="Lembaga pelatihan resmi di bidang perdagangan berjangka..."
                                             />
                                         </div>
                                         <div className="md:col-span-2">
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Hero Image URL</label>
+                                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Hero Image URL</label>
                                             <input
                                                 type="text"
                                                 value={hero.hero_image_url}
                                                 onChange={e => setHero({ ...hero, hero_image_url: e.target.value })}
-                                                className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none"
+                                                className="w-full border border-gray-300 dark:border-zinc-700 rounded-lg px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none bg-white dark:bg-zinc-900 text-gray-900 dark:text-white placeholder-gray-400"
                                                 placeholder="https://..."
                                             />
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">CTA Button Text</label>
+                                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">CTA Button Text</label>
                                             <input
                                                 type="text"
                                                 value={hero.hero_cta_text}
                                                 onChange={e => setHero({ ...hero, hero_cta_text: e.target.value })}
-                                                className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none"
+                                                className="w-full border border-gray-300 dark:border-zinc-700 rounded-lg px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none bg-white dark:bg-zinc-900 text-gray-900 dark:text-white placeholder-gray-400"
                                                 placeholder="Register Program"
                                             />
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">CTA Button Link</label>
+                                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">CTA Button Link</label>
                                             <input
                                                 type="text"
                                                 value={hero.hero_cta_link}
                                                 onChange={e => setHero({ ...hero, hero_cta_link: e.target.value })}
-                                                className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none"
+                                                className="w-full border border-gray-300 dark:border-zinc-700 rounded-lg px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none bg-white dark:bg-zinc-900 text-gray-900 dark:text-white placeholder-gray-400"
                                                 placeholder="/auth/register"
                                             />
                                         </div>
@@ -326,45 +325,45 @@ export default function CMSHomeAbout() {
                                 <div className="space-y-8">
                                     {/* Intro Section */}
                                     <div className="space-y-6">
-                                        <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wider border-b border-gray-100 pb-2">Intro / About Us</h3>
+                                        <h3 className="text-sm font-semibold text-gray-900 dark:text-white uppercase tracking-wider border-b border-gray-100 dark:border-zinc-700 pb-2">Intro / About Us</h3>
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                             <div>
-                                                <label className="block text-sm font-medium text-gray-700 mb-1">Label Badge</label>
+                                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Label Badge</label>
                                                 <input
                                                     type="text"
                                                     value={aboutIntro.about_intro_title}
                                                     onChange={e => setAboutIntro({ ...aboutIntro, about_intro_title: e.target.value })}
-                                                    className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none"
+                                                    className="w-full border border-gray-300 dark:border-zinc-700 rounded-lg px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none bg-white dark:bg-zinc-900 text-gray-900 dark:text-white placeholder-gray-400"
                                                     placeholder="Tentang Kami"
                                                 />
                                             </div>
                                             <div>
-                                                <label className="block text-sm font-medium text-gray-700 mb-1">Heading</label>
+                                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Heading</label>
                                                 <input
                                                     type="text"
                                                     value={aboutIntro.about_intro_heading}
                                                     onChange={e => setAboutIntro({ ...aboutIntro, about_intro_heading: e.target.value })}
-                                                    className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none"
+                                                    className="w-full border border-gray-300 dark:border-zinc-700 rounded-lg px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none bg-white dark:bg-zinc-900 text-gray-900 dark:text-white placeholder-gray-400"
                                                     placeholder="Apa Itu LPK PB Merdeka?"
                                                 />
                                             </div>
                                             <div className="md:col-span-2">
-                                                <label className="block text-sm font-medium text-gray-700 mb-1">Deskripsi</label>
+                                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Deskripsi</label>
                                                 <textarea
                                                     rows={4}
                                                     value={aboutIntro.about_intro_description}
                                                     onChange={e => setAboutIntro({ ...aboutIntro, about_intro_description: e.target.value })}
-                                                    className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none"
+                                                    className="w-full border border-gray-300 dark:border-zinc-700 rounded-lg px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none bg-white dark:bg-zinc-900 text-gray-900 dark:text-white placeholder-gray-400"
                                                     placeholder="Lembaga Pelatihan Kompetensi..."
                                                 />
                                             </div>
                                             <div className="md:col-span-2">
-                                                <label className="block text-sm font-medium text-gray-700 mb-1">URL Gambar</label>
+                                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">URL Gambar</label>
                                                 <input
                                                     type="text"
                                                     value={aboutIntro.about_intro_image_url}
                                                     onChange={e => setAboutIntro({ ...aboutIntro, about_intro_image_url: e.target.value })}
-                                                    className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none"
+                                                    className="w-full border border-gray-300 dark:border-zinc-700 rounded-lg px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none bg-white dark:bg-zinc-900 text-gray-900 dark:text-white placeholder-gray-400"
                                                     placeholder="https://..."
                                                 />
                                             </div>
@@ -373,35 +372,35 @@ export default function CMSHomeAbout() {
 
                                     {/* Vision Section */}
                                     <div className="space-y-6">
-                                        <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wider border-b border-gray-100 pb-2">Visi</h3>
+                                        <h3 className="text-sm font-semibold text-gray-900 dark:text-white uppercase tracking-wider border-b border-gray-100 dark:border-zinc-700 pb-2">Visi</h3>
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                             <div>
-                                                <label className="block text-sm font-medium text-gray-700 mb-1">Judul</label>
+                                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Judul</label>
                                                 <input
                                                     type="text"
                                                     value={vision.about_vision_title}
                                                     onChange={e => setVision({ ...vision, about_vision_title: e.target.value })}
-                                                    className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none"
+                                                    className="w-full border border-gray-300 dark:border-zinc-700 rounded-lg px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none bg-white dark:bg-zinc-900 text-gray-900 dark:text-white placeholder-gray-400"
                                                     placeholder="Visi LPK PB Merdeka"
                                                 />
                                             </div>
                                             <div>
-                                                <label className="block text-sm font-medium text-gray-700 mb-1">Heading</label>
+                                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Heading</label>
                                                 <input
                                                     type="text"
                                                     value={vision.about_vision_heading}
                                                     onChange={e => setVision({ ...vision, about_vision_heading: e.target.value })}
-                                                    className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none"
+                                                    className="w-full border border-gray-300 dark:border-zinc-700 rounded-lg px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none bg-white dark:bg-zinc-900 text-gray-900 dark:text-white placeholder-gray-400"
                                                     placeholder="Sejuta digital talent..."
                                                 />
                                             </div>
                                             <div className="md:col-span-2">
-                                                <label className="block text-sm font-medium text-gray-700 mb-1">Deskripsi</label>
+                                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Deskripsi</label>
                                                 <textarea
                                                     rows={3}
                                                     value={vision.about_vision_description}
                                                     onChange={e => setVision({ ...vision, about_vision_description: e.target.value })}
-                                                    className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none"
+                                                    className="w-full border border-gray-300 dark:border-zinc-700 rounded-lg px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none bg-white dark:bg-zinc-900 text-gray-900 dark:text-white placeholder-gray-400"
                                                 />
                                             </div>
                                         </div>
@@ -409,35 +408,35 @@ export default function CMSHomeAbout() {
 
                                     {/* Mission Section */}
                                     <div className="space-y-6">
-                                        <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wider border-b border-gray-100 pb-2">Misi</h3>
+                                        <h3 className="text-sm font-semibold text-gray-900 dark:text-white uppercase tracking-wider border-b border-gray-100 dark:border-zinc-700 pb-2">Misi</h3>
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                             <div>
-                                                <label className="block text-sm font-medium text-gray-700 mb-1">Judul</label>
+                                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Judul</label>
                                                 <input
                                                     type="text"
                                                     value={mission.about_mission_title}
                                                     onChange={e => setMission({ ...mission, about_mission_title: e.target.value })}
-                                                    className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none"
+                                                    className="w-full border border-gray-300 dark:border-zinc-700 rounded-lg px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none bg-white dark:bg-zinc-900 text-gray-900 dark:text-white placeholder-gray-400"
                                                     placeholder="Misi LPK PB Merdeka"
                                                 />
                                             </div>
                                             <div>
-                                                <label className="block text-sm font-medium text-gray-700 mb-1">Heading</label>
+                                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Heading</label>
                                                 <input
                                                     type="text"
                                                     value={mission.about_mission_heading}
                                                     onChange={e => setMission({ ...mission, about_mission_heading: e.target.value })}
-                                                    className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none"
+                                                    className="w-full border border-gray-300 dark:border-zinc-700 rounded-lg px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none bg-white dark:bg-zinc-900 text-gray-900 dark:text-white placeholder-gray-400"
                                                     placeholder="To train, certify, and connect..."
                                                 />
                                             </div>
                                             <div className="md:col-span-2">
-                                                <label className="block text-sm font-medium text-gray-700 mb-1">Deskripsi</label>
+                                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Deskripsi</label>
                                                 <textarea
                                                     rows={3}
                                                     value={mission.about_mission_description}
                                                     onChange={e => setMission({ ...mission, about_mission_description: e.target.value })}
-                                                    className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none"
+                                                    className="w-full border border-gray-300 dark:border-zinc-700 rounded-lg px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none bg-white dark:bg-zinc-900 text-gray-900 dark:text-white placeholder-gray-400"
                                                 />
                                             </div>
                                         </div>
@@ -448,10 +447,10 @@ export default function CMSHomeAbout() {
                             {/* GOALS TAB */}
                             {activeTab === 'goals' && (
                                 <div className="space-y-6">
-                                    <div className="flex items-center justify-between pb-4 border-b border-gray-100">
+                                    <div className="flex items-center justify-between pb-4 border-b border-gray-100 dark:border-zinc-700">
                                         <div>
-                                            <h2 className="text-lg font-bold text-gray-800">Goals</h2>
-                                            <p className="text-sm text-gray-500">Manage the list of goals displayed</p>
+                                            <h2 className="text-lg font-bold text-gray-800 dark:text-white">Goals</h2>
+                                            <p className="text-sm text-gray-500 dark:text-gray-400">Manage the list of goals displayed</p>
                                         </div>
                                         <button
                                             onClick={addGoal}
@@ -463,20 +462,20 @@ export default function CMSHomeAbout() {
 
                                     {goals.length === 0 ? (
                                         <div className="p-12 text-center bg-gray-50 rounded-xl border border-dashed border-gray-200">
-                                            <p className="text-gray-500">No goals yet. Click "Add Goal" button to add one.</p>
+                                            <p className="text-gray-500 dark:text-gray-400">No goals yet. Click "Add Goal" button to add one.</p>
                                         </div>
                                     ) : (
                                         <div className="space-y-4">
                                             {goals.map((goal, index) => (
-                                                <div key={index} className="p-4 border border-gray-200 rounded-xl bg-gray-50 space-y-4">
+                                                <div key={index} className="p-4 border border-gray-200 dark:border-zinc-800 rounded-xl bg-gray-50 dark:bg-zinc-800/50 space-y-4">
                                                     <div className="flex items-center justify-between">
                                                         <div className="flex items-center gap-2 text-gray-400">
                                                             <FaGripVertical />
-                                                            <span className="font-medium text-gray-700">Goal #{index + 1}</span>
+                                                            <span className="font-medium text-gray-700 dark:text-white">Goal #{index + 1}</span>
                                                         </div>
                                                         <button
                                                             onClick={() => removeGoal(index)}
-                                                            className="text-red-500 hover:text-red-700 p-2 hover:bg-red-50 rounded-lg transition"
+                                                            className="text-red-500 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 p-2 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition"
                                                         >
                                                             <FaTrash />
                                                         </button>
@@ -484,11 +483,11 @@ export default function CMSHomeAbout() {
 
                                                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                                                         <div>
-                                                            <label className="block text-sm font-medium text-gray-700 mb-1">Icon</label>
+                                                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Icon</label>
                                                             <select
                                                                 value={goal.icon}
                                                                 onChange={e => updateGoal(index, 'icon', e.target.value)}
-                                                                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none"
+                                                                className="w-full border border-gray-300 dark:border-zinc-700 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none bg-white dark:bg-zinc-900 text-gray-900 dark:text-white placeholder-gray-400"
                                                             >
                                                                 {ICON_OPTIONS.map(opt => (
                                                                     <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -496,22 +495,22 @@ export default function CMSHomeAbout() {
                                                             </select>
                                                         </div>
                                                         <div className="md:col-span-2">
-                                                            <label className="block text-sm font-medium text-gray-700 mb-1">Judul</label>
+                                                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Judul</label>
                                                             <input
                                                                 type="text"
                                                                 value={goal.title}
                                                                 onChange={e => updateGoal(index, 'title', e.target.value)}
-                                                                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none"
+                                                                className="w-full border border-gray-300 dark:border-zinc-700 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none bg-white dark:bg-zinc-900 text-gray-900 dark:text-white placeholder-gray-400"
                                                                 placeholder="Kurikulum Industri"
                                                             />
                                                         </div>
                                                         <div className="md:col-span-3">
-                                                            <label className="block text-sm font-medium text-gray-700 mb-1">Deskripsi</label>
+                                                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Deskripsi</label>
                                                             <textarea
                                                                 rows={2}
                                                                 value={goal.description}
                                                                 onChange={e => updateGoal(index, 'description', e.target.value)}
-                                                                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none"
+                                                                className="w-full border border-gray-300 dark:border-zinc-700 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none bg-white dark:bg-zinc-900 text-gray-900 dark:text-white placeholder-gray-400"
                                                                 placeholder="Deskripsi singkat..."
                                                             />
                                                         </div>
@@ -526,10 +525,10 @@ export default function CMSHomeAbout() {
                             {/* STRUKTUR PROGRAM TAB */}
                             {activeTab === 'struktur' && (
                                 <div className="space-y-6">
-                                    <div className="flex items-center justify-between pb-4 border-b border-gray-100">
+                                    <div className="flex items-center justify-between pb-4 border-b border-gray-100 dark:border-zinc-700">
                                         <div>
-                                            <h2 className="text-lg font-bold text-gray-800">Program Structure</h2>
-                                            <p className="text-sm text-gray-500">Manage program training stages (timeline)</p>
+                                            <h2 className="text-lg font-bold text-gray-800 dark:text-white">Program Structure</h2>
+                                            <p className="text-sm text-gray-500 dark:text-gray-400">Manage program training stages (timeline)</p>
                                         </div>
                                         <button
                                             onClick={addStruktur}
@@ -546,17 +545,17 @@ export default function CMSHomeAbout() {
                                     ) : (
                                         <div className="space-y-6">
                                             {struktur.map((item, sIndex) => (
-                                                <div key={sIndex} className="p-5 border border-gray-200 rounded-xl bg-gray-50 space-y-4">
+                                                <div key={sIndex} className="p-5 border border-gray-200 dark:border-zinc-800 rounded-xl bg-gray-50 dark:bg-zinc-800/50 space-y-4">
                                                     <div className="flex items-center justify-between">
                                                         <div className="flex items-center gap-3">
                                                             <div className="w-10 h-10 bg-red-600 text-white rounded-lg flex items-center justify-center font-bold">
                                                                 {item.number}
                                                             </div>
-                                                            <span className="font-medium text-gray-700">Stage {item.number}</span>
+                                                            <span className="font-medium text-gray-700 dark:text-white">Stage {item.number}</span>
                                                         </div>
                                                         <button
                                                             onClick={() => removeStruktur(sIndex)}
-                                                            className="text-red-500 hover:text-red-700 p-2 hover:bg-red-50 rounded-lg transition"
+                                                            className="text-red-500 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 p-2 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition"
                                                         >
                                                             <FaTrash />
                                                         </button>
@@ -564,21 +563,21 @@ export default function CMSHomeAbout() {
 
                                                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                                                         <div>
-                                                            <label className="block text-sm font-medium text-gray-700 mb-1">Number</label>
+                                                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Number</label>
                                                             <input
                                                                 type="text"
                                                                 value={item.number}
                                                                 onChange={e => updateStruktur(sIndex, 'number', e.target.value)}
-                                                                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none"
+                                                                className="w-full border border-gray-300 dark:border-zinc-700 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none bg-white dark:bg-zinc-900 text-gray-900 dark:text-white placeholder-gray-400"
                                                                 placeholder="1"
                                                             />
                                                         </div>
                                                         <div>
-                                                            <label className="block text-sm font-medium text-gray-700 mb-1">Icon</label>
+                                                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Icon</label>
                                                             <select
                                                                 value={item.icon}
                                                                 onChange={e => updateStruktur(sIndex, 'icon', e.target.value)}
-                                                                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none"
+                                                                className="w-full border border-gray-300 dark:border-zinc-700 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none bg-white dark:bg-zinc-900 text-gray-900 dark:text-white placeholder-gray-400"
                                                             >
                                                                 {STRUKTUR_ICON_OPTIONS.map(opt => (
                                                                     <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -586,28 +585,28 @@ export default function CMSHomeAbout() {
                                                             </select>
                                                         </div>
                                                         <div>
-                                                            <label className="block text-sm font-medium text-gray-700 mb-1">Stage Title</label>
+                                                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Stage Title</label>
                                                             <input
                                                                 type="text"
                                                                 value={item.title}
                                                                 onChange={e => updateStruktur(sIndex, 'title', e.target.value)}
-                                                                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none"
+                                                                className="w-full border border-gray-300 dark:border-zinc-700 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none bg-white dark:bg-zinc-900 text-gray-900 dark:text-white placeholder-gray-400"
                                                                 placeholder="Training Stage"
                                                             />
                                                         </div>
                                                         <div className="md:col-span-3">
-                                                            <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                                                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Description</label>
                                                             <textarea
                                                                 rows={2}
                                                                 value={item.description}
                                                                 onChange={e => updateStruktur(sIndex, 'description', e.target.value)}
-                                                                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none"
+                                                                className="w-full border border-gray-300 dark:border-zinc-700 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none bg-white dark:bg-zinc-900 text-gray-900 dark:text-white placeholder-gray-400"
                                                                 placeholder="Description of this stage..."
                                                             />
                                                         </div>
                                                         <div className="md:col-span-3 space-y-2">
                                                             <div className="flex items-center justify-between">
-                                                                <label className="block text-sm font-medium text-gray-700">List Item</label>
+                                                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">List Item</label>
                                                                 <button
                                                                     type="button"
                                                                     onClick={() => addStrukturListItem(sIndex)}
@@ -622,7 +621,7 @@ export default function CMSHomeAbout() {
                                                                         type="text"
                                                                         value={listItem}
                                                                         onChange={e => updateStrukturList(sIndex, lIndex, e.target.value)}
-                                                                        className="flex-1 border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none text-sm"
+                                                                        className="flex-1 border border-gray-300 dark:border-zinc-700 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none text-sm bg-white dark:bg-zinc-900 text-gray-900 dark:text-white placeholder-gray-400"
                                                                         placeholder={`Item ${lIndex + 1}`}
                                                                     />
                                                                     {item.list.length > 1 && (
@@ -646,7 +645,7 @@ export default function CMSHomeAbout() {
                             )}
 
                             {/* Save Button */}
-                            <div className="pt-6 border-t border-gray-100 flex justify-end">
+                            <div className="pt-6 border-t border-gray-100 dark:border-zinc-700 flex justify-end">
                                 <button
                                     onClick={handleSubmit}
                                     disabled={saving}

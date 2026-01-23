@@ -75,13 +75,13 @@ function SortableQuestion({ question, index, onEdit, onDelete }: {
         <div
             ref={setNodeRef}
             style={style}
-            className="border-2 border-gray-200 rounded-xl p-4 hover:bg-gray-50 transition-colors bg-white"
+            className="border-2 border-gray-200 dark:border-zinc-800 rounded-xl p-4 hover:bg-gray-50 dark:hover:bg-zinc-800/50 transition-colors bg-white dark:bg-zinc-900"
         >
             <div className="flex justify-between items-start gap-4">
                 <button
                     {...attributes}
                     {...listeners}
-                    className="cursor-grab active:cursor-grabbing text-gray-400 hover:text-gray-600 p-2 mt-1"
+                    className="cursor-grab active:cursor-grabbing text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 p-2 mt-1"
                     title="Drag to reorder"
                 >
                     <FaGripVertical size={20} />
@@ -89,13 +89,13 @@ function SortableQuestion({ question, index, onEdit, onDelete }: {
 
                 <div className="flex-1">
                     <div className="flex items-center gap-2 mb-2">
-                        <span className="bg-gray-100 text-gray-600 text-xs font-bold px-2 py-1 rounded">Q{index + 1}</span>
-                        <h4 className="font-medium text-gray-900 line-clamp-2">{question.content}</h4>
+                        <span className="bg-gray-100 dark:bg-zinc-800 text-gray-600 dark:text-gray-400 text-xs font-bold px-2 py-1 rounded">Q{index + 1}</span>
+                        <h4 className="font-medium text-gray-900 dark:text-white line-clamp-2">{question.content}</h4>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-3 pl-2">
                         {options.map((opt: string, i: number) => (
-                            <div key={i} className={`text-sm px-3 py-1.5 rounded-lg border ${opt === question.correct_answer ? 'bg-green-50 border-green-200 text-green-700 font-medium' : 'bg-white border-gray-100 text-gray-600'}`}>
+                            <div key={i} className={`text-sm px-3 py-1.5 rounded-lg border ${opt === question.correct_answer ? 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800 text-green-700 dark:text-green-400 font-medium' : 'bg-white dark:bg-zinc-800 border-gray-100 dark:border-zinc-700 text-gray-600 dark:text-gray-400'}`}>
                                 {String.fromCharCode(65 + i)}. {opt}
                                 {opt === question.correct_answer && <FaCheckCircle className="inline ml-2 mb-0.5" />}
                             </div>
@@ -103,7 +103,7 @@ function SortableQuestion({ question, index, onEdit, onDelete }: {
                     </div>
 
                     {question.explanation && (
-                        <div className="mt-3 text-xs text-gray-500 bg-gray-50 p-2 rounded border border-gray-100">
+                        <div className="mt-3 text-xs text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-zinc-800/50 p-2 rounded border border-gray-100 dark:border-zinc-800">
                             <span className="font-semibold">Explanation:</span> {question.explanation}
                         </div>
                     )}
@@ -112,13 +112,13 @@ function SortableQuestion({ question, index, onEdit, onDelete }: {
                 <div className="flex flex-col gap-2">
                     <button
                         onClick={onEdit}
-                        className="p-2 text-gray-400 hover:text-blue-600 transition hover:bg-blue-50 rounded-lg"
+                        className="p-2 text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg"
                     >
                         <FaEdit />
                     </button>
                     <button
                         onClick={onDelete}
-                        className="p-2 text-gray-400 hover:text-red-600 transition hover:bg-red-50 rounded-lg"
+                        className="p-2 text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg"
                     >
                         <FaTrash />
                     </button>
@@ -415,11 +415,11 @@ export default function QuestionsManager() {
                 </Link>
             </div>
 
-            <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
+            <div className="bg-white dark:bg-zinc-900 rounded-xl border border-gray-100 dark:border-zinc-800 shadow-sm p-6 transition-colors">
                 <div className="flex justify-between items-center mb-6">
                     <div>
-                        <h2 className="text-xl font-bold text-gray-800">{typeData?.category.name} / {typeData?.name}</h2>
-                        <p className="text-gray-500 text-sm mt-1">Manage questions for this type.</p>
+                        <h2 className="text-xl font-bold text-gray-800 dark:text-white">{typeData?.category.name} / {typeData?.name}</h2>
+                        <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">Manage questions for this type.</p>
                     </div>
                     <div className="flex gap-2">
                         {hasChanges && (
@@ -462,7 +462,7 @@ export default function QuestionsManager() {
                     </DndContext>
 
                     {filteredQuestions.length === 0 && (
-                        <div className="py-12 text-center text-gray-500 border-2 border-dashed border-gray-200 rounded-xl">
+                        <div className="py-12 text-center text-gray-500 dark:text-gray-400 border-2 border-dashed border-gray-200 dark:border-zinc-700/50 rounded-xl">
                             {searchQuery ? 'No questions match your search.' : 'No questions yet. Add one to get started.'}
                         </div>
                     )}
@@ -472,13 +472,13 @@ export default function QuestionsManager() {
             {/* Question Form Modal */}
             {isFormOpen && (
                 <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-                    <div className="bg-white rounded-xl shadow-xl w-full max-w-2xl p-6 animate-in zoom-in duration-200 max-h-[90vh] overflow-y-auto">
-                        <h3 className="text-lg font-bold text-gray-800 mb-4 capitalize">
+                    <div className="bg-white dark:bg-zinc-900 rounded-xl shadow-xl w-full max-w-2xl p-6 animate-in zoom-in duration-200 max-h-[90vh] overflow-y-auto">
+                        <h3 className="text-lg font-bold text-gray-800 dark:text-white mb-4 capitalize">
                             {formMode === 'create' ? 'Add New Question' : 'Edit Question'}
                         </h3>
                         <form onSubmit={handleSubmit} className="space-y-6">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Question Content <span className="text-red-500">*</span></label>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Question Content <span className="text-red-500">*</span></label>
                                 <textarea
                                     required
                                     rows={3}
@@ -487,14 +487,14 @@ export default function QuestionsManager() {
                                         setFormContent(e.target.value);
                                         validateField('content', e.target.value);
                                     }}
-                                    className={`w-full border rounded-lg px-3 py-2 outline-none ${errors.content ? 'border-red-500 focus:ring-red-200' : 'border-gray-300 focus:ring-red-500 focus:ring-2'}`}
+                                    className={`w-full border rounded-lg px-3 py-2 outline-none bg-white dark:bg-zinc-800 dark:text-white ${errors.content ? 'border-red-500 focus:ring-red-200' : 'border-gray-300 dark:border-zinc-700 focus:ring-red-500 focus:ring-2'}`}
                                     placeholder="Type the question here..."
                                 />
                                 {errors.content && <p className="text-xs text-red-600 mt-1">{errors.content}</p>}
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">Options <span className="text-red-500">*</span></label>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Options <span className="text-red-500">*</span></label>
                                 <div className="space-y-3">
                                     {formOptions.map((opt, idx) => (
                                         <div key={idx} className="flex items-center gap-3">
@@ -511,7 +511,7 @@ export default function QuestionsManager() {
                                                 type="text"
                                                 value={opt}
                                                 onChange={(e) => handleOptionChange(idx, e.target.value)}
-                                                className="flex-1 border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none"
+                                                className="flex-1 border border-gray-300 dark:border-zinc-700 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none bg-white dark:bg-zinc-800 dark:text-white"
                                                 placeholder={`Option ${idx + 1}`}
                                                 required
                                             />
@@ -540,28 +540,28 @@ export default function QuestionsManager() {
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Explanation (Optional)</label>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Explanation (Optional)</label>
                                 <textarea
                                     rows={2}
                                     value={formExplanation}
                                     onChange={e => setFormExplanation(e.target.value)}
-                                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none"
+                                    className="w-full border border-gray-300 dark:border-zinc-700 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none bg-white dark:bg-zinc-800 dark:text-white"
                                     placeholder="Explain why the answer is correct..."
                                 />
                             </div>
 
-                            <div className="flex justify-end gap-3 pt-4 border-t border-gray-100">
+                            <div className="flex justify-end gap-3 pt-4 border-t border-gray-100 dark:border-zinc-800">
                                 <button
                                     type="button"
                                     onClick={() => setIsFormOpen(false)}
-                                    className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg"
+                                    className="px-4 py-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-zinc-800 rounded-lg"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     type="submit"
                                     disabled={!isFormValid()}
-                                    className={`px-4 py-2 text-white rounded-lg transition ${!isFormValid() ? 'bg-gray-300 cursor-not-allowed' : 'bg-red-600 hover:bg-red-700'}`}
+                                    className={`px-4 py-2 text-white rounded-lg transition ${!isFormValid() ? 'bg-gray-300 dark:bg-zinc-700 cursor-not-allowed' : 'bg-red-600 hover:bg-red-700'}`}
                                 >
                                     Save Question
                                 </button>

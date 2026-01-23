@@ -22,16 +22,19 @@ import { ThemeProvider } from "@/context/ThemeContext";
 import { AuthProvider } from "@/context/AuthContext";
 import SplashScreen from "@/components/shared/organisms/SplashScreen";
 import { SearchProvider } from "@/context/SearchContext";
+import { SidebarProvider } from "@/context/SidebarContext";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <ThemeProvider>
       <AuthProvider>
         <SearchProvider>
-          <main className={`${plusJakartaSans.className} `}>
-            <SplashScreen />
-            <Component {...pageProps} />
-          </main>
+          <SidebarProvider>
+            <main className={`${plusJakartaSans.className} `}>
+              <SplashScreen />
+              <Component {...pageProps} />
+            </main>
+          </SidebarProvider>
         </SearchProvider>
       </AuthProvider>
     </ThemeProvider>

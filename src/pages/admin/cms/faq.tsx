@@ -63,7 +63,7 @@ const SortableFAQItem = ({
         <div
             ref={setNodeRef}
             style={style}
-            className={`bg-white border border-gray-200 rounded-xl p-4 flex items-start gap-4 ${isDragging ? 'shadow-lg' : 'shadow-sm'}`}
+            className={`bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 rounded-xl p-4 flex items-start gap-4 transition-colors ${isDragging ? 'shadow-lg' : 'shadow-sm'}`}
         >
             {/* Drag Handle */}
             <div
@@ -75,14 +75,14 @@ const SortableFAQItem = ({
             </div>
 
             {/* Order Badge */}
-            <div className="w-8 h-8 bg-red-100 text-red-600 rounded-lg flex items-center justify-center font-bold text-sm flex-shrink-0">
+            <div className="w-8 h-8 bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-100 rounded-lg flex items-center justify-center font-bold text-sm flex-shrink-0">
                 {faq.order}
             </div>
 
             {/* Content */}
             <div className="flex-1 min-w-0">
-                <h3 className="font-semibold text-gray-900 mb-1">{faq.question}</h3>
-                <p className="text-sm text-gray-500 line-clamp-2">{faq.answer}</p>
+                <h3 className="font-semibold text-gray-900 dark:text-white mb-1">{faq.question}</h3>
+                <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-2">{faq.answer}</p>
             </div>
 
             {/* Actions */}
@@ -331,11 +331,11 @@ export default function CMSFAQ() {
                 <title>Manage FAQ | Admin</title>
             </Head>
 
-            <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+            <div className="bg-white dark:bg-zinc-900 rounded-xl border border-gray-100 dark:border-zinc-800 shadow-sm overflow-hidden transition-colors">
                 {/* Header with Tabs */}
-                <div className="border-b border-gray-100">
+                <div className="border-b border-gray-100 dark:border-zinc-800">
                     <div className="p-4 flex justify-between items-center">
-                        <h2 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
+                        <h2 className="text-lg font-semibold text-gray-800 dark:text-white flex items-center gap-2">
                             <FaQuestionCircle className="text-red-500" /> Frequently Asked Questions
                         </h2>
                         <button
@@ -347,12 +347,12 @@ export default function CMSFAQ() {
                     </div>
 
                     {/* Category Tabs */}
-                    <div className="flex border-t border-gray-100">
+                    <div className="flex border-t border-gray-100 dark:border-zinc-800">
                         <button
                             onClick={() => setActiveCategory('General')}
                             className={`flex-1 px-6 py-3 text-sm font-medium transition-colors ${activeCategory === 'General'
-                                ? 'bg-red-50 text-red-600 border-b-2 border-red-600'
-                                : 'text-gray-600 hover:bg-gray-50'
+                                ? 'bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 border-b-2 border-red-600 dark:border-red-500'
+                                : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-zinc-800'
                                 }`}
                         >
                             FAQ Bantuan
@@ -360,8 +360,8 @@ export default function CMSFAQ() {
                         <button
                             onClick={() => setActiveCategory('Registration')}
                             className={`flex-1 px-6 py-3 text-sm font-medium transition-colors ${activeCategory === 'Registration'
-                                ? 'bg-red-50 text-red-600 border-b-2 border-red-600'
-                                : 'text-gray-600 hover:bg-gray-50'
+                                ? 'bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 border-b-2 border-red-600 dark:border-red-500'
+                                : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-zinc-800'
                                 }`}
                         >
                             FAQ Pendaftaran
@@ -370,8 +370,8 @@ export default function CMSFAQ() {
                 </div>
 
                 {/* Drag and Drop Hint */}
-                <div className="px-6 py-3 bg-blue-50 border-b border-blue-100">
-                    <p className="text-sm text-blue-600 flex items-center gap-2">
+                <div className="px-6 py-3 bg-blue-50 dark:bg-blue-900/20 border-b border-blue-100 dark:border-blue-900/30">
+                    <p className="text-sm text-blue-600 dark:text-blue-400 flex items-center gap-2">
                         <FaGripVertical /> Drag and drop items to reorder. Changes are saved automatically.
                     </p>
                 </div>
@@ -379,9 +379,9 @@ export default function CMSFAQ() {
                 {/* FAQ List */}
                 <div className="p-6">
                     {loading ? (
-                        <div className="text-center py-8 text-gray-500">Loading...</div>
+                        <div className="text-center py-8 text-gray-500 dark:text-gray-400">Loading...</div>
                     ) : filteredFaqs.length === 0 ? (
-                        <div className="text-center py-8 text-gray-500">
+                        <div className="text-center py-8 text-gray-500 dark:text-gray-400">
                             {searchQuery ? `No FAQs found matching "${searchQuery}"` : `No FAQs found for ${getCategoryLabel(activeCategory)}.`}
                         </div>
                     ) : (
@@ -413,45 +413,45 @@ export default function CMSFAQ() {
             {/* Modal Form */}
             {isFormOpen && (
                 <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-                    <div className="bg-white rounded-xl shadow-xl w-full max-w-lg overflow-hidden animate-in fade-in zoom-in duration-200">
-                        <div className="p-6 border-b border-gray-100 flex justify-between items-center">
-                            <h3 className="text-lg font-bold text-gray-800">
+                    <div className="bg-white dark:bg-zinc-900 rounded-xl shadow-xl w-full max-w-lg overflow-hidden animate-in fade-in zoom-in duration-200">
+                        <div className="p-6 border-b border-gray-100 dark:border-zinc-800 flex justify-between items-center">
+                            <h3 className="text-lg font-bold text-gray-800 dark:text-white">
                                 {formMode === 'create' ? 'Add FAQ' : 'Edit FAQ'}
                             </h3>
                             <button onClick={() => setIsFormOpen(false)} className="text-gray-400 hover:text-gray-600">&times;</button>
                         </div>
                         <form onSubmit={handleSubmit} className="p-6 space-y-4">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Question <span className="text-red-500">*</span></label>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Question <span className="text-red-500">*</span></label>
                                 <input
                                     type="text"
                                     name="question"
                                     required
                                     value={formData.question}
                                     onChange={handleInputChange}
-                                    className={`w-full border rounded-lg px-3 py-2 focus:ring-2 outline-none ${errors.question ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-red-500'}`}
+                                    className={`w-full border rounded-lg px-3 py-2 focus:ring-2 outline-none bg-white dark:bg-zinc-800 dark:text-white ${errors.question ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 dark:border-zinc-700 focus:ring-red-500'}`}
                                 />
                                 {errors.question && <p className="text-xs text-red-500 mt-1">{errors.question}</p>}
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Answer <span className="text-red-500">*</span></label>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Answer <span className="text-red-500">*</span></label>
                                 <textarea
                                     name="answer"
                                     required
                                     rows={4}
                                     value={formData.answer}
                                     onChange={handleInputChange}
-                                    className={`w-full border rounded-lg px-3 py-2 focus:ring-2 outline-none ${errors.answer ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-red-500'}`}
+                                    className={`w-full border rounded-lg px-3 py-2 focus:ring-2 outline-none bg-white dark:bg-zinc-800 dark:text-white ${errors.answer ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 dark:border-zinc-700 focus:ring-red-500'}`}
                                 />
                                 {errors.answer && <p className="text-xs text-red-500 mt-1">{errors.answer}</p>}
                             </div>
                             <div className="flex gap-4">
                                 <div className="flex-1">
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Category</label>
                                     <select
                                         value={formData.category}
                                         onChange={e => setFormData({ ...formData, category: e.target.value })}
-                                        className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none"
+                                        className="w-full border border-gray-300 dark:border-zinc-700 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none bg-white dark:bg-zinc-800 dark:text-white"
                                     >
                                         <option value="General">FAQ Umum (Bantuan)</option>
                                         <option value="Registration">FAQ Pendaftaran (Program)</option>
@@ -464,14 +464,14 @@ export default function CMSFAQ() {
                                     type="button"
                                     onClick={() => setIsFormOpen(false)}
                                     disabled={isSubmitting}
-                                    className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg font-medium transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                                    className="px-4 py-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-zinc-800 rounded-lg font-medium transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     type="submit"
                                     disabled={isSubmitting || !isFormValid()}
-                                    className={`px-4 py-2 text-white rounded-lg font-medium transition-all cursor-pointer flex items-center gap-2 ${isSubmitting || !isFormValid() ? 'bg-gray-300 cursor-not-allowed' : 'bg-red-600 hover:bg-red-700'}`}
+                                    className={`px-4 py-2 text-white rounded-lg font-medium transition-all cursor-pointer flex items-center gap-2 ${isSubmitting || !isFormValid() ? 'bg-gray-300 dark:bg-zinc-700 cursor-not-allowed' : 'bg-red-600 hover:bg-red-700'}`}
                                 >
                                     {isSubmitting ? (
                                         <>
