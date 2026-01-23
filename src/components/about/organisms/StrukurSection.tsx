@@ -86,12 +86,12 @@ export const StrukturSection = () => {
   };
 
   return (
-    <section className="relative px-6 lg:px-24 xl:px-48 py-20 overflow-hidden">
+    <section className="relative px-6 lg:px-24 xl:px-48 py-20 overflow-hidden bg-white dark:bg-zinc-950 transition-colors duration-300">
       {/* Background Decorations */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden opacity-30 pointer-events-none">
-        <div className="absolute top-20 left-10 w-64 h-64 bg-red-100 rounded-full mix-blend-multiply filter blur-3xl animate-blob"></div>
-        <div className="absolute top-40 right-10 w-64 h-64 bg-yellow-100 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000"></div>
-        <div className="absolute -bottom-8 left-20 w-64 h-64 bg-pink-100 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-4000"></div>
+        <div className="absolute top-20 left-10 w-64 h-64 bg-red-100 dark:bg-red-900/30 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl animate-blob"></div>
+        <div className="absolute top-40 right-10 w-64 h-64 bg-yellow-100 dark:bg-yellow-900/30 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl animate-blob animation-delay-2000"></div>
+        <div className="absolute -bottom-8 left-20 w-64 h-64 bg-pink-100 dark:bg-pink-900/30 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl animate-blob animation-delay-4000"></div>
       </div>
 
       <div className="relative z-10 mb-16">

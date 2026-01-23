@@ -4,7 +4,7 @@ import { ScrollReveal } from "../shared/molecules/ScrollReveal";
 
 const ProgramTemplate = () => {
     return (
-        <div className="w-full min-h-screen py-16 bg-white">
+        <div className="w-full min-h-screen py-16 bg-white dark:bg-zinc-950 transition-colors duration-300">
             <ScrollReveal width="100%">
                 <ProgramFeatures />
             </ScrollReveal>

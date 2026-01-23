@@ -6,9 +6,9 @@ import { Heading } from "../../shared/atoms";
 
 const QuestionForm = () => {
     return (
-        <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100">
-            <Heading className="text-2xl mb-2">Ajukan Pertanyaan</Heading>
-            <p className="text-gray-500 mb-8 text-sm">
+        <div className="bg-white dark:bg-zinc-900 p-8 rounded-2xl shadow-lg border border-gray-100 dark:border-zinc-800 transition-colors duration-300">
+            <Heading className="text-2xl mb-2 dark:text-white">Ajukan Pertanyaan</Heading>
+            <p className="text-gray-500 dark:text-gray-400 mb-8 text-sm">
                 Isi formulir di bawah ini dan tim kami akan segera menghubungi Anda.
             </p>
 

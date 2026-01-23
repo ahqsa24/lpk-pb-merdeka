@@ -59,12 +59,12 @@ const defaultFeatures: FeatureItem[] = [
 ];
 
 const FeatureCard = ({ icon, title, description }: { icon: React.ReactNode, title: string, description: string }) => (
-    <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-        <div className="w-12 h-12 bg-red-50 rounded-lg flex items-center justify-center text-red-600 mb-4">
+    <div className="bg-white dark:bg-zinc-900 p-6 rounded-xl shadow-md border border-gray-100 dark:border-zinc-800 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+        <div className="w-12 h-12 bg-red-50 dark:bg-red-900/20 rounded-lg flex items-center justify-center text-red-600 dark:text-red-400 mb-4">
             {icon}
         </div>
-        <h3 className="text-lg font-bold text-gray-900 mb-2">{title}</h3>
-        <p className="text-gray-600 text-sm leading-relaxed">{description}</p>
+        <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">{title}</h3>
+        <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">{description}</p>
     </div>
 );
 
@@ -98,8 +98,8 @@ const ProgramFeatures = () => {
     return (
         <div className="w-full max-w-7xl mx-auto px-4 py-16">
             <div className="text-center mb-16">
-                <Heading className="text-4xl font-extrabold md:text-5xl">{whyTitle}</Heading>
-                <Paragraph variant="gray" className="mt-4 text-lg max-w-2xl mx-auto">
+                <Heading className="text-4xl font-extrabold md:text-5xl dark:text-white">{whyTitle}</Heading>
+                <Paragraph variant="gray" className="mt-4 text-lg max-w-2xl mx-auto dark:text-gray-300">
                     {whySubtitle}
                 </Paragraph>
             </div>
@@ -118,20 +118,20 @@ const ProgramFeatures = () => {
                 })}
             </div>
 
-            <div className="mt-16 text-center bg-red-600 rounded-2xl p-8 md:p-12 text-white shadow-xl relative overflow-hidden">
+            <div className="mt-16 text-center bg-red-600 dark:bg-red-800 rounded-2xl p-8 md:p-12 text-white shadow-xl relative overflow-hidden transition-colors duration-300">
                 <div className="relative z-10">
                     <h2 className="text-2xl md:text-3xl font-bold mb-4">{ctaTitle}</h2>
-                    <p className="text-red-100 mb-8 max-w-2xl mx-auto">
+                    <p className="text-red-100 dark:text-red-200 mb-8 max-w-2xl mx-auto">
                         {ctaSubtitle}
                     </p>
                     <Link href={ctaButtonLink}>
-                        <Button variant="secondary" className="bg-white text-red-600 font-bold border-white hover:bg-gray-100 px-8 py-3 text-lg rounded-full">
+                        <Button variant="secondary" className="bg-white text-red-600 dark:text-red-700 font-bold border-white hover:bg-gray-100 px-8 py-3 text-lg rounded-full">
                             {ctaButtonText}
                         </Button>
                     </Link>
                 </div>
                 {/* Background Overlay */}
-                <div className="absolute top-0 left-0 w-full h-full bg-red-700 opacity-20 transform -skew-x-12"></div>
+                <div className="absolute top-0 left-0 w-full h-full bg-red-700 dark:bg-red-900 opacity-20 transform -skew-x-12"></div>
             </div>
         </div>
     );

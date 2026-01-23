@@ -70,8 +70,8 @@ const FAQSection = () => {
     return (
         <div className="w-full">
             <div className="mb-8">
-                <Heading className="text-2xl mb-2">Frequently Asked Questions (FAQ)</Heading>
-                <p className="text-gray-500 text-sm">Jawaban cepat untuk pertanyaan umum seputar program kami.</p>
+                <Heading className="text-2xl mb-2 dark:text-white">Frequently Asked Questions (FAQ)</Heading>
+                <p className="text-gray-500 dark:text-gray-400 text-sm">Jawaban cepat untuk pertanyaan umum seputar program kami.</p>
             </div>
 
             <div className="space-y-1">

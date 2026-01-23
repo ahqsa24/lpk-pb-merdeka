@@ -26,8 +26,8 @@ const GalleryFilter: React.FC<GalleryFilterProps> = ({ filters, activeFilter, on
                         relative px-6 py-2.5 rounded-full text-sm font-semibold 
                         transition-all duration-300 overflow-hidden
                         ${activeFilter === filter.id
-                            ? 'bg-red-600 text-white shadow-lg shadow-red-200'
-                            : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-200'
+                            ? 'bg-red-600 text-white shadow-lg shadow-red-200 dark:shadow-red-900/40'
+                            : 'bg-white dark:bg-zinc-900 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-zinc-800 border border-gray-200 dark:border-zinc-700'
                         }
                     `}
                 >

@@ -9,27 +9,27 @@ const PricingRequirementsSection = () => {
         <section className="py-12 mb-12">
             <div className="text-center mb-12">
                 <LineHeading title="Biaya & Persyaratan" />
-                <p className="text-gray-600 mt-4 max-w-2xl mx-auto">
+                <p className="text-gray-600 dark:text-gray-400 mt-4 max-w-2xl mx-auto">
                     Pilih program yang sesuai dengan jenjang karir Anda di industri berjangka.
                 </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
                 {/* Regular Program */}
-                <div className="bg-white rounded-3xl p-8 border border-gray-200 shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 relative overflow-hidden group">
-                    <div className="absolute top-0 left-0 w-full h-2 bg-gray-200 group-hover:bg-gray-400 transition-colors" />
+                <div className="bg-white dark:bg-zinc-900 rounded-3xl p-8 border border-gray-200 dark:border-zinc-800 shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 relative overflow-hidden group">
+                    <div className="absolute top-0 left-0 w-full h-2 bg-gray-200 dark:bg-zinc-700 group-hover:bg-gray-400 dark:group-hover:bg-zinc-500 transition-colors" />
                     <div className="mb-6">
-                        <div className="inline-block p-3 bg-gray-100 rounded-2xl mb-4 text-gray-600">
+                        <div className="inline-block p-3 bg-gray-100 dark:bg-zinc-800 rounded-2xl mb-4 text-gray-600 dark:text-gray-300">
                             <FaUserTie size={28} />
                         </div>
-                        <h3 className="text-2xl font-bold text-gray-900">Program Reguler</h3>
-                        <p className="text-gray-500 mt-2">Dasar-dasar menjadi Wakil Pialang Berjangka.</p>
+                        <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Program Reguler</h3>
+                        <p className="text-gray-500 dark:text-gray-400 mt-2">Dasar-dasar menjadi Wakil Pialang Berjangka.</p>
                     </div>
 
                     <div className="mb-8">
-                        <span className="text-4xl font-extrabold text-gray-900">Rp 7.500.000</span>
-                        <span className="text-gray-500">/peserta</span>
-                        <p className="text-sm text-gray-500 mt-2 font-medium">Durasi: 2 Bulan (16 Sesi)</p>
+                        <span className="text-4xl font-extrabold text-gray-900 dark:text-white">Rp 7.500.000</span>
+                        <span className="text-gray-500 dark:text-gray-400">/peserta</span>
+                        <p className="text-sm text-gray-500 dark:text-gray-400 mt-2 font-medium">Durasi: 2 Bulan (16 Sesi)</p>
                     </div>
 
                     <ul className="space-y-4 mb-8">
@@ -41,21 +41,21 @@ const PricingRequirementsSection = () => {
                             "Komitmen Full-time selama pelatihan"
                         ].map((item, i) => (
                             <li key={i} className="flex items-start gap-3">
-                                <FaCheckCircle className="text-gray-400 mt-1 flex-shrink-0" />
-                                <span className="text-gray-700 text-sm">{item}</span>
+                                <FaCheckCircle className="text-gray-400 dark:text-gray-500 mt-1 flex-shrink-0" />
+                                <span className="text-gray-700 dark:text-gray-300 text-sm">{item}</span>
                             </li>
                         ))}
                     </ul>
 
                     <Link href="/auth/register" className="block">
-                        <Button variant="secondary" className="w-full font-bold py-4 rounded-full justify-center">
+                        <Button variant="secondary" className="w-full font-bold py-4 rounded-full justify-center dark:bg-zinc-800 dark:text-white dark:hover:bg-zinc-700">
                             Daftar Reguler
                         </Button>
                     </Link>
                 </div>
 
                 {/* Executive Program */}
-                <div className="bg-gradient-to-br from-red-600 to-red-700 rounded-3xl p-8 text-white shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 relative overflow-hidden ring-4 ring-red-50">
+                <div className="bg-gradient-to-br from-red-600 to-red-700 dark:from-red-800 dark:to-red-900 rounded-3xl p-8 text-white shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 relative overflow-hidden ring-4 ring-red-50 dark:ring-red-900/30">
                     <div className="absolute top-0 right-0 p-4 opacity-10">
                         <FaGraduationCap size={150} />
                     </div>

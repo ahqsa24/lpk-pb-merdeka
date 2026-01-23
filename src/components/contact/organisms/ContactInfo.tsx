@@ -11,13 +11,13 @@ interface ContactSettings {
 }
 
 const ContactItem = ({ icon, title, content }: { icon: React.ReactNode, title: string, content: string }) => (
-    <div className="flex items-start gap-4 p-4 rounded-xl hover:bg-red-50 transition-colors duration-200">
-        <div className="p-3 bg-red-100 text-red-600 rounded-lg flex-shrink-0">
+    <div className="flex items-start gap-4 p-4 rounded-xl hover:bg-red-50 dark:hover:bg-red-900/10 transition-colors duration-200">
+        <div className="p-3 bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-lg flex-shrink-0">
             {icon}
         </div>
         <div>
-            <h4 className="font-bold text-gray-900 mb-1">{title}</h4>
-            <p className="text-gray-600 text-sm">{content}</p>
+            <h4 className="font-bold text-gray-900 dark:text-white mb-1">{title}</h4>
+            <p className="text-gray-600 dark:text-gray-400 text-sm">{content}</p>
         </div>
     </div>
 );
@@ -52,15 +52,15 @@ const ContactInfo = () => {
 
     if (loading) {
         return (
-            <div className="bg-white p-8 rounded-2xl border border-gray-100 h-full animate-pulse">
-                <div className="h-8 bg-gray-200 rounded w-48 mb-6"></div>
+            <div className="bg-white dark:bg-zinc-900 p-8 rounded-2xl border border-gray-100 dark:border-zinc-800 h-full animate-pulse transition-colors duration-300">
+                <div className="h-8 bg-gray-200 dark:bg-zinc-800 rounded w-48 mb-6"></div>
                 <div className="space-y-4">
                     {[1, 2, 3, 4].map(i => (
                         <div key={i} className="flex gap-4 p-4">
-                            <div className="w-12 h-12 bg-gray-200 rounded-lg"></div>
+                            <div className="w-12 h-12 bg-gray-200 dark:bg-zinc-800 rounded-lg"></div>
                             <div className="flex-1">
-                                <div className="h-4 bg-gray-200 rounded w-32 mb-2"></div>
-                                <div className="h-3 bg-gray-200 rounded w-48"></div>
+                                <div className="h-4 bg-gray-200 dark:bg-zinc-800 rounded w-32 mb-2"></div>
+                                <div className="h-3 bg-gray-200 dark:bg-zinc-800 rounded w-48"></div>
                             </div>
                         </div>
                     ))}
@@ -70,8 +70,8 @@ const ContactInfo = () => {
     }
 
     return (
-        <div className="bg-white p-8 rounded-2xl border border-gray-100 h-full">
-            <Heading className="text-2xl mb-6">Hubungi Kami</Heading>
+        <div className="bg-white dark:bg-zinc-900 p-8 rounded-2xl border border-gray-100 dark:border-zinc-800 h-full transition-colors duration-300">
+            <Heading className="text-2xl mb-6 dark:text-white">Hubungi Kami</Heading>
 
             <div className="space-y-2">
                 <ContactItem
@@ -96,12 +96,12 @@ const ContactInfo = () => {
                 />
             </div>
 
-            <div className="mt-8 p-6 bg-gray-50 rounded-xl">
-                <p className="text-gray-500 text-sm mb-4">Temukan kami di Google Maps</p>
+            <div className="mt-8 p-6 bg-gray-50 dark:bg-zinc-800 rounded-xl transition-colors duration-300">
+                <p className="text-gray-500 dark:text-gray-400 text-sm mb-4">Temukan kami di Google Maps</p>
 
                 {/* Show iframe only if valid embed URL is provided */}
                 {mapsEmbed && mapsEmbed.includes('google.com/maps/embed') ? (
-                    <div className="w-full h-48 bg-gray-200 rounded-lg overflow-hidden">
+                    <div className="w-full h-48 bg-gray-200 dark:bg-zinc-700 rounded-lg overflow-hidden">
                         <iframe
                             src={mapsEmbed}
                             width="100%"
@@ -113,7 +113,7 @@ const ContactInfo = () => {
                         </iframe>
                     </div>
                 ) : (
-                    <div className="w-full h-48 bg-gray-100 rounded-lg flex items-center justify-center">
+                    <div className="w-full h-48 bg-gray-100 dark:bg-zinc-700 rounded-lg flex items-center justify-center">
                         <p className="text-gray-400 text-sm">Peta tidak tersedia</p>
                     </div>
                 )}

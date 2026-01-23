@@ -79,16 +79,16 @@ const GalleryItem: React.FC<GalleryItemProps> = ({ type, category, title, date, 
             className="group relative cursor-pointer h-full"
             onClick={handleClick}
         >
-            <div className="relative overflow-hidden rounded-2xl bg-gray-100 shadow-lg hover:shadow-2xl transition-all duration-500 h-full">
+            <div className="relative overflow-hidden rounded-2xl bg-gray-100 dark:bg-zinc-800 shadow-lg hover:shadow-2xl transition-all duration-500 h-full">
                 {/* Image Container */}
-                <div className="relative aspect-[4/3] overflow-hidden bg-gray-200">
+                <div className="relative aspect-[4/3] overflow-hidden bg-gray-200 dark:bg-zinc-700">
                     {imageError ? (
                         // Fallback placeholder for broken images
-                        <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200">
-                            <div className="w-16 h-16 bg-gray-300 rounded-full flex items-center justify-center mb-3">
-                                <FaExclamationTriangle className="text-gray-400 text-2xl" />
+                        <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200 dark:from-zinc-800 dark:to-zinc-900">
+                            <div className="w-16 h-16 bg-gray-300 dark:bg-zinc-600 rounded-full flex items-center justify-center mb-3">
+                                <FaExclamationTriangle className="text-gray-400 dark:text-zinc-400 text-2xl" />
                             </div>
-                            <p className="text-gray-500 text-sm font-medium">Image not available</p>
+                            <p className="text-gray-500 dark:text-zinc-400 text-sm font-medium">Image not available</p>
                         </div>
                     ) : (
                         <Image
@@ -107,16 +107,16 @@ const GalleryItem: React.FC<GalleryItemProps> = ({ type, category, title, date, 
 
                     {/* Type Badge */}
                     <div className="absolute top-4 right-4 z-10">
-                        <div className="bg-white/95 backdrop-blur-sm px-3 py-1.5 rounded-full shadow-lg flex items-center gap-2">
+                        <div className="bg-white/95 dark:bg-zinc-900/95 backdrop-blur-sm px-3 py-1.5 rounded-full shadow-lg flex items-center gap-2">
                             {isVideo ? (
                                 <>
                                     <FaPlay className="text-red-600 text-xs" />
-                                    <span className="text-xs font-semibold text-gray-800">Video</span>
+                                    <span className="text-xs font-semibold text-gray-800 dark:text-white">Video</span>
                                 </>
                             ) : (
                                 <>
                                     <FaImage className="text-red-600 text-xs" />
-                                    <span className="text-xs font-semibold text-gray-800">Foto</span>
+                                    <span className="text-xs font-semibold text-gray-800 dark:text-white">Foto</span>
                                 </>
                             )}
                         </div>

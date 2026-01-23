@@ -6,7 +6,7 @@ import { ScrollReveal } from "../shared/molecules/ScrollReveal";
 
 const SyllabusTemplate = () => {
     return (
-        <div className="w-full min-h-screen py-16">
+        <div className="w-full min-h-screen py-16 bg-white dark:bg-zinc-950 transition-colors duration-300">
             <div className="container mx-auto px-4">
                 <SyllabusTimeline />
 

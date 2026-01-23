@@ -6,13 +6,13 @@ import { ScrollReveal } from "../shared/molecules/ScrollReveal";
 
 const ContactTemplate = () => {
     return (
-        <div className="w-full min-h-screen bg-gray-50 py-12 md:py-20">
+        <div className="w-full min-h-screen bg-gray-50 dark:bg-zinc-950 py-12 md:py-20 transition-colors duration-300">
             <div className="container mx-auto px-4">
                 {/* Page Header */}
                 <ScrollReveal width="100%">
                     <div className="text-center mb-16 max-w-3xl mx-auto">
-                        <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-6">Pusat Bantuan</h1>
-                        <p className="text-lg text-gray-600">
+                        <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white mb-6">Pusat Bantuan</h1>
+                        <p className="text-lg text-gray-600 dark:text-gray-400">
                             Kami siap membantu Anda. Temukan jawaban atas pertanyaan Anda atau hubungi tim kami secara langsung.
                         </p>
                     </div>

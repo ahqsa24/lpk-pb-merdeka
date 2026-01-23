@@ -75,7 +75,7 @@ const RegistrationFAQSection = () => {
         <section className="py-12">
             <div className="text-center mb-10">
                 <LineHeading title="FAQ Pendaftaran" />
-                <p className="text-gray-600 mt-4">
+                <p className="text-gray-600 dark:text-gray-400 mt-4">
                     Pertanyaan umum seputar proses registrasi dan administrasi.
                 </p>
             </div>
@@ -84,17 +84,17 @@ const RegistrationFAQSection = () => {
                 {faqs.map((faq, index) => (
                     <div
                         key={faq.id}
-                        className={`border rounded-2xl overflow-hidden transition-all duration-300 ${activeIndex === index ? 'border-red-200 bg-red-50 shadow-md' : 'border-gray-200 bg-white hover:border-red-100'
+                        className={`border rounded-2xl overflow-hidden transition-all duration-300 ${activeIndex === index ? 'border-red-200 dark:border-red-900/30 bg-red-50 dark:bg-red-900/10 shadow-md' : 'border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 hover:border-red-100 dark:hover:border-red-900/30'
                             }`}
                     >
                         <button
                             className="w-full flex items-center justify-between p-5 text-left focus:outline-none"
                             onClick={() => toggleFAQ(index)}
                         >
-                            <span className={`font-bold text-lg ${activeIndex === index ? 'text-red-700' : 'text-gray-800'}`}>
+                            <span className={`font-bold text-lg ${activeIndex === index ? 'text-red-700 dark:text-red-400' : 'text-gray-800 dark:text-white'}`}>
                                 {faq.question}
                             </span>
-                            <span className={`p-2 rounded-full transition-transform duration-300 ${activeIndex === index ? 'bg-red-200 text-red-700 rotate-180' : 'bg-gray-100 text-gray-500'}`}>
+                            <span className={`p-2 rounded-full transition-transform duration-300 ${activeIndex === index ? 'bg-red-200 dark:bg-red-900/40 text-red-700 dark:text-red-400 rotate-180' : 'bg-gray-100 dark:bg-zinc-800 text-gray-500 dark:text-gray-400'}`}>
                                 {activeIndex === index ? <FaMinus size={14} /> : <FaPlus size={14} />}
                             </span>
                         </button>
@@ -103,7 +103,7 @@ const RegistrationFAQSection = () => {
                             className={`transition-all duration-300 ease-in-out overflow-hidden ${activeIndex === index ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
                                 }`}
                         >
-                            <div className="p-5 pt-0 text-gray-600 leading-relaxed border-t border-red-100/50">
+                            <div className="p-5 pt-0 text-gray-600 dark:text-gray-400 leading-relaxed border-t border-red-100/50 dark:border-red-900/10">
                                 {faq.answer}
                             </div>
                         </div>

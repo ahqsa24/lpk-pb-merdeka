@@ -65,7 +65,7 @@ export const LeaderboardTable: React.FC<LeaderboardProps> = ({ data, startRank =
                 key={page}
                 onClick={() => handlePageChange(page)}
                 className={`w-10 h-10 rounded-lg text-sm font-bold flex items-center justify-center transition-all ${currentPage === page
-                  ? 'bg-red-600 text-white shadow-lg shadow-red-200'
+                  ? 'bg-red-600 text-white shadow-lg shadow-red-200 dark:shadow-red-900/40'
                   : 'bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-zinc-800'
                   }`}
               >

@@ -147,14 +147,14 @@ const SyllabusTimeline = () => {
     return (
         <div className="w-full max-w-6xl mx-auto p-4">
             <div className="mb-12 text-center">
-                <Heading className="text-4xl font-extrabold md:text-5xl ">{curriculumTitle}</Heading>
-                <p className="text-gray-600 text-lg mt-4 max-w-2xl mx-auto">
+                <Heading className="text-4xl font-extrabold md:text-5xl dark:text-white">{curriculumTitle}</Heading>
+                <p className="text-gray-600 dark:text-gray-400 text-lg mt-4 max-w-2xl mx-auto">
                     {curriculumSubtitle}
                 </p>
             </div>
             <div className="relative">
                 {/* Vertical line centered */}
-                <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-gray-200" />
+                <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-gray-200 dark:bg-zinc-800" />
 
                 {syllabusData.map((item, index) => (
                     <TimelineItem
