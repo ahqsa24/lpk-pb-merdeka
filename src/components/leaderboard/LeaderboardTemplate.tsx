@@ -160,7 +160,7 @@ export const LeaderboardTemplate = ({ data }: LeaderboardTemplateProps) => {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ delay: 0.4 }}
-        className="max-w-6xl mx-auto pt-20"
+        className="max-w-5xl mx-auto pt-20"
       >
         <div className="flex items-center justify-between mb-12 px-6">
           <div className="flex flex-col">
