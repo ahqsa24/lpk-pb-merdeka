@@ -184,7 +184,7 @@ export const ProfileForm = () => {
     };
 
     return (
-        <div className="max-w-4xl mx-auto">
+        <div className="w-full">
             {/* Crop Modal */}
             {showCropModal && imageSrc && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4">

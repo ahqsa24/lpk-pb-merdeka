@@ -239,35 +239,51 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children, title }) => 
                             </button>
 
                             {isProfileOpen && (
-                                <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-zinc-900 rounded-lg shadow-lg py-1 border border-gray-100 dark:border-zinc-800 z-50 animate-in fade-in zoom-in duration-200">
-                                    <Link
-                                        href="/"
-                                        className="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-zinc-800 flex items-center gap-2 transition-colors"
-                                    >
-                                        <FaHome className="text-gray-400" />
-                                        Beranda
-                                    </Link>
-                                    <Link
-                                        href="/admin/profile"
-                                        className="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-zinc-800 flex items-center gap-2 transition-colors"
-                                    >
-                                        <FaCog className="text-gray-400" />
-                                        Edit Profile
-                                    </Link>
-                                    <Link
-                                        href="/admin/security"
-                                        className="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-zinc-800 flex items-center gap-2 transition-colors"
-                                    >
-                                        <FaLock className="text-gray-400" />
-                                        Security
-                                    </Link>
-                                    <button
-                                        onClick={handleLogout}
-                                        className="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-zinc-800 flex items-center gap-2 transition-colors"
-                                    >
-                                        <FaSignOutAlt className="text-red-500" />
-                                        Sign Out
-                                    </button>
+                                <div className="absolute right-0 mt-3 w-64 bg-white dark:bg-zinc-900 rounded-2xl shadow-xl border border-gray-100 dark:border-zinc-800 z-50 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
+                                    <div className="p-4 bg-gray-50/50 dark:bg-zinc-800/50 border-b border-gray-100 dark:border-zinc-800">
+                                        <p className="text-sm font-bold text-gray-900 dark:text-white truncate">{userProfile?.name || user?.name || "Admin"}</p>
+                                        <p className="text-xs text-gray-500 dark:text-gray-400 truncate mt-0.5">{user?.email}</p>
+                                    </div>
+                                    <div className="p-2">
+                                        <Link
+                                            href="/"
+                                            className="w-full text-left px-3 py-2.5 rounded-xl text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-red-50 dark:hover:bg-red-900/10 hover:text-red-600 dark:hover:text-red-400 flex items-center gap-3 transition-all group"
+                                        >
+                                            <span className="p-1.5 rounded-lg bg-gray-100 dark:bg-zinc-800 group-hover:bg-white dark:group-hover:bg-zinc-900 text-gray-500 group-hover:text-red-500 dark:text-gray-400 dark:group-hover:text-red-400 transition-colors">
+                                                <FaHome />
+                                            </span>
+                                            Beranda
+                                        </Link>
+                                        <Link
+                                            href="/admin/profile"
+                                            className="w-full text-left px-3 py-2.5 rounded-xl text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-red-50 dark:hover:bg-red-900/10 hover:text-red-600 dark:hover:text-red-400 flex items-center gap-3 transition-all group mt-1"
+                                        >
+                                            <span className="p-1.5 rounded-lg bg-gray-100 dark:bg-zinc-800 group-hover:bg-white dark:group-hover:bg-zinc-900 text-gray-500 group-hover:text-red-500 dark:text-gray-400 dark:group-hover:text-red-400 transition-colors">
+                                                <FaCog />
+                                            </span>
+                                            Edit Profile
+                                        </Link>
+                                        <Link
+                                            href="/admin/security"
+                                            className="w-full text-left px-3 py-2.5 rounded-xl text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-red-50 dark:hover:bg-red-900/10 hover:text-red-600 dark:hover:text-red-400 flex items-center gap-3 transition-all group mt-1"
+                                        >
+                                            <span className="p-1.5 rounded-lg bg-gray-100 dark:bg-zinc-800 group-hover:bg-white dark:group-hover:bg-zinc-900 text-gray-500 group-hover:text-red-500 dark:text-gray-400 dark:group-hover:text-red-400 transition-colors">
+                                                <FaLock />
+                                            </span>
+                                            Security
+                                        </Link>
+                                    </div>
+                                    <div className="p-2 border-t border-gray-100 dark:border-zinc-800">
+                                        <button
+                                            onClick={handleLogout}
+                                            className="w-full text-left px-3 py-2.5 rounded-xl text-sm font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/10 flex items-center gap-3 transition-all group"
+                                        >
+                                            <span className="p-1.5 rounded-lg bg-red-50 dark:bg-red-900/20 group-hover:bg-red-100 dark:group-hover:bg-red-900/30 text-red-500 dark:text-red-400 transition-colors">
+                                                <FaSignOutAlt />
+                                            </span>
+                                            Sign Out
+                                        </button>
+                                    </div>
                                 </div>
                             )}
                         </div>

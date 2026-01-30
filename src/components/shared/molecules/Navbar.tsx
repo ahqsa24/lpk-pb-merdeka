@@ -118,7 +118,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 {currentActiveNav === item.id && (
                   <motion.div
                     layoutId="navbar-indicator"
-                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-white dark:bg-red-600 rounded-full"
+                    className="absolute bottom-0 left-4 right-4 h-0.5 bg-white dark:bg-red-600 rounded-full"
                     initial={false}
                     transition={{
                       type: "spring",

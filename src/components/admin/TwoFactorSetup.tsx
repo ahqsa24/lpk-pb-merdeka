@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FaShieldAlt, FaQrcode, FaKey, FaCheck, FaTimes, FaExclamationTriangle } from 'react-icons/fa';
 import { useAuth } from '@/context/AuthContext';
-import QRCode from 'qrcode';
-
+import QRCode from 'qrcode'; // Keeps the import, though unused if we use the backend provided QR URL directly? The backend implementation returns a data URL probably.
 
 export const TwoFactorSetup = () => {
     const { user } = useAuth();
@@ -13,6 +12,7 @@ export const TwoFactorSetup = () => {
     const [verificationCode, setVerificationCode] = useState('');
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+    const [inputError, setInputError] = useState('');
 
     // Check if 2FA is already enabled
     useEffect(() => {
@@ -44,27 +44,15 @@ export const TwoFactorSetup = () => {
                 }
             });
 
-            // Check if response has content
             const contentType = res.headers.get('content-type');
             if (!contentType || !contentType.includes('application/json')) {
                 throw new Error('Invalid response from server');
             }
 
-            const text = await res.text();
-            if (!text) {
-                throw new Error('Empty response from server');
-            }
-
-            let data;
-            try {
-                data = JSON.parse(text);
-            } catch (e) {
-                console.error('JSON parse error:', text);
-                throw new Error('Invalid response format from server');
-            }
+            const data = await res.json();
 
             if (!res.ok) {
-                throw new Error(data.message || data.error || 'Failed to generate secret');
+                throw new Error(data.message || 'Failed to generate secret');
             }
 
             const { secret: totpSecret, qrCode } = data;
@@ -91,6 +79,7 @@ export const TwoFactorSetup = () => {
         e.preventDefault();
         setLoading(true);
         setMessage(null);
+        setInputError('');
 
         try {
             // Enable 2FA via our custom endpoint
@@ -105,9 +94,13 @@ export const TwoFactorSetup = () => {
                 })
             });
 
+            const data = await res.json();
+
             if (!res.ok) {
-                const error = await res.json();
-                throw new Error(error.message || 'Invalid verification code');
+                // Handle error specifically
+                setInputError(data.message || 'Invalid verification code');
+                setLoading(false);
+                return;
             }
 
             setMessage({ type: 'success', text: '2FA enabled successfully!' });
@@ -122,13 +115,16 @@ export const TwoFactorSetup = () => {
         }
     };
 
-    const handleDisable2FA = async () => {
-        if (!confirm('Are you sure you want to disable Two-Factor Authentication? This will make your account less secure.')) {
-            return;
-        }
+    const [showDisableConfirm, setShowDisableConfirm] = useState(false);
 
+    const handleDisable2FA = () => {
+        setShowDisableConfirm(true);
+    };
+
+    const confirmDisable2FA = async () => {
         setLoading(true);
         setMessage(null);
+        setShowDisableConfirm(false);
 
         try {
             const res = await fetch('/api/user/2fa/disable', {
@@ -139,9 +135,10 @@ export const TwoFactorSetup = () => {
                 }
             });
 
+            const data = await res.json();
+
             if (!res.ok) {
-                const error = await res.json();
-                throw new Error(error.message || 'Failed to disable 2FA');
+                throw new Error(data.message || 'Failed to disable 2FA');
             }
 
             setMessage({ type: 'success', text: '2FA disabled successfully' });
@@ -160,7 +157,38 @@ export const TwoFactorSetup = () => {
     }
 
     return (
-        <div className="bg-white dark:bg-zinc-900 rounded-xl shadow-sm border border-gray-100 dark:border-zinc-800 p-6 md:p-8">
+        <div className="bg-white dark:bg-zinc-900 rounded-xl shadow-sm border border-gray-100 dark:border-zinc-800 p-6 md:p-8 relative">
+            {/* Disable Confirmation Modal */}
+            {showDisableConfirm && (
+                <div className="absolute inset-0 bg-white/50 dark:bg-zinc-900/50 backdrop-blur-sm z-50 rounded-xl flex items-center justify-center p-4 animate-in fade-in duration-200">
+                    <div className="bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 rounded-xl shadow-2xl p-6 max-w-sm w-full animate-in zoom-in-95 duration-200">
+                        <div className="flex flex-col items-center text-center mb-6">
+                            <div className="w-12 h-12 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center mb-4">
+                                <FaExclamationTriangle className="text-red-600 dark:text-red-500 text-xl" />
+                            </div>
+                            <h3 className="text-lg font-bold text-gray-900 dark:text-white">Disable 2FA?</h3>
+                            <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                                Are you sure you want to disable Two-Factor Authentication? This will make your account significantly less secure.
+                            </p>
+                        </div>
+                        <div className="flex gap-3">
+                            <button
+                                onClick={() => setShowDisableConfirm(false)}
+                                className="flex-1 px-4 py-2 bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-gray-700 dark:text-gray-300 font-medium rounded-lg transition-colors"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={confirmDisable2FA}
+                                className="flex-1 px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-medium rounded-lg transition-colors"
+                            >
+                                Yes, Disable
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             <div className="flex items-center gap-3 mb-6">
                 <div className="w-12 h-12 bg-red-100 dark:bg-red-900/20 rounded-lg flex items-center justify-center">
                     <FaShieldAlt className="text-2xl text-red-600 dark:text-red-500" />
@@ -245,15 +273,28 @@ export const TwoFactorSetup = () => {
                             <input
                                 type="text"
                                 value={verificationCode}
-                                onChange={(e) => setVerificationCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                                onChange={(e) => {
+                                    setVerificationCode(e.target.value.replace(/\D/g, '').slice(0, 6));
+                                    setInputError(''); // Clear error on typing
+                                }}
                                 placeholder="000000"
                                 maxLength={6}
-                                className="w-full px-4 py-3 border border-gray-200 dark:border-zinc-700 rounded-lg focus:ring-2 focus:ring-red-100 focus:border-red-500 outline-none transition-all dark:bg-zinc-800 dark:text-white text-center text-2xl font-mono tracking-widest"
+                                className={`w-full px-4 py-3 border rounded-lg focus:ring-2 outline-none transition-all dark:bg-zinc-800 dark:text-white text-center text-2xl font-mono tracking-widest ${inputError
+                                    ? 'border-red-500 focus:border-red-500 focus:ring-red-200 dark:border-red-500 dark:focus:ring-red-900/30'
+                                    : 'border-gray-200 dark:border-zinc-700 focus:ring-red-100 focus:border-red-500'
+                                    }`}
                                 required
                             />
-                            <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
-                                Enter the 6-digit code from your authenticator app
-                            </p>
+                            {inputError ? (
+                                <p className="text-xs text-red-600 dark:text-red-400 mt-2 font-medium flex items-center gap-1 animate-in slide-in-from-top-1">
+                                    <FaExclamationTriangle size={12} />
+                                    {inputError}
+                                </p>
+                            ) : (
+                                <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
+                                    Enter the 6-digit code from your authenticator app
+                                </p>
+                            )}
                         </div>
 
                         <div className="flex gap-3">
@@ -270,6 +311,7 @@ export const TwoFactorSetup = () => {
                                 onClick={() => {
                                     setShowSetup(false);
                                     setVerificationCode('');
+                                    setInputError('');
                                 }}
                                 className="px-6 py-3 bg-gray-200 dark:bg-zinc-700 hover:bg-gray-300 dark:hover:bg-zinc-600 text-gray-700 dark:text-gray-300 font-medium rounded-lg transition-colors"
                             >

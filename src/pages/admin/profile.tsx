@@ -86,7 +86,7 @@ const ProfilePage = () => {
                 <title>Edit Profile | Admin Panel</title>
             </Head>
 
-            <div className="max-w-2xl mx-auto">
+            <div className="w-full">
                 <div className="bg-white dark:bg-zinc-900 rounded-xl shadow-sm border border-gray-100 dark:border-zinc-800 p-6 md:p-8">
                     <div className="flex items-center gap-4 mb-8">
                         <div className="w-16 h-16 bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-500 rounded-full flex items-center justify-center font-bold text-2xl">
