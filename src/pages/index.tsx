@@ -8,9 +8,7 @@ export default function Home() {
       <Head>
         <title>Beranda | LPK PB Merdeka</title>
       </Head>
-      <Layout>
-        <Beranda />
-      </Layout>
+      <Beranda />
     </>
   );
 }

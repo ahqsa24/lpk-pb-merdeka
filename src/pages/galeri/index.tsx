@@ -10,9 +10,7 @@ export default function GalleryPage() {
                 <title>Galeri Kegiatan | LPK PB Merdeka</title>
                 <meta name="description" content="Koleksi foto dan video kegiatan LPK PB Merdeka" />
             </Head>
-            <Layout>
-                <GalleryTemplate />
-            </Layout>
+            <GalleryTemplate />
         </>
     );
 }

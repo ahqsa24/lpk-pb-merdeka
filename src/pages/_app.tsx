@@ -23,16 +23,27 @@ import { AuthProvider } from "@/context/AuthContext";
 import SplashScreen from "@/components/shared/organisms/SplashScreen";
 import { SearchProvider } from "@/context/SearchContext";
 import { SidebarProvider } from "@/context/SidebarContext";
+import { Layout } from "@/components/shared/Layout";
+import { useRouter } from "next/router";
 
 export default function App({ Component, pageProps }: AppProps) {
+  const router = useRouter();
+  const isAuthPage = router.pathname.startsWith('/auth');
+
   return (
     <ThemeProvider>
       <AuthProvider>
         <SearchProvider>
           <SidebarProvider>
-            <main className={`${plusJakartaSans.className} `}>
+            <main className={`${plusJakartaSans.className}`}>
               <SplashScreen />
-              <Component {...pageProps} />
+              {isAuthPage ? (
+                <Component {...pageProps} />
+              ) : (
+                <Layout>
+                  <Component {...pageProps} />
+                </Layout>
+              )}
             </main>
           </SidebarProvider>
         </SearchProvider>

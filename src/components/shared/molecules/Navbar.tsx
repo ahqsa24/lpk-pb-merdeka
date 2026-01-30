@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { NavBarButton, Avatar } from "../atoms";
 import { FaBars, FaTimes, FaSun, FaMoon, FaChevronDown, FaSignOutAlt, FaTachometerAlt } from "react-icons/fa"; // import icon hamburger
 import { useTheme } from "@/context/ThemeContext";
+import { motion } from "framer-motion";
 
 export interface NavItem {
   id: string;
@@ -108,12 +109,25 @@ export const Navbar: React.FC<NavbarProps> = ({
               <button
                 key={item.id}
                 onClick={() => handleNavClick(item.id)}
-                className={`text-sm px-5 py-2 rounded-full transition-all duration-300 font-medium ${currentActiveNav === item.id
-                  ? "bg-white text-red-600 shadow-lg dark:bg-red-600 dark:text-white"
-                  : "text-red-50 hover:bg-red-500/50 hover:text-white dark:text-gray-300 dark:hover:bg-white/10"
+                className={`relative text-sm px-4 py-2 transition-colors duration-300 font-semibold z-10 ${currentActiveNav === item.id
+                  ? "text-white dark:text-red-500"
+                  : "text-red-100 hover:text-white dark:text-gray-400 dark:hover:text-gray-100"
                   }`}
               >
                 {item.label}
+                {currentActiveNav === item.id && (
+                  <motion.div
+                    layoutId="navbar-indicator"
+                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-white dark:bg-red-600 rounded-full"
+                    initial={false}
+                    transition={{
+                      type: "spring",
+                      stiffness: 500,
+                      damping: 35,
+                      mass: 1,
+                    }}
+                  />
+                )}
               </button>
             ))}
           </div>

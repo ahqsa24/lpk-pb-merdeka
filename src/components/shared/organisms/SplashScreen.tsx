@@ -1,85 +1,126 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
+import { useTheme } from '@/context/ThemeContext';
 
 const SplashScreen = () => {
     const [isVisible, setIsVisible] = useState(true);
+    const { theme } = useTheme();
 
     useEffect(() => {
         const timer = setTimeout(() => {
             setIsVisible(false);
-        }, 2500); // Slightly longer for the "Wow" effect
+        }, 3000); // 3 seconds for a perfect cinematic feel
 
         return () => clearTimeout(timer);
     }, []);
+
+    const isLight = theme === 'light';
 
     return (
         <AnimatePresence>
             {isVisible && (
                 <motion.div
                     initial={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.8, ease: "easeInOut" }}
-                    className="fixed inset-0 z-[9999] flex items-center justify-center bg-red-600"
+                    exit={{
+                        opacity: 0,
+                        scale: 1.1,
+                        filter: "blur(20px)",
+                    }}
+                    transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+                    className={`fixed inset-0 z-[9999] flex items-center justify-center overflow-hidden transition-colors duration-700 ${isLight ? 'bg-red-600' : 'bg-zinc-950'
+                        }`}
                 >
-                    <div className="flex flex-col items-center gap-6">
-                        {/* Logo Animation */}
+                    {/* Background Ambient Glow */}
+                    <div className="absolute inset-0 overflow-hidden">
                         <motion.div
-                            initial={{ scale: 0, rotate: -180, opacity: 0 }}
-                            animate={{ scale: 1, rotate: 0, opacity: 1 }}
-                            transition={{
-                                type: "spring",
-                                stiffness: 260,
-                                damping: 20,
-                                duration: 1.5
+                            animate={{
+                                scale: [1, 1.2, 1],
+                                opacity: [0.3, 0.5, 0.3]
                             }}
-                            className="relative w-40 h-40 bg-white rounded-full p-4 shadow-2xl"
+                            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                            className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full blur-[120px] ${isLight ? 'bg-white/20' : 'bg-red-600/20'
+                                }`}
+                        />
+                    </div>
+
+                    <div className="relative flex flex-col items-center">
+                        {/* Logo with Glass Effect */}
+                        <motion.div
+                            initial={{ scale: 0.8, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+                            className="relative mb-10"
                         >
-                            <div className="relative w-full h-full">
-                                <Image
-                                    src="/assets/Logo-Tab.png"
-                                    alt="LPK PB Merdeka"
-                                    fill
-                                    className="object-contain"
-                                    priority
+                            {/* Outer Decorative Ring */}
+                            <motion.div
+                                animate={{ rotate: 360 }}
+                                transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+                                className={`absolute inset-0 -m-4 border-t-2 border-b-2 rounded-full ${isLight ? 'border-white/40' : 'border-red-500/30'
+                                    }`}
+                            />
+
+                            <div className="relative w-44 h-44 bg-white/10 backdrop-blur-xl rounded-full p-6 shadow-2xl border border-white/20 flex items-center justify-center overflow-hidden group">
+                                {/* Light Sweep Effect */}
+                                <motion.div
+                                    animate={{ left: ['-100%', '200%'] }}
+                                    transition={{ duration: 2, repeat: Infinity, repeatDelay: 1 }}
+                                    className="absolute top-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12"
                                 />
+
+                                <div className="relative w-full h-full">
+                                    <Image
+                                        src={isLight ? "/assets/LPK-White.png" : "/assets/Logo-Tab.png"}
+                                        alt="LPK PB Merdeka"
+                                        fill
+                                        className="object-contain p-2"
+                                        priority
+                                    />
+                                </div>
                             </div>
                         </motion.div>
 
-                        {/* Text Animation */}
-                        <div className="text-center">
+                        {/* Text Content */}
+                        <div className="text-center overflow-hidden text-white">
                             <motion.h1
-                                initial={{ y: 50, opacity: 0 }}
+                                initial={{ y: 100, opacity: 0 }}
                                 animate={{ y: 0, opacity: 1 }}
-                                transition={{ delay: 0.5, duration: 0.8, ease: "easeOut" }}
-                                className="text-4xl md:text-5xl font-extrabold text-white tracking-wider drop-shadow-md"
+                                transition={{ delay: 0.4, duration: 1, ease: [0.22, 1, 0.36, 1] }}
+                                className="text-5xl md:text-6xl font-black tracking-tighter"
                             >
-                                LPK PB Merdeka
+                                LPK PB <span className={isLight ? 'text-white/90 underline decoration-white/30 underline-offset-8' : 'text-red-600'}>MERDEKA</span>
                             </motion.h1>
-                            <motion.p
-                                initial={{ y: 20, opacity: 0 }}
-                                animate={{ y: 0, opacity: 1 }}
-                                transition={{ delay: 0.8, duration: 0.8 }}
-                                className="text-red-100 text-lg md:text-xl font-medium mt-2 tracking-widest uppercase"
+
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                transition={{ delay: 0.8, duration: 1 }}
+                                className="mt-4 flex items-center justify-center gap-4"
                             >
-                                Molding Professional Brokers
-                            </motion.p>
+                                <div className={`h-[1px] w-8 ${isLight ? 'bg-white/30' : 'bg-zinc-700'}`} />
+                                <p className={`text-sm font-bold uppercase tracking-[0.5em] ${isLight ? 'text-white/80' : 'text-zinc-400'
+                                    }`}>
+                                    Professional Brokerage
+                                </p>
+                                <div className={`h-[1px] w-8 ${isLight ? 'bg-white/30' : 'bg-zinc-700'}`} />
+                            </motion.div>
                         </div>
 
-                        {/* Loader Line */}
-                        <motion.div
-                            initial={{ width: 0 }}
-                            animate={{ width: "200px" }}
-                            transition={{ delay: 1, duration: 1.2, ease: "easeInOut" }}
-                            className="h-1.5 bg-white/50 rounded-full mt-4"
-                        >
+                        {/* Minimalist Loader */}
+                        <div className={`mt-16 relative w-48 h-1 rounded-full overflow-hidden ${isLight ? 'bg-white/20' : 'bg-zinc-900'
+                            }`}>
                             <motion.div
-                                className="h-full bg-white rounded-full"
-                                initial={{ width: "0%" }}
-                                animate={{ width: "100%" }}
-                                transition={{ delay: 1, duration: 1.2, ease: "easeInOut" }}
+                                initial={{ left: "-100%" }}
+                                animate={{ left: "100%" }}
+                                transition={{
+                                    duration: 2,
+                                    repeat: Infinity,
+                                    ease: "easeInOut"
+                                }}
+                                className={`absolute top-0 w-1/2 h-full bg-gradient-to-r from-transparent to-transparent ${isLight ? 'via-white' : 'via-red-600'
+                                    }`}
                             />
-                        </motion.div>
+                        </div>
                     </div>
                 </motion.div>
             )}

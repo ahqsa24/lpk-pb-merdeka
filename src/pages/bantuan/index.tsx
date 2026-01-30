@@ -9,9 +9,7 @@ export default function ContactPage() {
             <Head>
                 <title>Bantuan & FAQ | LPK PB Merdeka</title>
             </Head>
-            <Layout>
-                <ContactTemplate />
-            </Layout>
+            <ContactTemplate />
         </>
     );
 }

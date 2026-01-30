@@ -29,7 +29,7 @@ export const Avatar: React.FC<AvatarProps> = ({
     setImageState('loading');
     const img = new Image();
     img.src = src;
-    img.referrerPolicy = "no-referrer"; // Important for Google images
+    img.referrerPolicy = "no-referrer";
 
     img.onload = () => {
       setImageState('success');

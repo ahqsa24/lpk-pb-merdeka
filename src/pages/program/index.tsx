@@ -13,10 +13,8 @@ export default function SyllabusPage() {
             <Head>
                 <title>Silabus & Program | LPK PB Merdeka</title>
             </Head>
-            <Layout>
-                <Sylabus />
-                <Program />
-            </Layout>
+            <Sylabus />
+            <Program />
         </>
     );
 }

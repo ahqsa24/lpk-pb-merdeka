@@ -30,8 +30,8 @@ export const LeaderboardTable: React.FC<LeaderboardProps> = ({ data, startRank =
 
   return (
     <div className="space-y-6">
-      <section className="bg-white dark:bg-zinc-900 rounded-3xl shadow-sm border border-gray-100 dark:border-zinc-800 overflow-hidden">
-        <div className="flex flex-col dark:divide-y dark:divide-zinc-800">
+      <section className="overflow-visible">
+        <div className="flex flex-col gap-4">
           {currentData.map((entry, index) => (
             <LeaderboardRow
               key={entry.id}

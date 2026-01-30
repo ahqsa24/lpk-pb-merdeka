@@ -9,9 +9,7 @@ export default function AboutPage() {
             <Head>
                 <title>Tentang Kami | LPK PB Merdeka</title>
             </Head>
-            <Layout>
-                <AboutTemplate />
-            </Layout>
+            <AboutTemplate />
         </>
     );
 }
