@@ -28,7 +28,13 @@ import { useRouter } from "next/router";
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
-  const isAuthPage = router.pathname.startsWith('/auth');
+
+  // Array of paths that should NOT use the landing layout
+  const internalPathPrefixes = ['/auth', '/dashboard', '/admin', '/docs'];
+
+  const isInternalPage = internalPathPrefixes.some(prefix =>
+    router.pathname.startsWith(prefix) || router.asPath.startsWith(prefix)
+  );
 
   return (
     <ThemeProvider>
@@ -37,7 +43,7 @@ export default function App({ Component, pageProps }: AppProps) {
           <SidebarProvider>
             <main className={`${plusJakartaSans.className}`}>
               <SplashScreen />
-              {isAuthPage ? (
+              {isInternalPage ? (
                 <Component {...pageProps} />
               ) : (
                 <Layout>
